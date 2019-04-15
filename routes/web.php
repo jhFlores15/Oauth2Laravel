@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('login', 'UserController@login')->name('login');
+Route::get('pepe', 'UserController@pepe')->name('pepe');

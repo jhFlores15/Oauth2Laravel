@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Validator;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -110,7 +111,6 @@ class AuthController extends Controller
         }
 
         $token->save();
-
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
@@ -127,12 +127,5 @@ class AuthController extends Controller
         return response()->json(['message' => 
             'Successfully logged out']);
     }
-
-	public function profile()
-	{
-
-	    $user = Auth::user();
-	    return response()->json(compact('user'), 200);
-	     // return response()->json('momo');
-	}
+	
 }

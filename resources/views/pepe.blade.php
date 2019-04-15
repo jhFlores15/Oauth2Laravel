@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="app">
-    momo
+    pepe
   {{--   <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens> --}}
@@ -21,20 +21,22 @@
 
   $(document).ready(function() {
 
-   axios.post('/api/auth/login',{
-        remember_me: 1,
-        password : '220608mixi',
-        email :'johflores1510@gmail.com',                
-    }).then(response =>{
-      console.log(response.data);
-      localStorage.setItem('access_token',response.data.access_token); 
-      localStorage.setItem('token_type',response.data.token_type);      
-    }).catch(error =>{
-        // if(error.response.status==500){
-        //     console.log(error.response);
-        // }          
-    });
-     
+    if(localStorage.getItem('access_token')){
+      var config = {
+        headers: {
+         'Content-Type': 'application/x-www-form-urlencoded' ,
+         'Authorization':'Bearer '+ localStorage.getItem('access_token'),
+        },
+      };
+    axios.get('/api/user/',config).
+    then(response => {
+        var user= response.data;
+        console.log('user');
+        console.log(user);
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   });
 
 </script>

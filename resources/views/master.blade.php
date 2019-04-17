@@ -43,7 +43,12 @@
 <body>
     @yield('Estilos')
     <div id="app">
-      <login-component> </login-component>
+      <div class="row">
+        <div class="col-md-3">
+            <login-component> </login-component>
+        </div>
+      </div>  
+      <label>memem {{ auth('api')->user() }}</label>
     {{--   <b-navbar class="navcolor sticky-top" toggleable="md" type="dark">
          <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="/"><img src="/storage/logo/logo2.png"></b-navbar-brand>
@@ -97,12 +102,12 @@
     <script src="{{ mix('js/app.js') }}"></script> 
 
 
-<footer>
+<!--<footer>
     <div class="row navcolor" style="margin: 0; padding: 10px 0 10px 0; ">
       <div class="col-md-3" style="color: white;"> Copyrigt * {{ date('Y')}}</div>
       <div class="col-md-3" > <a style="color: white;" href="/policy/cookies">Politica de cookies</a></div>
       <div class="col-md-3" > <a style="color: white;" href="/policy/termsconditions">Terminos y Condiciones</a></div>
     </div>
-</footer> 
+</footer>  -->
 </body>
 </html>

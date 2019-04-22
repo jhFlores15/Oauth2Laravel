@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 
-class ComunaController extends Controller
+class FamiliaCarozziController extends Controller
 {
-    /**
+   	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-         $comunas = \App\Comuna::all();
-        return response()->json($comunas); 
+        $familia = \App\FamiliaCarozzi::all();
+        return response()->json($familia); 
     }
 
     /**
@@ -27,22 +27,18 @@ class ComunaController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre'=>'required|max:255|string|unique:comunas',            
-            'region_id'=>'required|exists:regiones,id',
+         $validator = Validator::make($request->all(), [
+            'nombre'=>'required|max:255|string|unique:familia_carozzi',  
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $comuna = new \App\Comuna();
-        $comuna->nombre = $request->get('nombre');
+        $familia = new \App\FamiliaCarozzi();
+        $familia->nombre = $request->get('nombre');
+        $familia->save();
 
-        $region = \App\Region::findOrFail($request->get('region_id'));
-        $comuna->region()->associate($region);
-
-        $comuna->save();
-        return response()->json($comuna);
+        return response()->json($familia);
     }
 
     /**
@@ -66,14 +62,14 @@ class ComunaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nombre'=>'required|max:255|string|unique:comunas,nombre,'.$id,            
-            'region_id'=>'required|exists:regiones,id',
+            'nombre'=>'required|max:255|string|unique:familia_carozzi,nombre,'.$id,  
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $comuna=\App\Comuna::findOrFail($id)->update($request->all());
+       $familia=\App\FamiliaCarozzi::findOrFail($id)->update($request->all());
+
        return response()->json('ok');
     }
 
@@ -85,8 +81,8 @@ class ComunaController extends Controller
      */
     public function destroy($id)
     {
-        $comuna = \App\Comuna::findOrFail($id);
-        $comuna->delete();
+        $familia = \App\FamiliaCarozzi::findOrFail($id);
+        $familia->delete();
         return 'ok';
     }
 }

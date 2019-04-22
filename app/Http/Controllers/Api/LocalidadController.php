@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 
-class ComunaController extends Controller
+class LocalidadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class ComunaController extends Controller
      */
     public function index()
     {
-         $comunas = \App\Comuna::all();
-        return response()->json($comunas); 
+        $localidades = \App\Localidad::all();
+        return response()->json($localidades); 
     }
 
     /**
@@ -27,22 +27,24 @@ class ComunaController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre'=>'required|max:255|string|unique:comunas',            
-            'region_id'=>'required|exists:regiones,id',
+       $validator = Validator::make($request->all(), [
+            'nombre'=>'required|max:255|string|unique:localidades',            
+            'comuna_id'=>'required|exists:comunas,id',
+            'codigo' => 'required|numeric|unique:localidades',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $comuna = new \App\Comuna();
-        $comuna->nombre = $request->get('nombre');
+        $localidad = new \App\Localidad();
+        $localidad->nombre = $request->get('nombre');
+        $localidad->codigo = $request->get('codigo');
 
-        $region = \App\Region::findOrFail($request->get('region_id'));
-        $comuna->region()->associate($region);
+        $comuna = \App\Region::findOrFail($request->get('comuna_id'));
+        $localidad->comuna()->associate($comuna);
 
-        $comuna->save();
-        return response()->json($comuna);
+        $localidad->save();
+        return response()->json($localidad);
     }
 
     /**
@@ -66,14 +68,15 @@ class ComunaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nombre'=>'required|max:255|string|unique:comunas,nombre,'.$id,            
-            'region_id'=>'required|exists:regiones,id',
+            'nombre'=>'required|max:255|string|unique:localidades,nombre,'.$id,  
+            'codigo'=>'required|numeric|unique:localidades,codigo,'.$id,              
+            'comuna_id'=>'required|exists:comunas,id',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $comuna=\App\Comuna::findOrFail($id)->update($request->all());
+       $localidad=\App\Localidad::findOrFail($id)->update($request->all());
        return response()->json('ok');
     }
 
@@ -85,8 +88,8 @@ class ComunaController extends Controller
      */
     public function destroy($id)
     {
-        $comuna = \App\Comuna::findOrFail($id);
-        $comuna->delete();
+        $localidad = \App\Localidad::findOrFail($id);
+        $localidad->delete();
         return 'ok';
     }
 }

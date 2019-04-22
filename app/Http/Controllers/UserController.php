@@ -12,9 +12,14 @@ class UserController extends Controller
 		 return view('auth.login');
 		 // dd(session()->get('accessToken'));
 	}
-	public function pepe(Request $request)
+	public function vendedores(Request $request)
 	{
-		 return view('pepe');
+		 return view('usuarios.vendedores');
+		
+	}
+	public function administradores(Request $request)
+	{
+		 return view('usuarios.administradores');
 		
 	}
 }

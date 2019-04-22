@@ -27,6 +27,7 @@ window.axios = require('axios');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('login-component', require('./components/auth/Login.vue').default);
+Vue.component('administradores-component', require('./components/usuarios/Administradores.vue').default);
 
 
 /**

@@ -43,12 +43,35 @@
 <body>
     @yield('Estilos')
     <div id="app">
-      <div class="row">
-        <div class="col-md-3">
-            <login-component> </login-component>
-        </div>
+      <div class="">
+         <!--- <div class="col-md-3">
+           
+        </div> -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100">
+          <a class="navbar-brand" href="#">Encuesta Carozzi</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarMaster">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item-active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                <li class="nav-item-active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span>
+                  </a>
+                </li>  
+              
+              </ul>
+              <ul class="nav navbar-nav ml-auto">                
+                <login-component></login-component> 
+              </ul>
+            </div>
+          
+        </nav>
       </div>  
-      <label>memem {{ auth('api')->user() }}</label>
+
     {{--   <b-navbar class="navcolor sticky-top" toggleable="md" type="dark">
          <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="/"><img src="/storage/logo/logo2.png"></b-navbar-brand>

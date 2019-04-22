@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comuna extends Model
 {
-    protected $fillable = ['name','description'];
+	protected $table = 'comunas';
+    protected $fillable = ['nombre'];
 
     public function region(){
-    	return->$this->belongsto('App\Region');
+    	return $this->belongsto('App\Region');
     }
 }

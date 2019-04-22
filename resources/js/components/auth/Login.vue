@@ -1,17 +1,13 @@
 <template>
-
     <div class="container">
-     <!--- <div v-if="user.name.length != 0">
-           
-      </div> -->
-      <div class="row" v-if="user.name.length == 0">
-        <div class="col-sm">
-          <button type="button" class="btn btn-primary">Registro</button>
-        </div>
-        <div class="col-sm">
-           <div class="dropdown">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</button>
-             <form class="dropdown-menu p-4">        
+      <ul class="nav navbar-nav ml-auto">
+         <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
+          <a class="nav-link" href="#"  @click.stop='logout()'>Cerrar Sesion <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li style="padding-right: 200px;" class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</button>
+           <form class="dropdown-menu p-4">        
               <div class="form-group">
                  <label for="dropdown-login">Email</label>
                  <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">
@@ -24,65 +20,50 @@
                 <button type="button" @click.stop='postLogin()'  class="btn btn-primary ">Aceptar</button>
               </div>
               <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>            
-            </form>
-          </div>
-        </div>
-       
-      </div>
-      <button type="button" @click.stop='getUserApi()'  class="btn btn-primary ">getUser</button>
+              <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>            
+            </form>                 
+          </li>
+
+      </ul>
+
+
+
+
+      
     </div>
 </template>
 <script>
 export default {
   data () {
       return {  
-          user: {name:''},
+          user: {razon_social:''},
           access_token: 0,
           token_type: '',        
           email: '',
           password: '',
-          // config : {
-          //   headers: {
-          //    'Content-Type': 'application/json' ,
-          //    'Authorization':this.token_type + " " + this.access_token,
-          //   },
-          // },  
           config:{},
       }
   },
   
   mounted() {    
-    console.log('montado');
-      if (localStorage.access_token){
-        
-        this.access_token = localStorage.access_token;
-        this.token_type = localStorage.token_type;
-        let config = {
-          headers: {
-           'Content-Type': 'application/json' ,
-           'Authorization':this.token_type + " " + this.access_token,
-          },
-        }; 
-        this.config = config;     
-        this.getUserApi();    
-      }
+    if (localStorage.access_token){        
+      this.access_token = localStorage.access_token;
+      this.token_type = localStorage.token_type;
+      let config = {
+        headers: {
+         'Content-Type': 'application/json' ,
+         'Authorization':this.token_type + " " + this.access_token,
+        },
+      }; 
+      this.config = config;   
+      this.getUserApi();    
+    }
      
   },
   created:function(){
-  //  if (localStorage.access_token){        
-  //       this.access_token = localStorage.access_token;
-  //       this.token_type = localStorage.token_type;
-  //       let config = {
-  //         headers: {
-  //          'Content-Type': 'application/json' ,
-  //          'Authorization':this.token_type + " " + this.access_token,
-  //         },
-  //       }; 
-  //       this.config = config;     
-  //       this.getUserApi();    
-  // }
-},
+  
+  
+  },
   methods:{
     getUserApi(){     
       axios.get('/api/user/',this.config).
@@ -108,9 +89,24 @@ export default {
           //     console.log(error.response);
           // }          
       });
+    },
+    logout(){
+      axios.post('/api/auth/logout',{
+        
+      },this.config).then(response =>{
+        localStorage.access_token = '';
+        localStorage.token_type = '';
+         location.reload();    
+       
+      }).catch(error =>{
+                   
+      });
     }
     
   }
 }
  
 </script>
+<style type="text/css" media="screen">
+  
+</style>

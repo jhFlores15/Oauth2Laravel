@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
 
 class RegionController extends Controller
 {
@@ -26,11 +27,20 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
+         $validator = Validator::make($request->all(), [
+            'nombre'=>'required|max:255|string|unique:regiones',            
+            'numero'=>'required|unique:regiones',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
         $region = new \App\Region();
         $region->nombre = $request->get('nombre');
-        $region->nombre = $request->get('numero');
+        $region->numero = $request->get('numero');
         $region->save();
-        retunr response()->json($region);
+
+        return response()->json($region);
     }
 
     /**
@@ -53,12 +63,17 @@ class RegionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name'=>'required|max:255|string|unique:regiones,nombre,'.$id,            
-            'name'=>'required|integer|unique:regiones,numero,'.$id,
+        $validator = Validator::make($request->all(), [
+            'nombre'=>'required|max:255|string|unique:regiones,nombre,'.$id,            
+            'numero'=>'required|integer|unique:regiones,numero,'.$id,
         ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
        $region=\App\Region::findOrFail($id)->update($request->all());
-       return response()->json($region);
+
+       return response()->json('ok');
     }
 
     /**
@@ -69,7 +84,7 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        $region = App\Region::findOrFail($id);
+        $region = \App\Region::findOrFail($id);
         $region->delete();
         return 'ok';
     }

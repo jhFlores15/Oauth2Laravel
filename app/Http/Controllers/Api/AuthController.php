@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Rol;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Validator;
@@ -17,21 +18,31 @@ class AuthController extends Controller
 	{
     
         $validator = Validator::make($request->all(), [
-            'name'     => 'required|string',
+            'razon_social' => 'required|string',
             'email'    => 'required|string|email|unique:users',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
+            'codigo' => 'numeric|unique:users',
+            'rut' => 'required|numeric|unique:users',
+            'dv' => 'required|numeric|unique:users',
+            'rol_id' =>'required|exists:roles,id',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-	    $user = new User([
-            'name'     => $request->get('name'),
-            'email'    => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
-        ]);
+        $user = new User();
+        $user->razon_social = $request->get('razon_social');
+        $user->email = $request->get('email');
+        $user->password =bcrypt($request->get('password'));
+        $user->password_visible = $request->get('password');
+        $user->codigo = $request->get('codigo');
+        $user->rut = $request->get('rut');
+        $user->dv = $request->get('dv');
+
+        $rol = Rol::findOrFail($request->get('rol_id'));
+        $user->rol()->associate($rol);
 
 	    $user->save();
 	    

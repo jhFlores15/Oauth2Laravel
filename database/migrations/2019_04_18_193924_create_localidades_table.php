@@ -16,6 +16,8 @@ class CreateLocalidadesTable extends Migration
         Schema::create('localidades', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->unsignedBigInteger('codigo');
             $table->unsignedBigInteger('comuna_id');
             $table->foreign('comuna_id')->references('id')->on('comunas');
             $table->timestamps();

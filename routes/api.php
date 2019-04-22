@@ -30,5 +30,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('profile', 'Api\AuthController@profile');
+        Route::resource('regiones','Api\RegionController');
+        Route::resource('comunas','Api\ComunaController');
+
     });
 });

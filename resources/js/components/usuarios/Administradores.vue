@@ -2,7 +2,9 @@
     <div class="container-fluid" >
 	<br>
 	<div id="administradores" class="justify-content-center">
-		    
+		    <b-button variant="primary">
+    Notifications <b-badge variant="light">4</b-badge>
+  </b-button>
 		    
 	</div>
 </div>
@@ -32,7 +34,7 @@ export default {
       this.getAdministradores();
     }
     else{
-    	location.href = 'http://localhost:3000/';
+    	// location.href = 'http://localhost:3000/';
     }
      
   },
@@ -48,7 +50,7 @@ export default {
         }).catch(error => {
           console.log(error)
         });   		
-   	}
+   	},
    	postAdministradores(){
 		axios.post('/api/administradores',{
 	      razon_social : this.razon_social,
@@ -63,7 +65,7 @@ export default {
       	}).catch(error =>{
               
      	});
-   	}
+   	},
    	deleteAdministradores(){
    		axios.delete('/api/user/',this.config).
         then(response => {

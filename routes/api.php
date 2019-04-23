@@ -19,11 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Api\AuthController@login');
-    Route::post('signup', 'Api\AuthController@signup');
+    
   
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', 'Api\AuthController@logout');
-        Route::get('profile', 'Api\AuthController@profile');
+        // Route::get('profile', 'Api\AuthController@profile');
+        Route::post('signup', 'Api\AuthController@signup');
         Route::put('update/{id}', 'Api\AuthController@update');
 
     });
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('familia','Api\FamiliaCarozziController');
 
     Route::get('administradores','Api\UserController@administradores');
+    Route::get('vendedores','Api\UserController@vendedores');
 
 });
 

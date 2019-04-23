@@ -1,14 +1,41 @@
 <template>
     <div class="container-fluid" >
 	<br>
-	<div id="administradores" class="justify-content-center">
+	<div id="" class="justify-content-center">
 		    <b-button variant="primary">
     Notifications <b-badge variant="light">4</b-badge>
   </b-button>
 		    
 	</div>
+	 <table id="administradores" class="table table-striped table-bordered" style="width: 100%">
+		<thead> 
+		<tr>
+			<th>Razon Social</th>
+			<th>Email</th>
+			<th>Rut</th>
+			<th>password</th>
+		</tr>
+	</thead>
+	<tbody>
+			<tr v-for="user in users">
+				<td>{{ user.razon_social }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.rut  }} - {{  user.dv  }}</td>	
+				<td>{{ user.password_visible }}</td>
+			</tr>
+	</tbody>
+	</table>
 </div>
 </template>
+<script>
+$(document).ready(function(){
+	$('#administradores').DataTable({
+		paging: true,
+		ordering: true
+
+	});
+});
+</script>
 <script>
 export default {
   data () {

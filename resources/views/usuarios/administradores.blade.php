@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('DataTable')
+@section('contenido')
 <div class="container-fluid" >
 	<br>
 	<div  id="" class="justify-content-center text-center">
@@ -29,6 +29,17 @@
 </div>
  <script >
  	$(document).ready(function(){
+ 		if(localStorage.getItem('access_token')){
+ 			var config = {
+ 				headers:{
+ 					'Content-Type': 'application/json',
+ 					'Authorizacion' 'Bearer'+ localStorage.getItem('access_token'),
+ 				},
+ 			}
+ 		}
+ 		else{
+ 			location.href = 'http://localhost:3000/';
+ 		}
 		$('#administradores').DataTable({
 			paging: true,
 			ordering: true,
@@ -38,15 +49,13 @@
 		          	this.users= response.data;
 	        }).catch(error => {
 	          console.log(error)
-	        }); 
-
-			}),
+	        }),			
 			"columns":[
-			{data: 'razon_social'},
-			{data: 'email'},
-			{data: 'rut'},
-			{data:'password_visible'},
-			{data: 'btn'}
+				{data: 'razon_social'},
+				{data: 'email'},
+				{data: 'rut'},
+				{data:'password_visible'},
+				{data: 'btn'}
 			],
 			"Languaje":{
 				"info":"_TOTAL_registros",
@@ -67,9 +76,8 @@
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
-
-
 			}
+		});
 	});
  </script>
 @endsection

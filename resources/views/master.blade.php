@@ -56,11 +56,11 @@
             <div class="collapse navbar-collapse" id="navbarMaster">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item-active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span>
+                  <a class="nav-link" href="{{ route('usuarios.administradores') }}">{{ __('Administradores') }} <span class="sr-only">(current)</span>
                   </a>
                 </li>
                 <li class="nav-item-active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span>
+                  <a class="nav-link" href="{{ route('usuarios.administradores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
                   </a>
                 </li>  
               
@@ -74,8 +74,6 @@
       </div>     
      <div> @yield('contenido')</div>      
   </div>
-    
-    <div> @yield('DataTable')</div>  
     <script src="{{ mix('js/app.js') }}"></script>
         
 

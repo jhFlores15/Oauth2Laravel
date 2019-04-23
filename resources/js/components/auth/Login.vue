@@ -1,7 +1,11 @@
 <template>
     <div class="container">
       <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
+           <a class="nav-link" href="#"  @click.stop='logout()'>Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
+           </a>
          <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
+          </a>
           <a class="nav-link" href="#"  @click.stop='logout()'>Cerrar Sesion <span class="sr-only">(current)</span>
           </a>
         </li>
@@ -23,12 +27,7 @@
               <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>            
             </form>                 
           </li>
-
       </ul>
-
-
-
-
       
     </div>
 </template>
@@ -96,7 +95,7 @@ export default {
       },this.config).then(response =>{
         localStorage.access_token = '';
         localStorage.token_type = '';
-         location.reload();    
+        location.reload();    
        
       }).catch(error =>{
                    

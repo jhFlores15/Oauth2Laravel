@@ -13,6 +13,22 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    public function administradores(){
+        ///devolver todos los administradores
+    }
+    public function vendedores(){
+        //devolver todos los vendedores
+    }
+    public function update(Request $request, $id){
+        
+    }
+
+    public function destroy($id)
+    {
+        $user = \App\User::findOrFail($id);
+        $user->delete();
+        return 'ok';
+    } 
 
     public function signup(Request $request)
 	{
@@ -21,7 +37,6 @@ class AuthController extends Controller
             'razon_social' => 'required|string',
             'email'    => 'required|string|email|unique:users',
             'password' => 'required',
-            'confirm_password' => 'required|same:password',
             'codigo' => 'numeric|unique:users',
             'rut' => 'required|numeric|unique:users',
             'dv' => 'required|numeric|unique:users',

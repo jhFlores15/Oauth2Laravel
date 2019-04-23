@@ -13,24 +13,8 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    public function administradores(){
-        ///devolver todos los administradores
-    }
-    public function vendedores(){
-        //devolver todos los vendedores
-    }
-    public function update(Request $request, $id){
-        
-    }
-
-    public function destroy($id)
-    {
-        $user = \App\User::findOrFail($id);
-        $user->delete();
-        return 'ok';
-    } 
-
-    public function signup(Request $request)
+   
+    public function signup(Request $request) //solo administrador
 	{
     
         $validator = Validator::make($request->all(), [
@@ -39,7 +23,7 @@ class AuthController extends Controller
             'password' => 'required',
             'codigo' => 'numeric|unique:users',
             'rut' => 'required|numeric|unique:users',
-            'dv' => 'required|numeric|unique:users',
+            'dv' => 'required|numeric',
             'rol_id' =>'required|exists:roles,id',
         ]);
 
@@ -93,6 +77,41 @@ class AuthController extends Controller
             'token_type'   => 'Bearer',
         ]);
 	}
+
+    public function update(Request $request, $id){ //solo administrador
+        $validator = Validator::make($request->all(), [
+            'razon_social' => 'required|max:255|string',
+            'email'    => 'required|string|email|unique:users,email,'.$id,
+            'password' => 'required',
+            'codigo' => 'numeric|unique:users,codigo,'.$id,
+            'rut' => 'required|numeric|unique:users,rut,'.$id,
+            'dv' => 'required|numeric',
+            'rol_id' =>'required|exists:roles,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
+        $user = \App\User::findOrFail($id);
+        $user->razon_social = $request->get('razon_social');
+        $user->email = $request->get('email');
+        $user->password =bcrypt($request->get('password'));
+        $user->password_visible = $request->get('password');
+        $user->codigo = $request->get('codigo');
+        $user->rut = $request->get('rut');
+        $user->dv = $request->get('dv');
+
+        if($user->rol_id !== $request->get('rol_id')){
+            $user->rol()->dissociate();
+            $rol = \App\Rol::findOrFail($request->get('rol_id'));
+            $user->rol()->associate($rol);
+        }
+
+        $user->save();
+
+        return response()->json('ok'); 
+    }
 
 	 public function logout(Request $request)
     {

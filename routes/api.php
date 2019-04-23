@@ -24,6 +24,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', 'Api\AuthController@logout');
         Route::get('profile', 'Api\AuthController@profile');
+        Route::put('update/{id}', 'Api\AuthController@update');
 
     });
 });
@@ -33,6 +34,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('comunas','Api\ComunaController');
     Route::resource('localidades','Api\LocalidadController');
     Route::resource('familia','Api\FamiliaCarozziController');
+
+    Route::get('administradores','Api\UserController@administradores');
 
 });
 

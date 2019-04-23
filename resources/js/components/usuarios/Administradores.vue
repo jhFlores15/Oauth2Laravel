@@ -34,7 +34,7 @@ export default {
       this.getAdministradores();
     }
     else{
-    	// location.href = 'http://localhost:3000/';
+    	location.href = 'http://localhost:3000/';
     }
      
   },
@@ -44,7 +44,7 @@ export default {
   },
   methods:{
    	getAdministradores(){
-   		axios.get('/api/user/',this.config).
+   		axios.get('/api/administradores/',this.config).
         then(response => {
           	this.users= response.data;
         }).catch(error => {

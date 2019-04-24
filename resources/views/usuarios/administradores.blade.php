@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('contenido')
+@section('dataTable')
 <div class="container-fluid" >
 	<br>
 	<div  id="" class="justify-content-center text-center">
@@ -10,7 +10,6 @@
 			<!--<administradores-component>
 			</administradores-component> -->
 		</div>	
-		<div class="row">
 			<table id="administradores" class="table table-striped table-bordered" style="width: 100%">
 				<thead> 
 					<tr>
@@ -18,12 +17,11 @@
 						<th>Email</th>
 						<th>Rut</th>
 						<th>password</th>
-						<th>$&nbsp;</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				
-			</table>
-		</div>	    		
+			</table>    		
 
 	</div>
 </div>
@@ -31,25 +29,29 @@
  	$(document).ready(function(){
  		if(localStorage.getItem('access_token')){
  			var config = {
- 				headers:{
+ 				headers : {
  					'Content-Type': 'application/json',
- 					'Authorizacion' 'Bearer'+ localStorage.getItem('access_token'),
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
  				},
  			}
  		}
  		else{
  			location.href = 'http://localhost:3000/';
  		}
-		$('#administradores').DataTable({
-			paging: true,
-			ordering: true,
+		$('#administradores').DataTable(
+			{
+			'paging': true,
+			'ordering': true,
 			"serverSide": true,
-			axios.get('/api/administradores/', config).
-		        then(response => {
-		          	this.users= response.data;
-	        }).catch(error => {
-	          console.log(error)
-	        }),			
+			// "ajax" : "url('')",
+			// axios.get('/api/administradores/', config)),	
+			 ajax: {
+		        url: '/api/administradores',
+		        headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 				},
+		    },		
 			"columns":[
 				{data: 'razon_social'},
 				{data: 'email'},
@@ -77,7 +79,8 @@
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
 			}
-		});
+		}
+		);
 	});
  </script>
 @endsection

@@ -36,8 +36,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('localidades','Api\LocalidadController');
     Route::resource('familia','Api\FamiliaCarozziController');
 
-    Route::get('administradores','Api\UserController@administradores');
-    Route::get('vendedores','Api\UserController@vendedores');
+    Route::get('administradores','Api\UserController@administradores')->name('user.administradores');
+    Route::get('vendedores','Api\UserController@vendedores')->name('user.vendedores');
 
 });
 

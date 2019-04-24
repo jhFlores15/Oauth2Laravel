@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js(['resources/js/app.js', 'resources/js/jquery-3.2.1.min.js'], 'public/js')
+mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .browserSync({
 		proxy:'oauth2laravel.me',

@@ -7,13 +7,20 @@
 
 require('./bootstrap');
 
-require('./jquery-3.2.1.min.js');
+// require('./jquery-3.2.1.min.js');
 
 window.Vue = require('vue');
 
 window.axios = require('axios');
 
-window.$ = window.jQuery = require('jquery');
+
+
+var $  = require( 'jquery' );
+var dt = require( 'datatables.net-bs4' )();
+// var dt = require( 'datatables.net-buttons-bs4' )();
+
+
+// window.$ = window.jQuery = require('jquery');
 
 // window.$ = window.jQuery = require('jquery');
 

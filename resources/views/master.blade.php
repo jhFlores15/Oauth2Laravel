@@ -7,12 +7,14 @@
  <meta name="csrf-token" content="{{ csrf_token() }}">
       <!-- Fonts -->
     
-   <!-- <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-   <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">-->
+     
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    
+
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/app.css') }}">
+
 
 
 	<title>{{ config('app.name', 'Encuesta Carozzi') }}</title>
@@ -56,17 +58,20 @@
             <div class="collapse navbar-collapse" id="navbarMaster">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('usuarios.administradores') }}">{{ __('Administradores') }} <span class="sr-only">(current)</span>
+                  <a class="nav-link" href="{{ route('user.administradores') }}">{{ __('Administradores') }} <span class="sr-only">(current)</span>
                   </a>
                 </li>
                 <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('usuarios.administradores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
+                  <a class="nav-link" href="{{ route('user.administradores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
                   </a>
                 </li>  
               
               </ul>
-              <ul class="nav navbar-nav ml-auto">                
-                <login-component></login-component> 
+              <ul class="nav navbar-nav ml-auto">  
+              <div id="app">
+                  <login-component></login-component>      
+              </div>              
+                
               </ul>
             </div>
           
@@ -75,6 +80,11 @@
      <div> @yield('contenido')</div>      
   </div>
     <script src="{{ mix('js/app.js') }}"></script>
+     <div> @yield('dataTable')</div> 
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
         
 
 <!--<footer>

@@ -30,8 +30,8 @@
 <script>
 $(document).ready(function(){
 	$('#administradores').DataTable({
-		paging: true,
-		ordering: true
+		'paging': true,
+		'ordering': true
 
 	});
 });

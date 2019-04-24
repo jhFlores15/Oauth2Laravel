@@ -15,8 +15,8 @@ window.axios = require('axios');
 
 
 
-var $  = require( 'jquery' );
-var dt = require( 'datatables.net-bs4' )();
+// var $  = require( 'jquery' );
+// var dt = require( 'datatables.net-bs4' )();
 // var dt = require( 'datatables.net-buttons-bs4' )();
 
 

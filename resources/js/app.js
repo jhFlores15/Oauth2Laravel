@@ -16,12 +16,15 @@ window.axios = require('axios');
 
 
 var $  = require( 'jquery' );
-var dt = require( 'datatables.net-bs4')();
+// var dt3 = require( 'datatables.net-bs4')();
+//dt = require( 'datatables.net-responsive-bs4')();
+var buttons = require( 'datatables.net-buttons-bs4')();
+
 
 // var dt = require( 'datatables.net-buttons-bs4' )();
 
 
-// window.$ = window.jQuery = require('jquery');
+//window.$ = window.jQuery = require('jquery');
 
 // window.$ = window.jQuery = require('jquery');
 

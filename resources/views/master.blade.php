@@ -69,7 +69,7 @@
               </ul>
               <ul class="nav navbar-nav ml-auto">  
               <div id="app">
-                  <login-component></login-component>      
+                  <login-component></login-component>    
               </div>              
                 
               </ul>
@@ -80,7 +80,7 @@
      <div> @yield('contenido')</div>      
   </div>
     <script src="{{ mix('js/app.js') }}"></script>
-     <div> @yield('dataTable')</div> 
+     <div id="app"> @yield('dataTable')</div> 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>

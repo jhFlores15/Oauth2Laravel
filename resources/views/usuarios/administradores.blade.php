@@ -10,7 +10,7 @@
 			<!--<administradores-component>
 			</administradores-component> -->
 		</div>	
-			<table id="administradores" class="table table-striped table-bordered" style="width: 100%">
+			<table id="administradores" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 				<thead> 
 					<tr>
 						<th>Razon Social</th>
@@ -74,58 +74,35 @@
 
 			},
 			"pagingType": "full_numbers",
-
-			
-			// "columnDefs": conbinacion de celdas
-			// [
-			// 	{
-			// 		"render" : function (data,type,row){
-			// 			return data + '(' + row[3] + ')';
-			// 		},
-			// 		"targets": 0
-			// 	},
-			// 	{ "visible" : false, "targets" : [3]}
-			// ]
+			'dom': 'Bfrtip',
+			'buttons':[
+				'copy','excel','pdf'
+			],
 		});
 
-		$('#administradores tbody')
-		.on('mouseenter','td', function(){
-			var colIdx = table.cell($this).index().column;
+		// new $.fn.dataTable.Buttons(table,{
+		// 	buttons:[
+		// 		'copy','excel','pdf'
+		// 	],
+		// })
+		table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
 
-			$(table.cells()).removeClass('highlight');
-			$(table.column(colIdx).nodes()).addClass('highlight');
-		});
-
-		// $("#administradores tfoot th").each(function(){
-		// 	var title = $(this).text();
-		// 	$(this).html('<input type="text" placeholder="Buscar '+title+'"/>')
+		// $('#administradores tbody')
+		// .on('mouseenter','td', function(){
+		// 	var colIdx = table.cell(this).index().column;
+		// 	$(table.cells().nodes()).removeClass('highlight');		
+		// 	$(table.column(colIdx).nodes()).addClass('highlight');
 		// });
+		
 
-		// table.columns().every(function(){
-		// 	var that = this;
-		// 	$('input',this.footer()).on('keydown',function(ev){
-		// 		if (ev.keyCode == 13){
-		// 			that.search(this.value)
-		// 				.draw();
-		// 		}
-		// 	});
-		// });
+		
 
-		// $('#razon').on('keyup', function(){
-		// 	$('#administradores')
-		// 		.DataTable()
-		// 		.search($('#razon').val(),false,true)
-		// 		.draw();
-		// });
-
+		
 	});
  </script>
  <style>
- 	tfoot input {
- 		width: 100%;
- 		padding: 3px;
- 		box-sizing: border-box;
- 		
+ 	td.highlight{
+ 		background-color: whitesmoke !important;
  	}
  </style>
 @endsection

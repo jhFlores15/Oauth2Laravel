@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('administradores','Api\UserController@administradores');
     Route::get('vendedores','Api\UserController@vendedores');
+    Route::delete('usuarios/{user}','Api\UserController@destroy');
 
 });
 

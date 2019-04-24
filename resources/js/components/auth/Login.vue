@@ -31,6 +31,7 @@
       
     </div>
 </template>
+
 <script>
 export default {
   data () {
@@ -104,8 +105,4 @@ export default {
     
   }
 }
- 
 </script>
-<style type="text/css" media="screen">
-  
-</style>

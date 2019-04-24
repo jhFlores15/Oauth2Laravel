@@ -18,7 +18,7 @@ class UserController extends Controller
 
         return datatables()
             ->resource($administradores)
-            ->addColumn('btn','acciones')
+            ->addColumn('btn','usuarios.acciones')
             ->rawColumns(['btn'])
             ->toJson();
         // return response()->json($administradores); 

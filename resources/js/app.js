@@ -15,8 +15,9 @@ window.axios = require('axios');
 
 
 
-// var $  = require( 'jquery' );
-// var dt = require( 'datatables.net-bs4' )();
+var $  = require( 'jquery' );
+var dt = require( 'datatables.net-bs4')();
+
 // var dt = require( 'datatables.net-buttons-bs4' )();
 
 
@@ -49,6 +50,7 @@ Vue.use(BootstrapVue);
 
 Vue.component('login-component', require('./components/auth/Login.vue').default);
 Vue.component('administradores-component', require('./components/usuarios/Administradores.vue').default);
+Vue.component('acciones-component', require('./components/usuarios/Acciones.vue').default);
 
 
 /**

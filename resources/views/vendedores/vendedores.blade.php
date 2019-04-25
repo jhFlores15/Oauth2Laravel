@@ -261,10 +261,10 @@
 
 			},
 			"pagingType": "full_numbers",
-			'dom': 'Bfrtip',
-			'buttons':[
-				'copy','excel','pdf'
-			],
+			// 'dom': 'Bfrtip',
+			// 'buttons':[
+			// 	'copy','excel','pdf'
+			// ],
 		});
 
 		table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));

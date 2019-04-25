@@ -13,7 +13,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        return view('regiones.regiones');
     }
 
     /**

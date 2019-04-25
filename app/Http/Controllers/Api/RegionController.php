@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use App\Http\Resources\Region as RegionResource;
+use App\Region;
 
 class RegionController extends Controller
 {
@@ -15,8 +17,14 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $regiones = \App\Region::all();
-        return response()->json($regiones); 
+        $regiones = RegionResource::collection(Region::all());
+
+       // $regiones = \App\Region::all();
+         return datatables()
+            ->resource($regiones)
+            ->addColumn('btn','regiones.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();
     }
 
     /**

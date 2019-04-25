@@ -39,7 +39,7 @@ class AuthController extends Controller
         $user->codigo = $request->get('codigo');
         $user->rut = $request->get('rut');
         $user->dv = $request->get('dv');
-
+        ////////////////validar entrada rol, admin o vendedor///////////////////
         $rol = Rol::findOrFail($request->get('rol_id'));
         $user->rol()->associate($rol);
 
@@ -86,7 +86,7 @@ class AuthController extends Controller
             'codigo' => 'numeric|unique:users,codigo,'.$id,
             'rut' => 'required|numeric|unique:users,rut,'.$id,
             'dv' => 'required|numeric',
-            'rol_id' =>'required|exists:roles,id',
+            'rol_id' =>'exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -97,16 +97,20 @@ class AuthController extends Controller
         $user->razon_social = $request->get('razon_social');
         $user->email = $request->get('email');
         $user->password =bcrypt($request->get('password'));
-        $user->password_visible = $request->get('password');
-        $user->codigo = $request->get('codigo');
+        $user->password_visible = $request->get('password');        
+        if($request->get('codigo')){
+            $user->codigo = $request->get('codigo');
+        }
         $user->rut = $request->get('rut');
         $user->dv = $request->get('dv');
-
-        if($user->rol_id !== $request->get('rol_id')){
-            $user->rol()->dissociate();
-            $rol = \App\Rol::findOrFail($request->get('rol_id'));
-            $user->rol()->associate($rol);
+        if($request->get('rol_id')){
+            if($user->rol_id !== $request->get('rol_id')){
+                $user->rol()->dissociate();
+                $rol = \App\Rol::findOrFail($request->get('rol_id'));
+                $user->rol()->associate($rol);
+            }
         }
+        
 
         $user->save();
 

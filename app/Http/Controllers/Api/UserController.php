@@ -27,7 +27,11 @@ class UserController extends Controller
         $vendedores = UserResource::collection(User::all())->where('rol.nombre','==','Vendedor');       
         return response()->json($vendedores); 
     }
-
+     public function user($id)
+    {
+        $user = \App\User::findOrFail($id);
+        return response()->json($user); 
+    } 
     public function destroy($id)
     {
         $user = \App\User::findOrFail($id);

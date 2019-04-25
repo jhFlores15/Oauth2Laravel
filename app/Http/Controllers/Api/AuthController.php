@@ -24,7 +24,7 @@ class AuthController extends Controller
             'codigo' => 'numeric|unique:users',
             'rut' => 'required|numeric|unique:users',
             'dv' => 'required|numeric',
-            'rol_id' =>'required|exists:roles,id',
+            'rol_id' =>'exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -40,14 +40,19 @@ class AuthController extends Controller
         $user->rut = $request->get('rut');
         $user->dv = $request->get('dv');
         ////////////////validar entrada rol, admin o vendedor///////////////////
-        $rol = Rol::findOrFail($request->get('rol_id'));
+        if($request->get('tipo_usuario') == 'Administrador'){
+            $rol = \App\Rol::all()->where('nombre','==','Administrador')->first();
+
+        }
+        else{
+            $rol = \App\Rol::all()->where('nombre','!=','Administrador')->first();
+        }
+        //$rol = Rol::findOrFail($request->get('rol_id'));
         $user->rol()->associate($rol);
 
 	    $user->save();
 	    
-	    return response()->json([
-	       'user' => $user
-	    ], 201);
+	    return response()->json('ok');
 	}
 
 	public function login(Request $request)

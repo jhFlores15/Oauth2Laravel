@@ -13,19 +13,22 @@ class UserController extends Controller
 {
 	///poner policy en cada una de las funciones verificando que sean administradores los que hacen las peticiones
      public function administradores(){
-     	$administradores = UserResource::collection(User::all());  
-        //->where('rol.nombre','==','Administrador')
+     	$administradores = UserResource::collection(User::all()->where('rol.nombre','==','Administrador'));  
 
         return datatables()
             ->resource($administradores)
-            ->addColumn('btn','usuarios.acciones')
+            ->addColumn('btn','administradores.acciones')
             ->rawColumns(['btn'])
             ->toJson();
         // return response()->json($administradores); 
     }
     public function vendedores(){
-        $vendedores = UserResource::collection(User::all())->where('rol.nombre','==','Vendedor');       
-        return response()->json($vendedores); 
+        $vendedores = UserResource::collection(User::all()->where('rol.nombre','==','Vendedor'));       
+         return datatables()
+            ->resource($vendedores)
+            ->addColumn('btn','vendedores.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();
     }
      public function user($id)
     {

@@ -212,7 +212,8 @@
 				console.log(resp);
 				if(resp == 'ok'){
 					alert('Edicion Exitosa');
-					location.reload();
+					location.reload(true);
+
 				}
 			},
 			error(error){
@@ -276,7 +277,7 @@
 		$('#errorEmail').html('<div></div>');
 		$('#errorRazon').html('<div></div>');
 		$('#errorPass').html('<div></div>');
-		if(errores.rut[0]){
+		if(errores.rut){
 			$('#errorRut').html(
 				'<div class="alert alert-danger" role="alert">'+
 				errores.rut[0]+
@@ -307,7 +308,7 @@
 		if(errores.password){
 			$('#errorPass').html(
 				'<div class="alert alert-danger" role="alert">'+
-				errores.password+
+				errores.password[0]+
 				'</div>'
 				);
 		}

@@ -17,7 +17,7 @@ window.axios = require('axios');
 
 var $  = require( 'jquery' );
 // var dt3 = require( 'datatables.net-bs4')();
-//dt = require( 'datatables.net-responsive-bs4')();
+//var dt = require( 'datatables.net-responsive-bs4')();
 var buttons = require( 'datatables.net-buttons-bs4')();
 
 
@@ -52,9 +52,6 @@ Vue.use(BootstrapVue);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('login-component', require('./components/auth/Login.vue').default);
-Vue.component('administradores-component', require('./components/usuarios/Administradores.vue').default);
-Vue.component('acciones-component', require('./components/usuarios/Acciones.vue').default);
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

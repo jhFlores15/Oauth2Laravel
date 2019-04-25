@@ -15,12 +15,12 @@ class UserController extends Controller
 	public function vendedores(Request $request)
 	{
 
-		 return view('usuarios.vendedores');
+		 return view('vendedores.vendedores');
 		
 	}
 	public function administradores(Request $request)
 	{
-		return view('usuarios.administradores');
+		return view('administradores.administradores');
 		
 	}
 }

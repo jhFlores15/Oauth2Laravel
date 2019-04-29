@@ -48,7 +48,7 @@ class RegionController extends Controller
         $region->numero = $request->get('numero');
         $region->save();
 
-        return response()->json($region);
+        return response()->json('ok');
     }
 
     /**

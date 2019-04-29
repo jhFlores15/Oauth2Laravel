@@ -64,6 +64,10 @@
                 <li class="nav-item-active">
                   <a class="nav-link" href="{{ route('user.vendedores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
                   </a>
+                </li> 
+                 <li class="nav-item-active">
+                  <a class="nav-link" href="{{ route('region.index') }}">{{ __('Regiones') }} <span class="sr-only">(current)</span>
+                  </a>
                 </li>  
               
               </ul>

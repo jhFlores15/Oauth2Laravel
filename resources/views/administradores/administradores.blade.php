@@ -229,7 +229,7 @@
 					"last" : "Ultimo"
 				},
 				"lengthMenu":'Mostrar <select>'+
-								'<option value="2">2</option>'+
+								'<option value="10">10</option>'+
 								'<option value="30">30</option>'+
 								'<option value="60">60</option>'+
 								'<option value="-1">Todos</option>'+

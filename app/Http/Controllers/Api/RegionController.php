@@ -59,7 +59,8 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        //
+        $region = \App\Region::findOrFail($id);
+        return response()->json($region);
     }
 
     /**

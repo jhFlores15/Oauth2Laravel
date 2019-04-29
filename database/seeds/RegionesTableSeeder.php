@@ -44,7 +44,7 @@ class RegionesTableSeeder extends Seeder
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region del Libertador General Bernardo O´Higgin',
+        	'nombre' => 'Region del Libertador General Bernardo O´Higgins',
         	'numero' => '6',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),

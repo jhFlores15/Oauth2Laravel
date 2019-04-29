@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use App\Localidad;
+use App\Http\Resources\Localidad as LocalidadResource;
 
 class LocalidadController extends Controller
 {
@@ -15,8 +17,13 @@ class LocalidadController extends Controller
      */
     public function index()
     {
-        $localidades = \App\Localidad::all();
-        return response()->json($localidades); 
+         $localidades = LocalidadResource::collection(Localidad::all());
+
+         return datatables()
+            ->resource($localidades)
+            ->addColumn('btn','localidades.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();
     }
 
     /**
@@ -55,7 +62,9 @@ class LocalidadController extends Controller
      */
     public function show($id)
     {
-        //
+         $localidad = Localidad::findOrFail($id);
+         $localidad->comuna;
+         return response()->json($localidad);    
     }
 
     /**
@@ -76,9 +85,19 @@ class LocalidadController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $localidad=\App\Localidad::findOrFail($id)->update($request->all());
+       $localidad=\App\Localidad::findOrFail($id);
+       $localidad->nombre = $request->get('nombre');
+       $localidad->codigo = $request->get('codigo');
+
+        if($localidad->comuna_id !== $request->get('comuna_id')){
+            $localidad->comuna()->dissociate();
+            $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
+            $localidad->comuna()->associate($comuna);
+        }
+        $localidad->save();
+
        return response()->json('ok');
-    }
+       }
 
     /**
      * Remove the specified resource from storage.

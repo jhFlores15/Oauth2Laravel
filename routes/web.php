@@ -21,3 +21,5 @@ Route::get('vendedores', 'UserController@vendedores')->name('user.vendedores');
 Route::get('regiones', 'RegionController@index')->name('region.index');
 Route::get('comunas', 'ComunaController@index')->name('comuna.index');
 Route::get('localidades', 'LocalidadController@index')->name('localidad.index');
+Route::get('clientes', 'ClienteController@index')->name('cliente.index');
+

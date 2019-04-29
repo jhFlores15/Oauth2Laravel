@@ -22,9 +22,7 @@ class CreateClientesTable extends Migration
             $table->string('razon_social');
             $table->string('direccion');
             $table->unsignedBigInteger('localidad_id');
-            $table->foreign('localidad_id')->references('id')->on('localidades');
-            $table->unsignedBigInteger('comuna_id');
-            $table->foreign('comuna_id')->references('id')->on('comunas');
+            $table->foreign('localidad_id')->references('id')->on('localidades');          
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

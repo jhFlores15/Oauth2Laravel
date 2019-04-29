@@ -12,4 +12,7 @@ class Comuna extends Model
     public function region(){
     	return $this->belongsto('App\Region');
     }
+     public function localidades(){
+    	return $this->hasMany('App\Localidad');
+    }
 }

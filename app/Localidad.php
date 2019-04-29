@@ -12,4 +12,5 @@ class Localidad extends Model
     public function comuna(){
     	return $this->belongsto('App\Comuna');
     }
+    
 }

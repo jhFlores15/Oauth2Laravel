@@ -76,6 +76,10 @@
                 <li class="nav-item-active">
                   <a class="nav-link" href="{{ route('localidad.index') }}">{{ __('Localidades') }} <span class="sr-only">(current)</span>
                   </a>
+                </li> 
+                <li class="nav-item-active">
+                  <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Clientes') }} <span class="sr-only">(current)</span>
+                  </a>
                 </li>             
               </ul>
               <ul class="nav navbar-nav ml-auto">  

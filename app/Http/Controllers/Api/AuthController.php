@@ -23,7 +23,7 @@ class AuthController extends Controller
             'password' => 'required',
             'codigo' => 'numeric|unique:users',
             'rut' => 'required|numeric|unique:users',
-            'dv' => 'required|numeric',
+            'dv' => 'required',
             'rol_id' =>'exists:roles,id',
         ]);
 

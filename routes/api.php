@@ -34,12 +34,14 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('regiones','Api\RegionController');
     Route::resource('comunas','Api\ComunaController');
     Route::resource('localidades','Api\LocalidadController');
-    Route::resource('familia','Api\FamiliaCarozziController');
+    //Route::resource('familia','Api\FamiliaCarozziController');
+    Route::resource('clientes','Api\ClienteController');
 
     Route::get('administradores','Api\UserController@administradores');
     Route::get('vendedores','Api\UserController@vendedores');
     Route::get('usuarios/{user}','Api\UserController@user');
     Route::delete('usuarios/{user}','Api\UserController@destroy');
+
 
 });
 

@@ -155,10 +155,6 @@
 
 			},
 			"pagingType": "full_numbers",
-			// 'dom': 'Bfrtip',
-			// 'buttons':[
-			// 	'copy','excel','pdf'
-			// ],
 		});	
 		
 	});

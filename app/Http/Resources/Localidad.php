@@ -17,7 +17,7 @@ class Localidad extends JsonResource
          // return parent::toArray($request);
          return[
             'id' => $this->id,
-            'comuna' => \App\Comuna::find($this->region_id),
+            'comuna' => \App\Comuna::find($this->comuna_id),
             'nombre' => $this->nombre, 
             'codigo' => $this->codigo,
         ];

@@ -60,13 +60,7 @@
       </div>
       <div class="modal-body text-center">
       	<div class="container-fluid text-center">      		
-	      	<div class="row text-center">	      		
-				<form class="form-inline">		
-				  	<div class="form-group mx-sm-3 mb-2">
-				      	<div id="erroComuna"></div>
-				  	</div>
-				</form>	
-
+	      	<div class="row text-center">
 				<form>	   
 	      			<div class="form-group row">
 					    <label for="staticEmail" class="col-md-4 col-form-label">Comuna</label>
@@ -144,7 +138,7 @@
 				$('#comboboxEdit').html(opciones+'</select>');		
 			},
 			error(error){				
-				alert('Comunas no Encontrada');
+				alert('Regiones no Encontradas');
 				$('#deleteModal').modal('hide');				
 			}
 		});

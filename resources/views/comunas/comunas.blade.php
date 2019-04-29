@@ -160,7 +160,7 @@
 				$('#combobox').html(opciones+'</select>');		
 			},
 			error(error){				
-				alert('Comunas no Encontrada');
+				alert('Regiones no Encontradas');
 				$('#deleteModal').modal('hide');				
 			}
 		});

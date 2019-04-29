@@ -51,7 +51,7 @@ class LocalidadController extends Controller
         $localidad->comuna()->associate($comuna);
 
         $localidad->save();
-        return response()->json($localidad);
+        return response()->json('ok');
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use App\Http\Resources\Comuna as ComunaResource;
+use App\Comuna;
 
 class ComunaController extends Controller
 {
@@ -15,8 +17,13 @@ class ComunaController extends Controller
      */
     public function index()
     {
-         $comunas = \App\Comuna::all();
-        return response()->json($comunas); 
+        $comunas = ComunaResource::collection(Comuna::all());
+
+         return datatables()
+            ->resource($comunas)
+            ->addColumn('btn','comunas.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();
     }
 
     /**
@@ -42,7 +49,7 @@ class ComunaController extends Controller
         $comuna->region()->associate($region);
 
         $comuna->save();
-        return response()->json($comuna);
+        return response()->json('ok');
     }
 
     /**
@@ -53,7 +60,9 @@ class ComunaController extends Controller
      */
     public function show($id)
     {
-        //
+         $comuna = Comuna::findOrFail($id);
+         $comuna->region;
+         return response()->json($comuna);
     }
 
     /**
@@ -73,7 +82,17 @@ class ComunaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $comuna=\App\Comuna::findOrFail($id)->update($request->all());
+       $comuna=\App\Comuna::findOrFail($id);
+       $comuna->nombre = $request->get('nombre');
+
+
+        if($comuna->region_id !== $request->get('region_id')){
+            $comuna->region()->dissociate();
+            $region = \App\Region::findOrFail($request->get('region_id'));
+            $comuna->region()->associate($region);
+        }
+        $comuna->save();
+
        return response()->json('ok');
     }
 

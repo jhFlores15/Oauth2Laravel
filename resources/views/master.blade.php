@@ -68,13 +68,16 @@
                  <li class="nav-item-active">
                   <a class="nav-link" href="{{ route('region.index') }}">{{ __('Regiones') }} <span class="sr-only">(current)</span>
                   </a>
-                </li>  
-              
+                </li> 
+                 <li class="nav-item-active">
+                  <a class="nav-link" href="{{ route('comuna.index') }}">{{ __('Comunas') }} <span class="sr-only">(current)</span>
+                  </a>
+                </li>              
               </ul>
               <ul class="nav navbar-nav ml-auto">  
               <div id="app">
                   <login-component></login-component>    
-              </div>              
+              </div>             
                 
               </ul>
             </div>

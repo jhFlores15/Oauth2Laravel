@@ -19,3 +19,4 @@ Route::get('/', function () {
 Route::get('administradores', 'UserController@administradores')->name('user.administradores');
 Route::get('vendedores', 'UserController@vendedores')->name('user.vendedores');
 Route::get('regiones', 'RegionController@index')->name('region.index');
+Route::get('comunas', 'ComunaController@index')->name('comuna.index');

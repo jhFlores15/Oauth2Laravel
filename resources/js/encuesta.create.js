@@ -13,7 +13,6 @@ Vue.use(BootstrapVue);
 const app = new Vue({
     el: '#encuesta_create',
     mounted() {
-        console.log("montado");
         if (localStorage.access_token){        
 	      this.access_token = localStorage.access_token;
 	      this.token_type = localStorage.token_type;
@@ -31,6 +30,8 @@ const app = new Vue({
 	data:{
     	config:{},
     	tipos_encuesta:{},
+    	select_tipo_encuesta:0,
+
     },
     methods:{    
     	getTiposEncuesta(){

@@ -15,25 +15,32 @@
 				      <input type="text" class="form-control" id="validationCustom01" placeholder="Descripcion" value="" required>
 				  </div>
 				    <div class="col-md-4 mb-3">
-				      <label for="validationCustom02">Tipo Encuesta</label>
-				     <select   class="form-control">
-				     	{{-- <option v-for="" value="{{  }}">{{  }}</option> --}}
-				     </select>
-				  </div>
+					      <label for="validationCustom02">Tipo Encuesta</label>
+					     <select   class="form-control" v-model ="select_tipo_encuesta">
+					     	<option v-for="tipo in tipos_encuesta" :value="tipo.id">@{{ tipo.nombre}}</option>
+					     </select>
+					  </div>		
 				    <div class="col-md-4 mb-3">
-				      <label for="validationCustomUsername">Username</label>
+				      <label for="validationCustomUsername">Fecha de Inicio</label>
 				      <div class="input-group">
-				        <div class="input-group-prepend">
-				          <span class="input-group-text" id="inputGroupPrepend">@</span>
-				        </div>
-				        <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+				      
+				        <input type="date" class="form-control" id="validationCustomUsername" placeholder=""  required>
 				        <div class="invalid-feedback">
 				          Please choose a username.
 				        </div>
 				      </div>
 				    </div>
 				  </div>
-				  <div class="form-row">
+				  	 <button class="btn" type="button">Subir
+				  	 	<img src="https://img.icons8.com/color/48/000000/import-csv.png">
+				  	 </button>
+				  	 <div class="row">
+				  	 	 <button class="btn btn-primary" type="button">Crear</button>
+				  	 </div>
+				  	
+				  
+				  
+				{{--   <div class="form-row">
 				    <div class="col-md-6 mb-3">
 				      <label for="validationCustom03">City</label>
 				      <input type="text" class="form-control" id="validationCustom03" placeholder="City" required>
@@ -55,19 +62,8 @@
 				        Please provide a valid zip.
 				      </div>
 				    </div>
-				  </div>
-				  <div class="form-group">
-				    <div class="form-check">
-				      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-				      <label class="form-check-label" for="invalidCheck">
-				        Agree to terms and conditions
-				      </label>
-				      <div class="invalid-feedback">
-				        You must agree before submitting.
-				      </div>
-				    </div>
-				  </div>
-				  <button class="btn btn-primary" type="submit">Submit form</button>
+				  </div> --}}
+				 
 				</form>
 			</div>
 		</div>

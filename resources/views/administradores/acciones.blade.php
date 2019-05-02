@@ -113,15 +113,7 @@
 				    </div>
 				    <div class="form-group col-md-2">
 				    	<label style="visibility: hidden;">visibility</label>
-				    	<input type="checkbox" class="form-control" id="checkboxPass">	
-				    	{{-- <div class="row">
-				    		<div class="col-md-3">
-					    		<input type="checkbox" class="form-control" id="gridCheck">		
-					    	</div>	
-					    	<div class="col-md-9">
-					    		<label>Ver Password</label>
-					    	</div>	
-				    	</div> --}}
+				    	<input type="checkbox" class="form-control" id="checkboxPass">					    
 				    </div>
 				  </div>
 				  

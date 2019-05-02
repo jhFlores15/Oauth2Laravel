@@ -10,8 +10,9 @@
      
      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/app.css') }}">
 
@@ -80,7 +81,15 @@
                 <li class="nav-item-active">
                   <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Clientes') }} <span class="sr-only">(current)</span>
                   </a>
-                </li>             
+                </li>  
+                <li class="nav-item-active">
+                  <a class="nav-link" href="{{ route('encuestas.index') }}">{{ __('Encuestas') }} <span class="sr-only">(current)</span>
+                  </a>
+                </li>  
+                <li class="nav-item-active">
+                  <a class="nav-link" href="{{ route('encuestas.create') }}">{{ __('Crear Encuesta') }} <span class="sr-only">(current)</span>
+                  </a>
+                </li>              
               </ul>
               <ul class="nav navbar-nav ml-auto">  
                 <div id="app">
@@ -92,11 +101,18 @@
       </div>     
      <div> @yield('contenido')</div>      
   </div>
+  <div id="encuesta_create"> @yield('vue.js')</div>      
     <script src="{{ mix('js/app.js') }}"></script>
      <div id="app"> @yield('dataTable')</div> 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    
+    
+
 
         
 

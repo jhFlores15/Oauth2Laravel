@@ -10,9 +10,6 @@
 			<button type="button" onclick="nuevoAdministrador()" class="btn btn-primary ">
 			   Agregar Nuevo Administrador
 			</button>
-			<button type="button" onclick="showData()" class="btn btn-primary ">
-			   Mostrar Table
-			</button>
 		</div>	
 			<table id="administradores" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 				<thead> 

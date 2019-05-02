@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
            	//RolesTableSeeder::class,
         	//RegionesTableSeeder::class,
             //UsersTableSeeder::class,
+            //TipoEncuestasTableSeeder::class,
         ]);
 
     }

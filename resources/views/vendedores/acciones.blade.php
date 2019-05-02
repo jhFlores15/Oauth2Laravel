@@ -11,7 +11,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Eliminar Administrador</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar Vendedor</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -121,22 +121,10 @@
 				  <div class="form-row">
 				    <div class="form-group col-md-10">
 				      <label for="inputEmail4">Password</label>
-				      <input type="password" class="form-control" id="passwordEdit" placeholder="Password">
+				      <input type="text" class="form-control" id="passwordEdit2" placeholder="Password">
 				       <div id="errorPass">
 				      </div>
-				    </div>
-				    <div class="form-group col-md-2">
-				    	<label style="visibility: hidden;">visibility</label>
-				    	<input type="checkbox" class="form-control" id="checkboxPass">	
-				    	{{-- <div class="row">
-				    		<div class="col-md-3">
-					    		<input type="checkbox" class="form-control" id="gridCheck">		
-					    	</div>	
-					    	<div class="col-md-9">
-					    		<label>Ver Password</label>
-					    	</div>	
-				    	</div> --}}
-				    </div>
+				    </div>				   
 				  </div>
 				  
 				</form>
@@ -185,7 +173,7 @@
 		document.getElementById('dvEdit').value = user.dv;
 		document.getElementById('nameEdit').value = user.razon_social;
 		document.getElementById('emailEdit').value = user.email;
-		document.getElementById('passwordEdit').value = user.password_visible;
+		document.getElementById('passwordEdit2').value = user.password_visible;
 		document.getElementById('codigoEdit').value = user.codigo;
 	}
 
@@ -201,7 +189,7 @@
 		var dv = document.getElementById('dvEdit').value;
 		var razon_social = document.getElementById('nameEdit').value;
 		var email = document.getElementById('emailEdit').value;
-		var password = document.getElementById('passwordEdit').value ;
+		var password = document.getElementById('passwordEdit2').value ;
 		var codigo = document.getElementById('codigoEdit').value;
 		console.log("editando " + id);
 		ajaxEditar(id,rut,dv,razon_social,email,password,codigo);		
@@ -341,16 +329,4 @@
 		}
 
 	}
-	//////////  Ver Password //////////////
-	var togglePassword= document.getElementById('checkboxPass');
-	var showOrHidePassword = () =>{
-		var password = document.getElementById('passwordEdit');
-		if(password.type == 'password'){
-			password.type = 'text';
-		}
-		else{
-			password.type= 'password';
-		}
-	}
-	togglePassword.addEventListener('change',showOrHidePassword);
 </script>

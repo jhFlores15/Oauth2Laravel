@@ -14,7 +14,7 @@ class CreateProductosTable extends Migration
     public function up()
     {
         Schema::create('productos', function (Blueprint $table) {
-             $table->bigIncrements('id');
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->integer('cod_dimak')->unique();

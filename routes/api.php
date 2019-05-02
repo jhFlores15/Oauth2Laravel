@@ -36,7 +36,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('localidades','Api\LocalidadController');
     //Route::resource('familia','Api\FamiliaCarozziController');
     Route::resource('clientes','Api\ClienteController');
+    Route::resource('encuestas','Api\EncuestaController');
 
+    Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');
     Route::get('administradores','Api\UserController@administradores');
     Route::get('vendedores','Api\UserController@vendedores');
     Route::get('usuarios/{user}','Api\UserController@user');

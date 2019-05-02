@@ -8,6 +8,7 @@ use Validator;
 use App\Http\Resources\Encuesta as EncuestaResource;
 use App\Encuesta;
 
+
 class EncuestaController extends Controller
 {
     /**
@@ -34,7 +35,8 @@ class EncuestaController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
+
     }
 
     /**

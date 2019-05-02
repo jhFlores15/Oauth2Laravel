@@ -22,18 +22,38 @@ const app = new Vue({
 	         'Authorization':this.token_type + " " + this.access_token,
 	        },
 	      }; 
+	        let configC = {
+	        headers: {
+	         'Content-Type': 'multipart/form-data' ,
+	         'Authorization':this.token_type + " " + this.access_token,
+	        },
+	      }; 
 	      this.config = config;  
-	      console.log("config"+config);  
+	      this.configCliente = configC; 
     	}
     	this.getTiposEncuesta();
 	},
 	data:{
     	config:{},
+    	configCliente:{},
     	tipos_encuesta:{},
     	select_tipo_encuesta:0,
-
+    	descripcion:'',
+    	fecha_inicio:'',
+    	csv:'',
+    	erroresEncuesta:[],
+    	file:'',
     },
-    methods:{    
+    methods:{   
+    	selectedFile(event) {
+  	      this.file = event.target.files[0];
+  	    },
+	    handleFileUpload(){
+	    	 this.formData = new FormData();
+    		this.formData.append('name', this.fileName);
+    		this.formData.append('file', this.$refs.file.files[0]);
+    		console.log(this.formData);
+	    },
     	getTiposEncuesta(){
     		axios.get('/api/tipos_encuesta/',this.config).
 		        then(response => {
@@ -42,7 +62,39 @@ const app = new Vue({
 		        }).catch(error => {
 		          console.log(error)
 		        })
-    	}  
-	}
+    	},
+    	postFileCliente(encuesta){
+    		let formData = new FormData();            
+            formData.append('csv', this.file);
+
+            axios.post('/api/encuestas/clientes/'+encuesta.id,formData,this.configCliente)    			
+		    .then(response =>{
+		       console.log(response);		       
+		    }).catch(error =>{
+		    	this.erroresEncuesta = error.response.data.error;
+		    });
+    		
+    	},
+    	postEncuestaCliente(){    		
+    		axios.post('/api/encuestas/clientes',{    			
+    			'descripcion' : this.descripcion,
+    			'fecha_inicio' : this.fecha_inicio,
+    			'tipo_encuesta' : this.select_tipo_encuesta,  
+        
+		    },this.config).then(response =>{
+		       this.postFileCliente(response.data);
+		       
+		    }).catch(error =>{
+		    	this.erroresEncuesta = error.response.data.error;
+		    });
+    	},
+    	postEncuesta(){
+    		this.erroresEncuesta = [];
+    		switch(this.select_tipo_encuesta){
+    			case 2 : this.postEncuestaCliente();
+
+    		}
+    	},
+    }
      
 });

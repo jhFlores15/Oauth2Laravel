@@ -36,7 +36,7 @@
 				    </div>
 				  </div>
 				  <div class="form-group row">
-				    <label for="staticEmail" class="col-md-4 col-form-label">Razon Social</label>
+				    <label for="staticEmail" class="col-md-4 col-form-label">Nombre</label>
 				    <div class="col-md-8">
 				      <input type="text" readonly class="form-control-plaintext" id="nameDelete" value="">
 				    </div>
@@ -104,8 +104,8 @@
 				  </div>
 				  <div class="form-row">
 				    <div class="form-group col-md-12">
-				      <label for="inputEmail4">Razon Social</label>
-				      <input type="text" class="form-control" id="nameEdit" placeholder="Razon Social">
+				      <label for="inputEmail4">Editar</label>
+				      <input type="text" class="form-control" id="nameEdit" placeholder="Editar">
 				       <div id="errorRazon">
 				      </div>
 				    </div>				   

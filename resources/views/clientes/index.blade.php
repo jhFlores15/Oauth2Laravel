@@ -7,9 +7,46 @@
 		<h2 class="text-center">Clientes</h2>
 		<br>
 		<div class="row text-center" style="padding-left: 100px;">
-			<button type="button" onclick="nuevoCliente()" class="btn btn-primary ">
-			   Agregar Nuevo Cliente
-			</button>
+			<div class="col-md-4">
+				<button type="button" onclick="nuevoCliente()" class="btn btn-primary ">
+				   Agregar Nuevo Cliente
+				</button>
+			</div>
+			<div class="col-md-7 text-center">
+				<div id="errorFile"></div>
+				<form class="form-inline">
+					<div class="form-group">
+						<div class="input-group mb-3">
+						  	<div class="input-group-prepend">
+					    		<img src="https://img.icons8.com/color/40/000000/ms-excel.png">						   
+						  	</div>
+						  	<div class="custom-file">
+						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+						    	<label class="custom-file-label" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						  	</div>
+					  	  	<div class="input-group-prepend">
+					    		 <button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					    	</div>					  
+						</div>
+						
+					</div>
+				</form>
+				<div class="col-md-7">
+					<table class="table table-bordered table-sm">
+				    <thead>
+				      <tr>
+				        <th>codigo</th>
+				        <th>rut</th>
+				        <th>dv</th>
+				        <th>razon_social</th>
+				        <th>direccion</th>
+				        <th>cod_localidad</th>
+				        <th>cod_vendedor</th>
+				      </tr>
+				    </thead>			    
+				  </table>
+				</div>
+			</div>
 		</div>	
 			<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 				<thead> 
@@ -101,6 +138,54 @@
 	</div>
 </div>
  <script >
+ 	$(".custom-file-input").on("change", function() {
+		  var fileName = $(this).val().split("\\").pop();
+		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+	function postDatos(){
+		var file = $('#file')[0].files[0];
+		console.log(file);
+		let formData = new FormData();            
+        formData.append('file', file);
+		console.log(formData);
+		$.ajax({
+			method:"POST",
+			url:'/api/clientes/file',
+			data: formData,
+			processData: false,
+			contentType: false,
+			headers : {
+				// 'Content-Type': 'multipart/form-data',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('Datos Actualizados correctamente');
+					location.reload(true);
+				}
+			},
+			error(error){
+				if(error.status == 422){
+					var errores = error.responseJSON.error;
+					$('#errorFile').html('<div></div>');
+			 		console.log("error");		
+					if(errores.file){
+						$('#errorFile').html(
+							'<div class="alert alert-danger" role="alert">'+
+							errores.file[0]+
+							'</div>'
+							);
+					}	
+				}
+				else{
+					alert('ah Ocurrido un error, los datos no se han actualizado Correctamente');
+					console.log(error.responseJSON);
+				}
+			}
+		});
+	}
+	
  	window.onload = function(){
  		combobox();
  	}
@@ -308,6 +393,9 @@
  	td.highlight{
  		background-color: whitesmoke !important;
  	}
+ 	.custom-file-input:lang(en) ~ .custom-file-label::after {
+  		content: 'Examinar' !important;
+	}
  </style>
 @endsection
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Cliente;
 use App\Http\Resources\Cliente as ClienteResource;
 use Validator;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ClienteController extends Controller
 {
@@ -137,5 +138,57 @@ class ClienteController extends Controller
         $cliente = \App\Cliente::findOrFail($id);
         $cliente->delete();
         return 'ok';
+    }
+
+    public function file(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
+
+        if($request->hasFile('file')){
+            $file = $request->file('file');
+            $clientes = (new FastExcel)->import($file, function ($line) {
+                $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
+                if($cliente){ //actualizar
+                    $cliente->rut = $line['rut'];
+                    $cliente->dv = $line['dv'];
+                    $cliente->razon_social = $line['razon_social'];
+                    $cliente->direccion = $line['direccion'];                    
+                    $localidad = \App\Localidad::all()->where('codigo','=',$line['cod_localidad'])->first();
+                    $cliente->localidad_id = $localidad->id;
+                    $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
+                    $cliente->user_id = $vendedor->id;
+                    $cliente->save();
+                }
+                else{ //crear
+                        $cliente = new \App\Cliente();
+                        $cliente->codigo = $line['codigo'];
+                        $cliente->rut = $line['rut'];
+                        $cliente->dv = $line['dv'];
+                        $cliente->razon_social = $line['razon_social'];
+                        $cliente->direccion = $line['direccion'];
+                        $localidad = \App\Localidad::all()->where('codigo','=',$line['cod_localidad'])->first();
+                        $cliente->localidad_id = $localidad->id;
+                        $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
+                        $cliente->user_id = $vendedor->id;
+                        $cliente->save();
+                } 
+                return ;
+            });
+            //eliminar no actualizados
+            // $clientes_eliminar = \App\Cliente::role()->updated()->orderBy('codigo')->get();
+            // if($clientes_eliminar){
+            //     foreach ($clientes_eliminar as $cliente) {
+            //          $cliente->delete();
+            //     }
+            // }
+        }
+        return response()->json('ok');
+        
+
     }
 }

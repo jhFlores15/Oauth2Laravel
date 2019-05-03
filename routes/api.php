@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('localidades','Api\LocalidadController');
     //Route::resource('familia','Api\FamiliaCarozziController');
     Route::resource('clientes','Api\ClienteController');
+    Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file');
     Route::resource('encuestas','Api\EncuestaController');
     Route::resource('encuestas/clientes','Api\EncuestaClienteController');
     Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file');

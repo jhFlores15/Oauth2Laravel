@@ -48,19 +48,18 @@ class UserController extends Controller
                 if($vendedor){ //actualizar
                     $vendedor->rut = $line['rut'];
                     $vendedor->dv = $line['dv'];
-                    $vendedor->razon_social = $line['razon_social'];
+                    $vendedor->razon_social = $line['nombre'];
                     $vendedor->email = $line['email'];
                     $vendedor->password_visible = $line['password'];
                     $vendedor->password = bcrypt($line['password']);
                     $vendedor->save();
                 }
                 else{ //crear
-
                         $vendedor = new \App\User();
                         $vendedor->codigo = $line['codigo'];
                         $vendedor->rut = $line['rut'];
                         $vendedor->dv = $line['dv'];
-                        $vendedor->razon_social = $line['razon_social'];
+                        $vendedor->razon_social = $line['nombre'];
                         $vendedor->email = $line['email'];
                         $vendedor->password_visible = $line['password'];
                         $vendedor->password = bcrypt($line['password']);

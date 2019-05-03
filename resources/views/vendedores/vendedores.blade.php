@@ -32,35 +32,21 @@
 					</div>
 				</form>
 				<div class="col-md-7">
-							<table class="table table-bordered table-sm">
-						    <thead>
-						      <tr>
-						        <th>codigo</th>
-						        <th>rut</th>
-						        <th>dv</th>
-						        <th>razon_social</th>
-						        <th>email</th>
-						        <th>password</th>
-						      </tr>
-						    </thead>			    
-						  </table>
-				</div>	
+					<table class="table table-bordered table-sm">
+				    <thead>
+				      <tr>
+				        <th>codigo</th>
+				        <th>rut</th>
+				        <th>dv</th>
+				        <th>nombre</th>
+				        <th>email</th>
+				        <th>password</th>
+				      </tr>
+				    </thead>			    
+				  </table>
+				</div>
 			
-
-
-				
-				
-
-
-		  		
-				{{-- <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div> --}}
-			</div>			
-				{{-- <form>
-				  <div class="custom-file">
-				    <input type="file" class="custom-file-input" id="customFile">
-				    <label class="custom-file-label" for="customFile">Choose file</label>
-				  </div>
-				</form> --}}
+			</div>		
 			</div>			
 
 		</div>	
@@ -68,7 +54,7 @@
 				<thead> 
 					<tr>
 						<th>Codigo</th>
-						<th>Razon Social</th>
+						<th>Nombre</th>
 						<th>Email</th>
 						<th>Rut</th>
 						<th>password</th>
@@ -116,8 +102,8 @@
 					  </div>
 					  <div class="form-row">
 					    <div class="form-group col-md-12">
-					      <label >Razon Social</label>
-					      <input type="text" class="form-control" id="nameNew" placeholder="Razon Social">
+					      <label > Nombre </label>
+					      <input type="text" class="form-control" id="nameNew" placeholder="Nombre">
 					       <div id="errorRazonNew">
 					      </div>
 					    </div>				   

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class EncuestaClienteController extends Controller
 {
@@ -40,7 +40,7 @@ class EncuestaClienteController extends Controller
         $encuesta->inicio = $request->get('fecha_inicio');
         $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
         $encuesta->tipo_encuesta()->associate($tipo_encuesta);
-        $encuesta->save();     
+        $encuesta->save();
         
         return response()->json($encuesta);
     }
@@ -52,22 +52,21 @@ class EncuestaClienteController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $csv = $request->file('csv');
 
         if($request->hasFile('csv')){
 
-            \Excel::import($request->file('csv'), function($reader) {
-                $excel = $reader->get();
-
-                // iteracción
-                $reader->each(function($row) {
-                    $cliente = \App\Cliente::all()->where('codigo','=',$row->codigo);
+            $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
+                $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
                     if($cliente){
-                        $encuesta->clientes()->attach($cliente->id);   
+                       
+                        return $encuesta->clientes()->attach($cliente->id);   
                     }                
-                });
-        
-            });  
+           
+               
+            });
         }
+        return response()->json('ok');
         
 
     }

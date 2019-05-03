@@ -51,7 +51,7 @@
 								<div class="input-group-prepend">
 								  	<img src="https://img.icons8.com/color/40/000000/import-csv.png">					   
 								</div>
-								<b-form-file require accept=".csv"  type="file" id="file" ref="file"  v-on:change="selectedFile($event)" placeholder="Escoge un archivo..." v-model="file"></b-form-file>
+								<b-form-file require accept=".csv,.xlsx"  type="file" id="file" ref="file"  v-on:change="selectedFile($event)" placeholder="Escoge un archivo..." v-model="file"></b-form-file>
 							</div>
 							<div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div>
 					  </div>	

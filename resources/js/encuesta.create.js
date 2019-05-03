@@ -41,7 +41,12 @@ const app = new Vue({
     	descripcion:'',
     	fecha_inicio:'',
     	csv:'',
-    	erroresEncuesta:[],
+    	erroresEncuesta:{
+            descripcion:'',
+            tipos_encuesta:'',
+            fecha_inicio:'',
+            csv:'',
+        },
     	file:'',
     },
     methods:{   

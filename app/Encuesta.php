@@ -14,7 +14,7 @@ class Encuesta extends Model
     }
     public function clientes (){
 
-		return belongsToMany('App\Cliente','encuesta_cliente','encuesta_id','cliente_id')->using('App\Encuesta_Cliente')->withTimestamps()->withPivot(['cumpleaños','telefono','email']);
+		return $this->belongsToMany('App\Cliente','encuesta_cliente','encuesta_id','cliente_id')->withTimestamps()->withPivot(['cumpleaños','telefono','email']);
     }
 
 

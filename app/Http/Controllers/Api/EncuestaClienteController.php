@@ -31,7 +31,6 @@ class EncuestaClienteController extends Controller
             'descripcion'=>'required|max:255|string|unique:encuestas',            
             'tipo_encuesta'=>'required|exists:tipo_encuesta,id',
             'fecha_inicio' => 'required|date',
-            //'csv' => 'required|file'
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
@@ -53,10 +52,10 @@ class EncuestaClienteController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        
-        if($request->hasFile('csv')){
-            \Excel::load($request->file('csv'), function($reader) {
 
+        if($request->hasFile('csv')){
+
+            \Excel::import($request->file('csv'), function($reader) {
                 $excel = $reader->get();
 
                 // iteracción

@@ -52,8 +52,15 @@
 								  	<img src="https://img.icons8.com/color/40/000000/ms-excel.png">					   
 								</div>
 								<b-form-file require accept=".csv,.xlsx"  type="file" id="file" ref="file"  v-on:change="selectedFile($event)" placeholder="Escoge un archivo..." v-model="file"></b-form-file>
-							</div>
+							</div>							
 							<div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div>
+							<table class="table table-bordered table-sm text-center">
+							    <thead>
+							      <tr>
+							        <th>codigo</th>
+							      </tr>
+							    </thead>			    
+				  			</table>
 					  </div>	
 
 

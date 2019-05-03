@@ -236,8 +236,14 @@
 				}
 			},
 			error(error){
-				var errores = error.responseJSON.error;
-				incrustarErroresNew(errores);	
+				if(error.status == 422){
+					var errores = error.responseJSON.error;
+					incrustarErroresNew(errores);	
+				}
+				else{
+					alert("error");
+				}
+				
 			}
 		});
 	}

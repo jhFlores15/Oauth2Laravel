@@ -68,9 +68,14 @@
 					location.reload(true);
 				}
 			},
-			error(error){
-				var errores = error.responseJSON.error;
-				incrustarErroresNew(errores);	
+			error(error){	
+				if(error.status == 422){
+					var errores = error.responseJSON.error;
+					incrustarErroresNew(errores);
+				}
+				else{
+					alert("error");
+				}
 			}
 		});
 	}

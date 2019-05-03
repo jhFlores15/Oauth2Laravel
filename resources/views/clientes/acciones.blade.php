@@ -266,8 +266,13 @@
 				}
 			},
 			error(error){
-				var errores = error.responseJSON.error;
-				incrustarErrores(errores);	
+				if(error.status == 422){
+					var errores = error.responseJSON.error;
+					incrustarErrores(errores);	
+				}
+				else{
+					alert("error");
+				}
 				//alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
 			}
 		});

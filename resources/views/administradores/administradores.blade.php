@@ -95,7 +95,9 @@
 	  	</div>
 	</div>
 </div>
- <script >
+{{-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script> --}}
+ <script type="text/javascript"  >
  	function nuevoAdministrador(){
  		$('#errorRutNew').html('<div></div>');
 		$('#errorDvNew').html('<div></div>');
@@ -246,7 +248,7 @@
 			// ],
 		});
 
-		table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
+		//table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
 
 	//////////  Ver Password //////////////
 		var togglePassword2= document.getElementById('checkboxNew');

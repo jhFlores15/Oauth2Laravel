@@ -52,14 +52,13 @@ class EncuestaClienteController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        $csv = $request->file('csv');
+      
 
         if($request->hasFile('csv')){
-
+            $csv = $request->file('csv');
             $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
                 $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
-                    if($cliente){
-                       
+                    if($cliente){                       
                         return $encuesta->clientes()->attach($cliente->id);   
                     }                
            

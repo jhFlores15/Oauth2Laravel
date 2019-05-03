@@ -8,6 +8,7 @@ use App\User;
 use App\Http\Resources\User as UserResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class UserController extends Controller
 {
@@ -29,6 +30,23 @@ class UserController extends Controller
             ->addColumn('btn','vendedores.acciones')
             ->rawColumns(['btn'])
             ->toJson();
+    }
+    public function file(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+        // $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        // $file = $request->file('file');
+
+        if($request->hasFile('file')){
+            return response()->json('ok');
+        }
+        return response()->json('oknno');
+        
+
     }
      public function user($id)
     {

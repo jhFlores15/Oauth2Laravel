@@ -49,7 +49,7 @@
 						<div class="col-md-8">
 					  		<div class="input-group mb-3">
 								<div class="input-group-prepend">
-								  	<img src="https://img.icons8.com/color/40/000000/import-csv.png">					   
+								  	<img src="https://img.icons8.com/color/40/000000/ms-excel.png">					   
 								</div>
 								<b-form-file require accept=".csv,.xlsx"  type="file" id="file" ref="file"  v-on:change="selectedFile($event)" placeholder="Escoge un archivo..." v-model="file"></b-form-file>
 							</div>

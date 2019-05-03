@@ -53,12 +53,12 @@ const app = new Vue({
     	selectedFile(event) {
   	      this.file = event.target.files[0];
   	    },
-	    handleFileUpload(){
-	    	 this.formData = new FormData();
-    		this.formData.append('name', this.fileName);
-    		this.formData.append('file', this.$refs.file.files[0]);
-    		console.log(this.formData);
-	    },
+	    // handleFileUpload(){
+	    // 	 this.formData = new FormData();
+    	// 	this.formData.append('name', this.fileName);
+    	// 	this.formData.append('file', this.$refs.file.files[0]);
+    	// 	console.log(this.formData);
+	    // },
     	getTiposEncuesta(){
     		axios.get('/api/tipos_encuesta/',this.config).
 		        then(response => {
@@ -76,7 +76,9 @@ const app = new Vue({
 		    .then(response =>{
 		       console.log(response);		       
 		    }).catch(error =>{
-		    	this.erroresEncuesta = error.response.data.error;
+		    	if(error.response.status = 422){
+                    this.erroresEncuesta = error.response.data.error;
+                }
 		    });
     		
     	},
@@ -90,7 +92,10 @@ const app = new Vue({
 		       this.postFileCliente(response.data);
 		       
 		    }).catch(error =>{
-		    	this.erroresEncuesta = error.response.data.error;
+                if(error.response.status = 422){
+                    this.erroresEncuesta = error.response.data.error;
+                }
+		    	
 		    });
     	},
     	postEncuesta(){

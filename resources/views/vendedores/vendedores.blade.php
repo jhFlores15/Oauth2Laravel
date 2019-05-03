@@ -7,9 +7,44 @@
 		<h2 class="text-center">Vendedores</h2>
 		<br>
 		<div class="row text-center" style="padding-left: 100px;">
-			<button type="button" onclick="nuevoAdministrador()" class="btn btn-primary ">
+			<div class="col-md-4">
+				<button type="button" onclick="nuevoAdministrador()" class="btn btn-primary ">
 			   Agregar Nuevo Vendedor
 			</button>
+			</div>
+			<div class="col-md-7 text-center">
+				<form class="form-inline">
+					<div class="form-group">
+						<div class="input-group mb-3">
+						  	<div class="input-group-prepend">
+					    		<img src="https://img.icons8.com/color/40/000000/ms-excel.png">						   
+						  	</div>
+						  	<div class="custom-file">
+						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+						    	<label class="custom-file-label" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						  	</div>
+					  	  	<div class="input-group-prepend">
+					    		 <button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					    	</div>					  
+						</div>
+					</div>
+				</form>	
+
+
+				
+
+
+		  		
+				{{-- <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div> --}}
+			</div>			
+				{{-- <form>
+				  <div class="custom-file">
+				    <input type="file" class="custom-file-input" id="customFile">
+				    <label class="custom-file-label" for="customFile">Choose file</label>
+				  </div>
+				</form> --}}
+			</div>			
+
 		</div>	
 			<table id="administradores" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 				<thead> 
@@ -24,8 +59,6 @@
 				</thead>							
 			</table>  
 	</div>
-
-
 
 	<!-- MODAL agregar Admin -->
 	<div class="modal fade" id="nuevoUModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -105,6 +138,41 @@
 	</div>
 </div>
  <script >
+ 	// 	$(".custom-file-input").on("change", function() {
+	//   var fileName = $(this).val().split("\\").pop();
+	//   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	//   var file = $('#file')[0].files[0];
+	//   console.log(file);
+	// });
+	function postDatos(){
+		var file = $('#file')[0].files[0];
+		console.log(file);
+		let formData = new FormData();            
+        formData.append('file', file);
+		console.log(formData);
+		$.ajax({
+			method:"POST",
+			url:'/api/usuarios',
+			data: formData,
+			processData: false,
+			contentType: false,
+			headers : {
+				// 'Content-Type': 'multipart/form-data',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				// if(resp == 'ok'){
+				// 	alert('Vendedor Creado');
+				// 	location.reload(true);
+				// }
+			},
+			error(error){
+				var errores = error.responseJSON.error;
+				incrustarErroresNew(errores);	
+			}
+		});
+	}
  	function nuevoAdministrador(){
  		$('#errorRutNew').html('<div></div>');
 		$('#errorDvNew').html('<div></div>');
@@ -267,7 +335,7 @@
 			// ],
 		});
 
-		table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
+		//table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
 
 	//////////  Ver Password //////////////
 		var togglePassword2= document.getElementById('checkboxNew');
@@ -290,6 +358,10 @@
  	td.highlight{
  		background-color: whitesmoke !important;
  	}
+ 	.custom-file-input:lang(en) ~ .custom-file-label::after {
+  		content: 'Examinar' !important;
+	}
  </style>
+
 @endsection
 

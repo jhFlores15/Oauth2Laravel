@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -38,12 +39,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //  public function getUpdatedAtAttribute($value)
+    // {
+    //      return Carbon::parse($value)->format('d-m-Y');
+    // }
+
     public function rol(){
         return $this->belongsto('App\Rol');
     }
 
      public function clientes(){
         return $this->hasMany('App\Cliente');
+    }
+
+    public function scopeRole($query) // vendedor
+    {
+        return $query->where('rol_id', '=', 2);
+    }
+
+    public function scopeUpdated($query)
+    {
+        return $query->whereDate('updated_at', '!=', Carbon::today());
     }
 
 }

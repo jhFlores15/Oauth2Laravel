@@ -9,6 +9,7 @@ use App\Http\Resources\User as UserResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class UserController extends Controller
 {
@@ -38,13 +39,45 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-        // $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        // $file = $request->file('file');
+
 
         if($request->hasFile('file')){
-            return response()->json('ok');
+            $file = $request->file('file');
+            $users = (new FastExcel)->import($file, function ($line) {
+                $vendedor = \App\User::all()->where('codigo','=',$line['codigo'])->first();
+                if($vendedor){ //actualizar
+                    $vendedor->rut = $line['rut'];
+                    $vendedor->dv = $line['dv'];
+                    $vendedor->razon_social = $line['razon_social'];
+                    $vendedor->email = $line['email'];
+                    $vendedor->password_visible = $line['password'];
+                    $vendedor->password = bcrypt($line['password']);
+                    $vendedor->save();
+                }
+                else{ //crear
+
+                        $vendedor = new \App\User();
+                        $vendedor->codigo = $line['codigo'];
+                        $vendedor->rut = $line['rut'];
+                        $vendedor->dv = $line['dv'];
+                        $vendedor->razon_social = $line['razon_social'];
+                        $vendedor->email = $line['email'];
+                        $vendedor->password_visible = $line['password'];
+                        $vendedor->password = bcrypt($line['password']);
+                        $vendedor->rol_id = 2;
+                        $vendedor->save();
+                } 
+                return ;
+            });
+            //eliminar no actualizados
+            $vendedores_eliminar = \App\User::role()->updated()->orderBy('codigo')->get();
+            if($vendedores_eliminar){
+                foreach ($vendedores_eliminar as $vendedor) {
+                     $vendedor->delete();
+                }
+            }
         }
-        return response()->json('oknno');
+        return response()->json('ok');
         
 
     }

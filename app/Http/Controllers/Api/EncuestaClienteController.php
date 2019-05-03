@@ -60,9 +60,7 @@ class EncuestaClienteController extends Controller
                 $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
                     if($cliente){                       
                         return $encuesta->clientes()->attach($cliente->id);   
-                    }                
-           
-               
+                    } 
             });
         }
         return response()->json('ok');

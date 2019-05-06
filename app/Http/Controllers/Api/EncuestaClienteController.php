@@ -8,9 +8,11 @@ use Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 
 class EncuestaClienteController extends Controller
-{
+{  
+    //////////////DEL LADO DEL ADMINISTRADOR
 
     //generar reporte- eliminarla- iniciarla y terminarla-verla-editarla con respecto a Encuesta Cliente
     /**
@@ -18,9 +20,11 @@ class EncuestaClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-        //
+
+
+        
     }
 
     /**
@@ -80,7 +84,7 @@ class EncuestaClienteController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -145,12 +149,12 @@ class EncuestaClienteController extends Controller
     }
     public function iniciar($id){
         $encuesta = \App\Encuesta::findOrFail($id);
-        $encuesta->inicio = Carbon::today()
+        $encuesta->inicio = Carbon::today();
         $encuesta->save();
     }
-    ´public function terminar($id){
+    public function terminar($id){
         $encuesta = \App\Encuesta::findOrFail($id);
-        $encuesta->termino = Carbon::today()
+        $encuesta->termino = Carbon::today();
         $encuesta->save();
     }
 }

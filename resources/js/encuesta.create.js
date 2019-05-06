@@ -10,7 +10,7 @@ window.axios = require('axios');
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
-const app = new Vue({
+const appp = new Vue({
     el: '#encuesta_create',
     mounted() {
         if (localStorage.access_token){        
@@ -97,13 +97,6 @@ const app = new Vue({
                 }
 		    	
 		    });
-    	},
-    	postEncuesta(){
-    		this.erroresEncuesta = [];
-    		switch(this.select_tipo_encuesta){
-    			case 2 : this.postEncuestaCliente();
-
-    		}
     	},
     }
      

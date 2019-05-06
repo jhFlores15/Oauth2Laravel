@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('encuestas','Api\EncuestaController');
     Route::resource('encuestas/clientes','Api\EncuestaClienteController');
     Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file');
+   
 
     Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');
     Route::get('administradores','Api\UserController@administradores');
@@ -47,6 +48,13 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('usuarios/{user}','Api\UserController@user');
     Route::post('usuarios','Api\UserController@file')->name('usuarios.file');
     Route::delete('usuarios/{user}','Api\UserController@destroy');
+
+
+    /////////////vendedor/////
+     Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update');
+     Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show');
+     Route::get('encuestas/cliente/{encuesta}','Api\EncuestaClienteVendedorController@index');
+
 
 });
 

@@ -22,7 +22,7 @@
 						  	</div>
 						  	<div class="custom-file">
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-						    	<label class="custom-file-label" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
 					  	  	<div class="input-group-prepend">
 					    		 <button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
@@ -376,14 +376,7 @@
 
 		
  </script>
- <style>
- 	td.highlight{
- 		background-color: whitesmoke !important;
- 	}
- 	.custom-file-input:lang(en) ~ .custom-file-label::after {
-  		content: 'Examinar' !important;
-	}
- </style>
+
 
 @endsection
 

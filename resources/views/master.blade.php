@@ -102,6 +102,7 @@
      <div> @yield('contenido')</div>      
   </div>
   <div id="encuesta_create"> @yield('vue.js')</div>      
+   <div id="encuesta_cliente_vendedor_edit"> @yield('vue.js.encuestas')</div>   
     <script src="{{ mix('js/app.js') }}"></script>
     <div > @yield('dataTable')</div> 
      

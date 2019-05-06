@@ -18,7 +18,18 @@ class EncuestaController extends Controller
      */
     public function index()
     {
-        $encuestas = EncuestaResource::collection(Encuesta::all());
+        $encuestas = EncuestaResource::collection(Encuesta::all()); //Listado de encuestas Para el  Administrador
+
+        return datatables()
+            ->resource($encuestas)
+            ->addColumn('btn','encuestas.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();
+    }
+
+    public function index_admin($vendedor_id)
+    {
+        $encuestas = EncuestaResource::collection(Encuesta::all()); //Listado de encuestas Para el  VENDEDOR
 
         return datatables()
             ->resource($encuestas)

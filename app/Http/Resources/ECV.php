@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ECV extends JsonResource
 {
@@ -20,7 +21,7 @@ class ECV extends JsonResource
         if($this->cumpleaños || $this->telefono || $this->email ){
             $encuestado = 'Editar Encuesta';
         }
-         return[
+         return[          
             'id' => $cliente->id,
             'encuesta_id' => $this->encuesta_id,
             'razon_social' => $cliente->razon_social,

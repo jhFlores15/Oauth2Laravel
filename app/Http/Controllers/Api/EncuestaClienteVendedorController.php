@@ -19,10 +19,22 @@ class EncuestaClienteVendedorController extends Controller
      */
     public function index($encuesta_id) 
     {
+        $vendedor = Auth::user();
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
         if($encuesta->tipo_encuesta_id == 2){ // si es encuesta cliente
-            $clientes = \App\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id);
-            $clientes = ECVResource::collection($clientes);
+            $encuesta_clientes = \App\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id);            
+            $encuesta_cli = [];
+            foreach ($encuesta_clientes as $e_cli) {
+                $cliente = \App\Cliente::findOrFail($e_cli->cliente_id);
+                if($cliente->user_id == $vendedor->id){
+                    $encuesta_cli [] = $e_cli;
+                }            
+
+            }
+            //dd($encuesta_cli);
+            $clientess = ECVResource::collection(collect($encuesta_cli));
+            // dd($clientess);
+
         }
         else{
             $clientes = ClienteResource::collection(Cliente::where('user_id','=',$vendedor->id)); //PARA LOS OTROS TIPOS 
@@ -30,7 +42,7 @@ class EncuestaClienteVendedorController extends Controller
         $vendedor = Auth::user();
 
          return datatables()
-            ->resource($clientes)
+            ->resource($clientess)
             ->addColumn('btn','encuestas.clientes.index.acciones')
             ->rawColumns(['btn'])
             ->toJson();    
@@ -58,15 +70,9 @@ class EncuestaClienteVendedorController extends Controller
         $encuesta_cl = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
         $encuesta_cl = \App\EncuestaCliente::find($encuesta_cl[0]['id']);
         if($encuesta_cl){
-            if($request->get('cumpleaños')){
                 $encuesta_cl->cumpleaños = $request->get('cumpleaños');
-            }
-             if($request->get('telefono')){
                 $encuesta_cl->telefono = $request->get('telefono');
-            }
-             if($request->get('email')){
                 $encuesta_cl->email = $request->get('email');
-            }   
                      
             $encuesta_cl->save();
         }

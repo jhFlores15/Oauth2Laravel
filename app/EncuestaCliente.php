@@ -19,4 +19,9 @@ class EncuestaCliente extends Pivot
     	return $query->where('cliente_id', '=', $cliente_id);
 
     }
+     public function scopeUser($query,$user_id){
+
+    	return $query->where('user_id', '=', $user_id);
+
+    }
 }

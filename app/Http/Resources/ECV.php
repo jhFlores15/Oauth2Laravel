@@ -31,8 +31,13 @@ class ECV extends JsonResource
             'encuesta' => $encuestado,
             'direccion' => $cliente->direccion,
             'localidad' => \App\Localidad::find($cliente->localidad_id),
+            'vendedor' => \App\User::find($cliente->user_id),
             'created_at' => ($cliente->created_at)->format('d-m-Y'),
             'updated_at' => ($cliente->updated_at)->format('d-m-Y'),
+            'cumpleaños' => $this->cumpleaños,
+            'telefono' => $this->telefono,
+            'email' => $this->email,
+
         ];
     }
 }

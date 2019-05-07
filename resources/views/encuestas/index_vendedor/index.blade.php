@@ -65,11 +65,10 @@
 								'</select> registros',
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
-				"emptyTable":"No hay datos...",
+				"emptyTable":"No hay Encuestas que realizar por el momento...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
-
 			},
 			"pagingType": "full_numbers",
 		});	

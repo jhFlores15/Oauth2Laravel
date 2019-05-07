@@ -9,6 +9,9 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Encuesta as EncuestaResource;
+use App\Http\Resources\ECV as ECVResource;
+use App\Encuesta;
 
 class EncuestaClienteController extends Controller
 {  
@@ -20,7 +23,7 @@ class EncuestaClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index() //clientes que han sido encuestados
     {
 
 
@@ -72,8 +75,6 @@ class EncuestaClienteController extends Controller
             });
         }
         return response()->json('ok');
-        
-
     }
 
     /**
@@ -82,8 +83,33 @@ class EncuestaClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+
+    public function clientes($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
+        //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
+        $encuesta_clientes = \App\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id)->where('created_at','!=','updated_at');
+        
+
+        $clientess = ECVResource::collection(collect($encuesta_clientes));
+
+       // return datatables()
+       //      ->resource($clientess)
+       //      ->addColumn('btn','')
+       //      ->rawColumns(['btn'])
+       //      ->toJson();    
+       
+
+    }
+
+    public function show($encuesta_id) //Ver Encuesta - reporte
     {
+        //tipo de Encuesta aunque sea obvio
+        //clientes encuestado por el momento del total
+        //vendedor de cada cliente
+        //erght
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta_completa = EncuestaResource::collection($encuesta); 
+
+        return response()->json($encuesta_completa);
        
     }
 
@@ -150,6 +176,7 @@ class EncuestaClienteController extends Controller
     public function iniciar($id){
         $encuesta = \App\Encuesta::findOrFail($id);
         $encuesta->inicio = Carbon::today();
+        $encuesta->termino = null;
         $encuesta->save();
     }
     public function terminar($id){
@@ -157,4 +184,5 @@ class EncuestaClienteController extends Controller
         $encuesta->termino = Carbon::today();
         $encuesta->save();
     }
+
 }

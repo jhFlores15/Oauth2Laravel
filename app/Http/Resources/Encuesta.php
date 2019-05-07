@@ -27,7 +27,7 @@ class Encuesta extends JsonResource
                 $termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
             }                        
 
-            $estado = 'm';
+            $estado = '';
              if($empezo == '-'){
                  $estado = 'Inactivo';
             }

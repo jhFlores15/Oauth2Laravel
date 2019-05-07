@@ -22,10 +22,11 @@ Route::get('regiones', 'RegionController@index')->name('region.index');
 Route::get('comunas', 'ComunaController@index')->name('comuna.index');
 Route::get('localidades', 'LocalidadController@index')->name('localidad.index');
 Route::get('clientes', 'ClienteController@index')->name('cliente.index');
-Route::resource('encuestas','EncuestaController');
-// Route::get('encuestas', 'EncuestaController@index')->name('encuesta.index');
-// Route::get('encuestas/{encuesta}', 'EncuestaController@show')->name('encuesta.show');
-// Route::get('encuestas/create', 'EncuestaController@create')->name('encuesta.create');
+//Route::resource('encuestas','EncuestaController');
+Route::get('encuestas/vendedor','EncuestaController@index_vendedor');
+Route::get('encuestas', 'EncuestaController@index')->name('encuesta.index');
+//Route::get('encuestas/{encuesta}', 'EncuestaController@show')->name('encuesta.show');
+Route::get('encuestas/create', 'EncuestaController@create')->name('encuesta.create');
 
 
 //////////////////////vendedor////////////7

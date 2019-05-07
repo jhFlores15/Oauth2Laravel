@@ -118,11 +118,11 @@
 					 	 <div class="form-row">
 						    <div class="form-group col-md-6">
 						    	<label >Vendedores</label>
-						    	<div id="vendedoresList"></div>	
+						    	<div id="listVendedores"></div>	
 						    </div>	
 						    <div class="form-group col-md-6">
 						    	<label >Localidades</label>
-						       	<div id = "localidadesList"></div>
+						       	<div id = "listLocalidades"></div>
 						    </div>				   
 					 	 </div>	
 					</form>
@@ -204,7 +204,7 @@
 				for (var i = 0; i < vendedores.length; i++) {
 					opciones += '<option value="'+vendedores[i]['id']+'">'+vendedores[i]['codigo']+'</option>';
 				}
-				$('#vendedoresList').html(opciones+'</select>');			
+				$('#listVendedores').html(opciones+'</select>');			
 			},
 			error(error){				
 				alert('vendedores no Encontrados');				
@@ -224,7 +224,7 @@
 				for (var i = 0; i < localidades.length; i++) {
 					opciones += '<option value="'+localidades[i]['id']+'">'+localidades[i]['nombre']+'</option>';
 				}
-				$('#localidadesList').html(opciones+'</select>');		
+				$('#listLocalidades').html(opciones+'</select>');		
 			},
 			error(error){				
 				alert('localidades no Encontrados');				
@@ -248,8 +248,8 @@
 		var razon_social = document.getElementById('nameNew').value;
 		var direccion = document.getElementById('direccionNew').value;
 
-		var vendedor_id  = $('#vendedoresList option:selected').val();
-		var localidad_id  = $('#localidadesList option:selected').val();
+		var vendedor_id  = $('#listVendedores option:selected').val();
+		var localidad_id  = $('#listLocalidades option:selected').val();
 
 		ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,localidad_id);
  	}

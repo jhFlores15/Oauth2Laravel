@@ -8,14 +8,17 @@ class EncuestaController extends Controller
 {
     public function index()
     {
-        return view('encuestas.index');
+        return view('encuestas.index.index');
     }
      public function create()
     {
         return view('encuestas.create');
     }
-     public function show()
-    {
-        return view('encuestas.index');
+    public function index_vendedor(){
+        return view('encuestas.index_vendedor.index');
     }
+    //  public function show()
+    // {
+    //     return view('encuestas.index');
+    // }
 }

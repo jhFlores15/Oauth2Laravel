@@ -8,7 +8,7 @@
 		<h2 class="text-center">Encuestas</h2>
 		<br>	
 		<div class="row text-center" style="padding-left: 100px;">
-			<a type="button" href="{{ route('encuestas.create') }}" class="btn btn-primary ">Crear Encuesta</a>
+			<a type="button" href="/encuestas/create" class="btn btn-primary ">Crear Encuesta</a>
 		</div>			
 		<table id="localidades" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 

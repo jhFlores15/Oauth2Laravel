@@ -51,7 +51,7 @@
          <!--- <div class="col-md-3">
            
         </div> -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100">
+       {{--  <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100">
           <a class="navbar-brand" href="#">Encuesta Carozzi</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
             <span class="navbar-toggler-icon"></span>
@@ -66,43 +66,22 @@
                   <a class="nav-link" href="{{ route('user.vendedores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
                   </a>
                 </li> 
-                 <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('region.index') }}">{{ __('Regiones') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li> 
-                 <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('comuna.index') }}">{{ __('Comunas') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li> 
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('localidad.index') }}">{{ __('Localidades') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li> 
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Clientes') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li>  
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('encuestas.index') }}">{{ __('Encuestas') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li>  
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('encuestas.create') }}">{{ __('Crear Encuesta') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li>              
-              </ul>
-              <ul class="nav navbar-nav ml-auto">  
-                <div id="app">
+                
+               
+              
+                          
+              </ul> --}}
+           {{--    <ul class="nav navbar-nav ml-auto">  
+                <div id="app"> --}}
                   <login-component></login-component>    
-                </div>
-              </ul>
-            </div>          
-        </nav>
+{{--                 </div>
+              </ul> --}}
+            {{-- </div>          
+        </nav> --}}
       </div>     
      <div> @yield('contenido')</div>      
   </div>
-  <div id="encuesta_create"> @yield('vue.js')</div>      
-   <div id="encuesta_cliente_vendedor_edit"> @yield('vue.js.encuestas')</div>   
+  <div id="encuesta_create"> @yield('vue.js')</div>       
     <script src="{{ mix('js/app.js') }}"></script>
     <div > @yield('dataTable')</div> 
      

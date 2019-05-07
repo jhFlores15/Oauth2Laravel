@@ -1,5 +1,60 @@
 <template>
-    <div class="container">
+    <div class="">
+       <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100">
+          <a class="navbar-brand" href="#">Encuesta Carozzi</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarMaster">
+              <div  v-if="user.rol_id === 1">
+                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                  <li class="nav-item-active">
+                    <a class="nav-link" href="/vendedores">Vendedores <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li class="nav-item-active">
+                    <a class="nav-link" href="/clientes">Clientes <span class="sr-only">(current)</span>
+                    </a>
+                  </li> 
+                   <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Encuestas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                       <a class="dropdown-item" href="/regiones">Crear Encuesta <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="dropdown-item" href="/encuestas">Listado de Encuestas <span class="sr-only">(current)</span>
+                        </a>
+                    </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Mantenedores
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                       <a class="dropdown-item" href="/regiones">Regiones <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="dropdown-item" href="/comunas">Comunas <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="dropdown-item" href="/localidades">Localidades <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="dropdown-item" href="/clientes">Clientes <span class="sr-only">(current)</span>
+                        </a>
+
+                    </div>
+                  </li>
+                               
+                </ul>
+              </div>
+              <div v-else-if="user.rol_id === 2" >
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                  <li class="nav-item-active">
+                    <a class="nav-link" href="/encuestas/vendedor">Listado de Encuestas <span class="sr-only">(current)</span>
+                    </a>
+                  </li>        
+                </ul>
+              </div >
+               
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
            <a class="nav-link" href="#"  @click.stop='logout()'>Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
@@ -28,6 +83,8 @@
             </form>                 
           </li>
       </ul>
+      </div>          
+        </nav>
       
     </div>
 </template>
@@ -36,7 +93,10 @@
 export default {
   data () {
       return {  
-          user: {razon_social:''},
+          user: {
+            razon_social:'',
+            rol_id: 0,
+          },
           access_token: 0,
           token_type: '',        
           email: '',
@@ -45,7 +105,7 @@ export default {
       }
   },
   
-  mounted() {    
+  mounted() { 
     if (localStorage.access_token){        
       this.access_token = localStorage.access_token;
       this.token_type = localStorage.token_type;

@@ -113,12 +113,12 @@ class ClienteController extends Controller
 
         if($cliente->localidad_id !== $request->get('localidad_id')){
             $cliente->localidad()->dissociate();
-            $localidad = \App\Region::findOrFail($request->get('localidad_id'));
+            $localidad = \App\Localidad::findOrFail($request->get('localidad_id'));
             $cliente->localidad()->associate($localidad);
         }
         if($cliente->user_id !== $request->get('user_id')){
             $cliente->user()->dissociate();
-            $user = \App\Region::findOrFail($request->get('user_id'));
+            $user = \App\User::findOrFail($request->get('user_id'));
             $cliente->user()->associate($user);
         }
         

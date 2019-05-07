@@ -22,18 +22,22 @@ class EncuestaController extends Controller
 
         return datatables()
             ->resource($encuestas)
-            ->addColumn('btn','encuestas.acciones')
+            ->addColumn('btn','encuestas.index.acciones')
             ->rawColumns(['btn'])
             ->toJson();
     }
 
-    public function index_admin($vendedor_id)
+    public function index_vendedor()
     {
-        $encuestas = EncuestaResource::collection(Encuesta::all()); //Listado de encuestas Para el  VENDEDOR
+        $encuestas = Encuesta::inicio()->termino()->get();
+        $encuestas2 = Encuesta::inicio()->terminoo()->get();
+        $encuestas_c = $encuestas->merge($encuestas2);
+        $encuestas_c = EncuestaResource::collection($encuestas_c); 
+        //Listado de encuestas Para el  VENDEDOR
 
         return datatables()
-            ->resource($encuestas)
-            ->addColumn('btn','encuestas.acciones')
+            ->resource($encuestas_c)
+            ->addColumn('btn','encuestas.index_vendedor.acciones')
             ->rawColumns(['btn'])
             ->toJson();
     }

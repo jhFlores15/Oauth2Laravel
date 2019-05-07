@@ -91,7 +91,7 @@
 								'</select> registros',
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
-				"emptyTable":"No hay datos...",
+				"emptyTable":"No tiene Clientes para Encuestar...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",

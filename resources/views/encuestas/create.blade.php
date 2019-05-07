@@ -70,7 +70,7 @@
 				  	 	<!-- Aqui lo que pase con los otros dos tipos de encuesta-->
 				  	 </div>
 				  	 <div class="row">
-				  	 	 <button class="btn btn-primary"  @click.stop='postEncuesta()' type="button">Crear</button>
+				  	 	 <button class="btn btn-primary"  @click.stop='postEncuestaCliente()' type="button">Crear</button>
 				  	 </div>	
 				</form>
 			</div>

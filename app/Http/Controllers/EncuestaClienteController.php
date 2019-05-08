@@ -35,6 +35,10 @@ class EncuestaClienteController extends Controller
             $estado = 'En Proceso';
         }
         $encuesta->{"estado"}= $estado;
+        $clientesCount = \App\EncuestaCliente::date()->encuesta($encuesta->id)->count();
+        $clientesCount2 = \App\EncuestaCliente::encuesta($encuesta->id)->count();
+        $encuesta->{"registros"}= $clientesCount;
+        $encuesta->{"total"}= $clientesCount2;
     	return view('encuestas.clientes.show.show',  ['encuesta' => $encuesta]); 
     }
     public function edit(){

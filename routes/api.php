@@ -42,6 +42,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('encuestas/clientes','Api\EncuestaClienteController');
     Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file');
     Route::get('encuesta/clientes/{encuesta}','Api\EncuestaClienteController@clientes');
+    Route::get('encuesta/clientes/No/{encuesta}','Api\EncuestaClienteController@clientesNo');
+    Route::put('encuesta/clientes/iniciar/{encuesta}','Api\EncuestaClienteController@iniciar');
+    Route::put('encuesta/clientes/terminar/{encuesta}','Api\EncuestaClienteController@terminar');
    
 
     Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');

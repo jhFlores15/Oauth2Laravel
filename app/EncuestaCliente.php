@@ -24,4 +24,14 @@ class EncuestaCliente extends Pivot
     	return $query->where('user_id', '=', $user_id);
 
     }
+     public function scopeDate($query){
+
+        return $query->whereColumn('created_at', '!=', 'updated_at');
+
+    }
+     public function scopeDateEq($query){
+
+        return $query->whereColumn('created_at', 'updated_at');
+
+    }
 }

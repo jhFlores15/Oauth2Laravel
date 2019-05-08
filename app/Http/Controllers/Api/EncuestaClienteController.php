@@ -86,19 +86,37 @@ class EncuestaClienteController extends Controller
 
     public function clientes($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
         //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
-        $encuesta_clientes = \App\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id)->where('created_at','!=','updated_at');
-        
+        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
 
         $clientess = ECVResource::collection(collect($encuesta_clientes));
 
-       // return datatables()
-       //      ->resource($clientess)
-       //      ->addColumn('btn','')
-       //      ->rawColumns(['btn'])
-       //      ->toJson();    
+        // return response()->json($clientess);
+
+       return datatables()
+            ->resource($clientess)
+            ->addColumn('btn','encuestas.clientes.show.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();    
        
 
     }
+     public function clientesNo($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
+        //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
+        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
+
+        $clientess = ECVResource::collection(collect($encuesta_clientes));
+
+        // return response()->json($clientess);
+
+       return datatables()
+            ->resource($clientess)
+            ->addColumn('btn','encuestas.clientes.show.acciones')
+            ->rawColumns(['btn'])
+            ->toJson();    
+       
+
+    }
+
 
     public function show($encuesta_id) //Ver Encuesta - reporte
     {
@@ -175,14 +193,20 @@ class EncuestaClienteController extends Controller
     }
     public function iniciar($id){
         $encuesta = \App\Encuesta::findOrFail($id);
-        $encuesta->inicio = Carbon::today();
-        $encuesta->termino = null;
+        if($encuesta->termino == null){
+            $encuesta->inicio = Carbon::today();
+        }
+        else{
+            $encuesta->termino = null;
+        }        
         $encuesta->save();
+        return response()->json('ok');
     }
     public function terminar($id){
         $encuesta = \App\Encuesta::findOrFail($id);
         $encuesta->termino = Carbon::today();
         $encuesta->save();
+        return response()->json('ok');
     }
 
 }

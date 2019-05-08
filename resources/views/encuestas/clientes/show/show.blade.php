@@ -9,7 +9,7 @@
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">		  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<a type="button" class="btn btn-danger" href="#">Finalizar Encuesta</a>
+			  		<button type="button" class="btn btn-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
 			  	</li>
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo")
@@ -19,92 +19,163 @@
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
 		  		<li class="nav-item">
-		  			<button type="button" class="btn btn-outline-success">
+		  			<button type="button" onclick="iniciar()" class="btn btn-outline-success">
 		  				Iniciar Encuesta
 		  			</button>
-		  			{{-- <a type="button" class="nav-link active btn btn-success" href="#">Iniciar Encuesta</a> --}}
-		  		</li>
-		  		<li class="nav-item">
+		  		</li>		  		
+		  	@endif
+		  	{{-- @if($encuesta->estado == "Finalizado")
+				<li class="nav-item">
 		  			<button type="button" id="example" class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Exportar a  Excel">
 		  				<img src="https://png.icons8.com/color/22/000000/ms-excel.png">
 		  			</button>
-		  			{{-- <a type="button" class="nav-link active btn btn-success" href="#">Exportar a Excel</a> --}}
-		  		</li>
-		  	@endif
+	  			</li>
+		  	@endif --}}
+		  
 
 		</ul>
-		<div class="card card-body" style="width: 60%;  margin:auto;">
+		<div class="card card-body" style="width: 80%;  margin:auto;">
 		    <form>
-			  <div class="form-row">
-			    <div class="form-group col-md-4">
+			  <div class="form-row align-items-start">
+			    <div class="form-group col">
 			      <label for="inputEmail4">Descripcion</label>
 			      <div class="card card-body text-center" >
 			      	<label for="">{{ $encuesta->descripcion}}</label>
 			      </div>
 			     
 			    </div>
-			    <div class="form-group col-md-4">
+			    <div class="form-group col">
 			      <label for="inputPassword4">Estado</label>
 			     	<div class="card card-body text-center" >
 			      	<label for="">{{ $encuesta->estado}}</label>
 			      </div>
 			    </div>
-			    <div class="form-group col-md-4">
+			    <div class="form-group col">
 			      <label for="inputPassword4">Fecha de Inicio</label>
 			     	<div class="card card-body text-center" >
 			      	<label for="">{{ $encuesta->inicio}}</label>
 			      </div>
 			    </div>
+			    @if($encuesta->estado == "Finalizado")
+				    <div class="form-group col">
+				    	<label for="inputPassword4">Fecha de Termino</label>
+				     	<div class="card card-body text-center" >
+				      		<label for="">{{ $encuesta->termino}}</label>
+				      </div>
+				  	</div>
+				  	<div class="form-group col">
+				     	<label style="visibility: hidden;" for="inputPassword4"></label>
+				     	<div class="card card-body text-center" >
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestados de un Total de {{ $encuesta->total }} que debian ser Encuestados</b></h6></label>	
+				      	</div>						
+				     </div>
+			    @endif
+			    @if($encuesta->estado == "En Proceso")
+					<div class="form-group col">
+				     	<label style="visibility: hidden;" for="inputPassword4"></label>
+				     	<div class="card card-body text-center" >
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestados de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>	
+				      	</div>						
+				     </div>
+			    @endif
+			     
+			   		   
 			  </div>
 			</form>
 		 </div>
 		 <br>
-		<div class="card card-body" style="width: 90%;  margin:auto;">
-			<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
-				<thead> 
-					<tr>
-						<th>Codigo</th>
-						<th>Razon Social</th>
-						{{-- <th>Rut</th>
-						<th>dv</th> --}}
-						<th>Vendedor</th>
-						{{-- <th>Direccion</th> --}}
-						<th>Localidad</th>						
-						<th>Registro</th>
-						<th>&nbsp;</th>
-					</tr>
-				</thead>							
-			</table>  
+		<nav>
+		  <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist" style="width: 80%;  margin:auto;">
+		    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Clientes Encuestados</a>
+		    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Clientes No Encuestados</a>
+		  </div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+		  	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+		  		<div class="card card-body" style="width: 90%;  margin:auto;">
+					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
+						<thead> 
+							<tr>
+								<th>Codigo</th>
+								<th>Razon Social</th>
+								{{-- <th>Rut</th>
+								<th>dv</th> --}}
+								<th>Vendedor</th>
+								<th>Cumpleaños</th>
+								<th>Telefono</th>
+								<th>Email</th>
+								<th>Localidad</th>
+								<th>&nbsp;</th>
+							</tr>
+						</thead>							
+					</table>  
+				</div>
+		  	</div>
+		  	<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				<div class="card card-body" style="width: 90%;  margin:auto;">
+					<table id="clientess" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
+						<thead> 
+							<tr>
+								<th>Codigo</th>
+								<th>Razon Social</th>
+								<th>Rut</th>
+								<th>dv</th>
+								<th>Vendedor</th>
+								<th>Direccion</th>
+								<th>Localidad</th>
+								<th>&nbsp;</th>
+							</tr>
+						</thead>							
+					</table>  
+				</div>
+			</div>
 		</div>
-
-
 		
 	</div>
-</div>
  <script >
  	$('#example').tooltip({ boundary: 'window' })
- // 	window.onload = function(){
- // 		console.log("montando clientes");
- // 		ajaxGetClientes();
- // 	};
 
- // 	function ajaxGetClientes(){
- // 		$.ajax({
-	// 		method:"GET",
-	// 		url:'/api/encuestas/cliente/'+{{ $encuesta[0]['id'] }},
-	// 		headers : {
-	// 			'Content-Type': 'application/json',
-	// 			'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
-	// 		},
-	// 		success:function(resp){
-	// 			console.log(resp.data);					
-	// 		},
-	// 		error(error){				
-	// 			// alert('Comunas no Encontradas');
-	// 			// $('#deleteModal').modal('hide');				
-	// 		}
-	// 	});
- // 	}
+ 	function iniciar(){
+ 		$.ajax({
+			method:"PUT",
+			url:'/api/encuesta/clientes/iniciar/{{ $encuesta->id }}',
+			headers : {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('ok');
+					location.reload(true);
+				}
+			},
+			error(error){
+				alert('ah ocurrido un error');
+			}
+		});
+
+ 	}
+ 	function terminar(){
+		$.ajax({
+			method:"PUT",
+			url:'/api/encuesta/clientes/terminar/{{ $encuesta->id }}',
+			headers : {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('ok');
+					location.reload(true);
+				}
+			},
+			error(error){
+				alert('ah ocurrido un error');
+			}
+		});
+ 	}
 
  	$(document).ready(function(){
 
@@ -130,9 +201,57 @@
 				// {data: 'rut'},
 				// {data: 'dv'},
 				{data:'vendedor.codigo'},
+				{data:'cumpleaños'},
+				{data:'telefono'},
+				{data:'email'},
 				// {data:'direccion'},
 				{data:'localidad.nombre'},
-				{data:'created_at'},
+				{data: 'btn'},
+			],
+			"language":{
+				"info":"_TOTAL_ registros",
+				"search": "Buscar",
+				"paginate":{
+					"next":"Siguiente",
+					"previous":"Anterior",
+					"first": "Primero",
+					"last" : "Ultimo"
+				},
+				"lengthMenu":'Mostrar <select class="form-control">'+
+								'<option value="10">10</option>'+
+								'<option value="30">30</option>'+
+								'<option value="60">60</option>'+
+								'<option value="-1">Todos</option>'+
+								'</select> registros',
+				"loadingRecords": "Cargando...",
+				"processing":"Procesando...",
+				"emptyTable":"No hay datos...",
+				"zeroRecords": "No hay coincidencias",
+				"infoEmpty": "iz",
+				"infoFiltered": "de",
+
+			},
+			"pagingType": "full_numbers",
+		});	
+		var table = $('#clientess').DataTable(
+			{
+			'paging': true,
+			"serverSide": true,
+			 ajax: {
+		        url: '/api/encuesta/clientes/No/{{ $encuesta->id }}',
+		        headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 				},
+		    },		
+			"columns":[
+				{data: 'codigo'},
+				{data: 'razon_social'},
+				{data: 'rut'},
+				{data: 'dv'},
+				{data:'vendedor.codigo'},
+				{data:'direccion'},
+				{data:'localidad.nombre'},
 				{data: 'btn'},
 			],
 			"language":{

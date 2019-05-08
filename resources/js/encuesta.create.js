@@ -75,10 +75,13 @@ const appp = new Vue({
 
             axios.post('/api/encuestas/clientes/'+encuesta.id,formData,this.configCliente)    			
 		    .then(response =>{
-		       console.log(response);		       
+		       location.href='/encuesta/clientes/'+encuesta.id;	       
 		    }).catch(error =>{
 		    	if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
+                }
+                else{
+                    alert("error, archivo subido no cumple con las condiciones, ir a Ver la encuesta para subir nuevamente el archivo");
                 }
 		    });
     		

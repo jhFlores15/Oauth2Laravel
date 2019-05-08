@@ -46,6 +46,7 @@ class EncuestaClienteController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
+       
         $encuesta = new \App\Encuesta();
         $encuesta->descripcion = $request->get('descripcion');
         $encuesta->inicio = $request->get('fecha_inicio');
@@ -56,15 +57,14 @@ class EncuestaClienteController extends Controller
         return response()->json($encuesta);
     }
     public function file (Request $request, $encuesta_id){
-         $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'csv' => 'required|file'
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-      
-
+        $encuesta->clientes()->detach(); //Probar 
         if($request->hasFile('csv')){
             $csv = $request->file('csv');
             $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){

@@ -6,7 +6,10 @@
 
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuesta Cliente</h2> <br><br>
-		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">		  
+		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">
+			<li class="nav-item">
+		  		<button type="button" class="btn btn-outline-success" onclick="showModalDatos()" href="#">Subir Clientes Nuevamente</button>
+		  	</li>		  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
 			  		<button type="button" class="btn btn-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
@@ -130,6 +133,63 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- //////////////////////////////////Modal Subir Datos//////////////////////////-->
+<div class="modal fade" id="subirDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Subir Clientes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<div class="container-fluid text-center">      		
+	      	<div class="row text-center">
+	      		<h6>Utilizar esto solo en caso que no se hallan subido correctamente los clientes en la creacion de la Encuesta</h6>
+				<div id="errorFile"></div>
+				<form class="form-inline">
+					<div class="form-group">
+						<div class="input-group mb-3">
+						  	<div class="input-group-prepend">
+					    		<img src="https://img.icons8.com/color/40/000000/ms-excel.png">						   
+						  	</div>
+						  	<div class="custom-file">
+						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						  	</div>
+					  	  	<div class="input-group-prepend">
+					    		 <button type="button" class="btn btn-outline-success mb-2">Subir Datos</button>
+					    	</div>					  
+						</div>
+						
+					</div>
+				</form>
+				<div class="col-md-7">
+					<table class="table table-bordered table-sm">
+				    <thead>
+				      <tr>
+				        <th>codigo</th>
+				      </tr>
+				    </thead>			    
+				  </table>
+				</div>
+	      	</div>      		
+      	</div>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="okEditar" onclick="postDatos()" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- //////////////////////////////////////////////////////////////////////////////////-->
+
+
+
 		<!-- //////////////////////////////////Modal Editar//////////////////////////-->
 		{{-- <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -217,6 +277,57 @@
 	</div>
  <script >
  	$('#example').tooltip({ boundary: 'window' })
+ 	$(".custom-file-input").on("change", function() {
+		  var fileName = $(this).val().split("\\").pop();
+		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+ 	function showModalDatos(){
+ 		$('#errorFile').html('<div></div>');
+ 		$('#subirDatos').modal('show');
+ 	}
+	function postDatos(){
+		var file = $('#file')[0].files[0];
+		console.log(file);
+		let formData = new FormData();            
+        formData.append('csv', file);
+		console.log(formData);
+		$.ajax({
+			method:"POST",
+			url:'/api//encuestas/clientes/{{ $encuesta->id }}',
+			data: formData,
+			processData: false,
+			contentType: false,
+			headers : {
+				// 'Content-Type': 'multipart/form-data',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('Datos Actualizados correctamente');
+					location.reload(true);
+				}
+			},
+			error(error){
+				if(error.status == 422){
+					var errores = error.responseJSON.error;
+					$('#errorFile').html('<div></div>');
+			 		console.log("error");		
+					if(errores.file){
+						$('#errorFile').html(
+							'<div class="alert alert-danger" role="alert">'+
+							errores.file[0]+
+							'</div>'
+							);
+					}	
+				}
+				else{
+					alert('ah Ocurrido un error, los datos no se han actualizado Correctamente');
+					console.log(error.responseJSON);
+				}
+			}
+		});
+	}
 
  	function iniciar(){
  		$.ajax({
@@ -381,7 +492,7 @@
 	            'copy',
 	            {
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
+	            	title:'Clientes No Encuestados',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -389,7 +500,7 @@
 	            },
 	            {
 	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
+	            	title:'Clientes No Encuestados',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -397,7 +508,7 @@
 	            },
 	            {
 	            	extend: 'print',
-	            	title:'Clientes Encuestados',
+	            	title:'Clientes No Encuestados',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },autoFilter: true,

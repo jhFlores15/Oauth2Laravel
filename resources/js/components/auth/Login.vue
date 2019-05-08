@@ -21,7 +21,7 @@
                       Encuestas
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                       <a class="dropdown-item" href="/regiones">Crear Encuesta <span class="sr-only">(current)</span>
+                       <a class="dropdown-item" href="/encuestas/create">Crear Encuesta <span class="sr-only">(current)</span>
                         </a>
                         <a class="dropdown-item" href="/encuestas">Listado de Encuestas <span class="sr-only">(current)</span>
                         </a>

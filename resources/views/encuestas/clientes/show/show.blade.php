@@ -66,7 +66,7 @@
 				  	<div class="form-group col">
 				     	<label style="visibility: hidden;" for="inputPassword4"></label>
 				     	<div class="card card-body text-center" >
-				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestados de un Total de {{ $encuesta->total }} que debian ser Encuestados</b></h6></label>	
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} que debian ser Encuestados</b></h6></label>	
 				      	</div>						
 				     </div>
 			    @endif
@@ -74,7 +74,7 @@
 					<div class="form-group col">
 				     	<label style="visibility: hidden;" for="inputPassword4"></label>
 				     	<div class="card card-body text-center" >
-				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestados de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>	
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>	
 				      	</div>						
 				     </div>
 			    @endif
@@ -130,7 +130,90 @@
 				</div>
 			</div>
 		</div>
-		
+		<!-- //////////////////////////////////Modal Editar//////////////////////////-->
+		{{-- <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Editar Encuesta</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body text-center">
+		      	<div class="container-fluid text-center">      		
+			      	<div class="row text-center">
+			      		<form class="needs-validation" novalidate>
+						  <div class="form-row">
+						    <div class="col-md-4 mb-3">
+						      <label for="validationCustom01">Descripcion</label>
+						      <input type="text" class="form-control" id="descripcion" placeholder="Descripcion" required>
+						      <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.descripcion" >@{{ erroresEncuesta.descripcion[0] }}</div>
+						  	</div>
+						    <div class="col-md-4 mb-3">
+							      <label for="validationCustom02">Tipo Encuesta</label>
+							     <select   class="form-control" v-model ="select_tipo_encuesta">
+							     	<option v-for="tipo in tipos_encuesta" :value="tipo.id">@{{ tipo.nombre}}</option>
+							     </select>
+							     <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.tipos_encuesta" >@{{ erroresEncuesta.tipos_encuesta[0] }}</div>
+							  </div>		
+						    <div class="col-md-4 mb-3">
+						      <label for="validationCustomUsername" >Fecha de Inicio</label>
+						      <div class="input-group">				      
+						        <input type="date" class="form-control" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" id="validationCustomUsername" placeholder=""  required v-model="fecha_inicio">				        	
+						      </div>
+						      <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.fecha_inicio" >@{{ erroresEncuesta.fecha_inicio[0] }}</div>
+						    </div>
+						  </div>				 
+							<div class="col-md-8">
+						  		<div class="input-group mb-3">
+									<div class="input-group-prepend">
+									  	<img src="https://img.icons8.com/color/40/000000/ms-excel.png">					   
+									</div>
+									<b-form-file require accept=".csv,.xlsx"  type="file" id="file" ref="file"  v-on:change="selectedFile($event)" placeholder="Escoge un archivo..." v-model="file"></b-form-file>
+								</div>							
+								<div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div>
+								<table class="table table-bordered table-sm text-center">
+								    <thead>
+								      <tr>
+								        <th>codigo</th>
+								      </tr>
+								    </thead>			    
+					  			</table>
+						 	 </div>	
+						  	 <div class="row">
+						  	 	 <button class="btn btn-primary"  onclick="postEncuestaCliente()" type="button">Editar</button>
+						  	 </div>	
+						</form>
+
+
+						<form>	   
+			      			<div class="form-group row">
+							    <label for="staticEmail" class="col-md-4 col-form-label">Comuna</label>
+							    <div class="col-md-8">
+							     	<input type="text" class="form-control"  id="comunaEdit" placeholder="Comuna">
+							     	 <div id="errorComuna"></div>
+							    </div>
+
+						 	 </div>
+						  	<div class="form-group row">
+						    	<label for="staticEmail" class="col-md-4 col-form-label">Region</label>		
+						    	<div class="col-md-8">
+						    		<div id="comboboxEdit">
+					  				</div>	
+						   		 </div>
+						 	</div>
+						</form>
+			      	</div>      		
+		      	</div>        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		        <button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>
+		      </div>
+		    </div>
+		  </div> 
+		</div>--}}
 	</div>
  <script >
  	$('#example').tooltip({ boundary: 'window' })
@@ -208,6 +291,38 @@
 				{data:'localidad.nombre'},
 				{data: 'btn'},
 			],
+			dom: 'Bfrtip',
+	        buttons: [
+	            'copy',
+	            {
+	            	extend: 'excel',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'pdf',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'print',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },autoFilter: true,
+	            }, 
+	            {
+	            	extend: 'colvis',
+	            	text: 'Seleccionar Columnas',
+	            	collectionLayout: 'fixed two-column',
+	            },
+	        ],
 			"language":{
 				"info":"_TOTAL_ registros",
 				"search": "Buscar",
@@ -229,6 +344,13 @@
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
+				"buttons":{
+					 copyTitle: 'Copiado al Portapapeles',
+					 copySuccess: {
+	                    _: '%d lineas copiadas',
+	                    1: '1 linea copiada'
+	                }
+				},
 
 			},
 			"pagingType": "full_numbers",
@@ -254,6 +376,38 @@
 				{data:'localidad.nombre'},
 				{data: 'btn'},
 			],
+			dom: 'Bfrtip',
+	        buttons: [
+	            'copy',
+	            {
+	            	extend: 'excel',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'pdf',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'print',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },autoFilter: true,
+	            }, 
+	            {
+	            	extend: 'colvis',
+	            	text: 'Seleccionar Columnas',
+	            	collectionLayout: 'fixed two-column',
+	            },
+	        ],
 			"language":{
 				"info":"_TOTAL_ registros",
 				"search": "Buscar",
@@ -275,7 +429,13 @@
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
-
+				"buttons":{
+					 copyTitle: 'Copiado al Portapapeles',
+					 copySuccess: {
+	                    _: '%d lineas copiadas',
+	                    1: '1 linea copiada'
+	                }
+				},
 			},
 			"pagingType": "full_numbers",
 		});	

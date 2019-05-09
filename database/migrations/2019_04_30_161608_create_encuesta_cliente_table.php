@@ -22,7 +22,7 @@ class CreateEncuestaClienteTable extends Migration
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');  
             $table->unsignedBigInteger('encuesta_id');
-            $table->foreign('encuesta_id')->references('id')->on('encuestas');  
+            $table->foreign('encuesta_id')->references('id')->on('encuestas')->onDelete('cascade');  
             $table->timestamps();
         });
     }

@@ -2,7 +2,13 @@
 	<a type="button" href="/encuesta/clientes/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
 @endif
 
-@if ($estado === 'Inactivo')
+@if ($estado === 'Inactivo' && $tipo_encuesta->id == 2)
+    <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
+		Eliminar
+	</button>
+@endif
+
+@if ($estado === 'Inactivo' && $tipo_encuesta->id != 2)
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
 		Eliminar
 	</button>
@@ -55,7 +61,7 @@
 		ajax_getEncuesta(id,'eliminar');
 		$('#deleteModal').modal('show');
 	}
-	function ajax_getEncuesta(id){
+	function ajax_getEncuesta(id){ // obtener este tipo d eencuesta
 		$.ajax({
 			method:"GET",
 			url:'/api/encuestas/clientes/'+id,
@@ -73,11 +79,11 @@
 			}
 		});
 	}
-	function eliminarEncuesta(){
+	function eliminarEncuesta(){ // este tipo de encuesta
 		var id = document.getElementById('okDelete').value;
 		ajaxEliminar(id);
 	}
-	function ajaxEliminar(id){
+	function ajaxEliminar(id){// este tipo de encuesta
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/clientes/'+id,

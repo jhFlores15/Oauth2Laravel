@@ -14,7 +14,6 @@
 					<th>Tipo de Encuesta</th>
 					<th>&nbsp;</th>
 					<th>Inicio</th>
-					<th>Termino</th>
 					
 				</tr>
 			</thead>							
@@ -44,8 +43,7 @@
 				{data: 'descripcion'},
 				{data: 'tipo_encuesta.nombre'},
 				{data: 'btn'},
-				{data: 'inicio'},				
-				{data: 'termino'},
+				{data: 'inicio'},
 				
 			],
 			"language":{

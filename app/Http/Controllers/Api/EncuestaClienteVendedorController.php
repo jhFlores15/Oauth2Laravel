@@ -58,7 +58,7 @@ class EncuestaClienteVendedorController extends Controller
    public function update(Request $request,$encuesta_id,$cliente_id)
    {
         $validator = Validator::make($request->all(), [
-            'cumpleaños' => 'nullable|string',
+            'cumpleaños' => 'nullable|date|before_or_equal:18 years ago',
             'telefono'    => 'nullable|string',
             'email' => 'nullable|email',
         ]);

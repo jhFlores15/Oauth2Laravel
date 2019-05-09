@@ -15,6 +15,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
 
+    <!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.min.css"/>
+
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/app.css') }}">
 
@@ -100,8 +109,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
          <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
          <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js "></script>
-         <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-    
+         <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>   
+
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
 
 
 

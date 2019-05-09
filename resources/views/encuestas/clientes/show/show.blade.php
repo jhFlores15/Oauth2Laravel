@@ -12,12 +12,17 @@
 		  	</li>		  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<button type="button" class="btn btn-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
 			  	</li>
 		  	@endif
-		  	@if($encuesta->estado == "Inactivo")
+		  	@if($encuesta->registros <= 0)
 		  		<li class="nav-item">
 			  		<a type="button" class=" btn btn-outline-primary " onclick="showModalEditar()"  href="#">Editar Encuesta</a>
+			  	</li>
+			  	<li class="nav-item">
+			  		 <button type="button" onclick="modalEliminar({{ $encuesta->id}})" class="btn btn-outline-danger">
+						Eliminar
+					</button>
 			  	</li>
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
@@ -226,11 +231,75 @@
     </div>
   </div>
 </div>
-<!-- ///////////////// //////////////////////////////////////////////////////////-->
-
-
-	</div>
- <script >
+<!-- ///////////////// //////////////////////////////////////////////////////////--><!-- ////////////////////Modal Eliminar////////////////////////////-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar Encuesta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<div class="container-fluid text-center">
+      		<div class="row text-center">
+      		<h5>¿Desea eliminar esta Esta Encuesta?</h5>
+	      	</div>
+	      	<div class="row text-center">
+	      		<form>	   
+	      			<div class="form-group row">
+					    <label for="staticEmail" class="col-md-4 col-form-label">Descripcion</label>
+					    <div class="col-md-8">
+					     	<input type="text" readonly class="form-control-plaintext" id="descripcionDelete" value="{{ $encuesta->descripcion }}">
+					    </div>
+				 	 </div>
+				  	<div class="form-group row">
+				    	<label for="staticEmail" class="col-md-4 col-form-label">Fecha Inicio</label>
+				    	<div class="col-md-8">
+				      		<input type="date" readonly class="form-control-plaintext" id="fechaDelete" value="{{ $encuesta->inicio }}">
+				   		 </div>
+				 	</div>
+				</form>
+	      	</div>      		
+      	</div>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	
+	function modalEliminar(id){
+		document.getElementById('okDelete').value = id;
+		ajax_getEncuesta(id,'eliminar');
+		$('#deleteModal').modal('show');
+	}	
+	
+	function ajaxEliminar(){// este tipo de encuesta
+		$.ajax({
+			method:"DELETE",
+			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
+			headers : {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('Encuesta Eliminada Exitosamente');
+					location.href="/encuestas";
+				}
+			},
+			error(error){
+				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
+				$('#deleteModal').modal('hide');
+			}
+		});
+	}
  	$('#example').tooltip({ boundary: 'window' })
  	$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();

@@ -109,17 +109,19 @@ export default {
           })
       },
       putGuardar(){
+        this.erroresEncuesta = [];
         axios.put('/api/encuestas/clientes/'+this.encuesta_id+'/'+this.cliente_id,{          
           'cumpleaños' : this.encuesta_cliente.cumpleaños,
           'email' : this.encuesta_cliente.email,
           'telefono' : this.encuesta_cliente.telefono,          
         },this.config).then(response =>{
-          console.log(response.data);
+          var notification = alertify.notify('Guardado', 'success', 3, function(){  console.log('Guardado Exitoso'); });
            
         }).catch(error =>{
                 if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
                 }
+                var notification = alertify.notify('Error', 'error', 3, function(){  console.log('Error'); });
           
         });
       }

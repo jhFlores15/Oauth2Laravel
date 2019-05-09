@@ -26,7 +26,7 @@ class Encuesta extends Model
     	return $query->where('termino', '=', null);
     }
     public function scopeTermino($query){
-    	return $query->where('termino', '>=', Carbon::today());
+    	return $query->where('termino', '>', Carbon::today());
     }
     
 

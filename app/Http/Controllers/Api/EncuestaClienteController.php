@@ -167,10 +167,11 @@ class EncuestaClienteController extends Controller
     public function destroy($id)
     {
         $encuesta = \App\Encuesta::findOrFail($id);
+        $count = \App\EncuestaCliente::encuesta($id)->date()->count();
         if($encuesta){
-            $empezo = (new DateTime($this->inicio))->diff(new DateTime())->format('%R');
+            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
             //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
-            if($empezo == '-'){ // es porque esta Inactivo, por lo que puede ser editado y eliminado
+            if($count <= 0){ // es porque esta Inactivo, por lo que puede ser editado y eliminado
                  $encuesta->delete();
                  return response()->json('ok');
             }

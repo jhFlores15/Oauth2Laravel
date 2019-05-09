@@ -69,7 +69,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'], 401);
+                'message' => 'Los Datos ingresados no son correctos'], 401);
         }
 
 	    $user = $request->user();

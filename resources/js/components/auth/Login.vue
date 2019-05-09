@@ -71,15 +71,24 @@
                  <label for="dropdown-login">Email</label>
                  <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">
               </div>
+              <div class="alert alert-danger" v-if="errorLogin.email"role="alert">
+                    {{ errorLogin.email[0] }}
+                  </div>
               <div class="form-group">
                  <label for="dropdown-login">Password</label>
                  <input type="password"  class="form-control" @keyup.enter='postLogin()' placeholder="Password" v-model="password">
+                 <br>
+                 <div class="alert alert-danger" v-if="errorLogin.password"role="alert">
+                    {{ errorLogin.password[0] }}
+                  </div>
+                 <div class="alert alert-danger" v-if="errorLogin.message"role="alert">
+                    {{ errorLogin.message }}
+                  </div>
               </div>
               <div class="col text-center">
                 <button type="button" @click.stop='postLogin()'  class="btn btn-primary ">Aceptar</button>
               </div>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>            
+                          
             </form>                 
           </li>
       </ul>
@@ -102,6 +111,9 @@ export default {
           email: '',
           password: '',
           config:{},
+          errorLogin:{
+            message:'',
+          },
       }
   },
   
@@ -129,10 +141,8 @@ export default {
       axios.get('/api/user/',this.config).
         then(response => {
           this.user= response.data;
-          console.log('user');
-          console.log(this.user);
         }).catch(error => {
-          console.log(error)
+         
         })
     },  
     postLogin(){
@@ -145,9 +155,12 @@ export default {
         localStorage.token_type = response.data.token_type; 
         location.reload();     
       }).catch(error =>{
-          // if(error.response.status==500){
-          //     console.log(error.response);
-          // }          
+          if(error.response.status = 401){
+              this.errorLogin = error.message;
+          } 
+          if(error.response.status = 422){
+              this.errorLogin = error.response.data.error;
+          }        
       });
     },
     logout(){
@@ -156,7 +169,7 @@ export default {
       },this.config).then(response =>{
         localStorage.access_token = '';
         localStorage.token_type = '';
-        location.reload();    
+        location.href="/";    
        
       }).catch(error =>{
                    

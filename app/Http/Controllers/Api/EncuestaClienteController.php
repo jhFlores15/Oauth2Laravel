@@ -120,15 +120,9 @@ class EncuestaClienteController extends Controller
 
     public function show($encuesta_id) //Ver Encuesta - reporte
     {
-        //tipo de Encuesta aunque sea obvio
-        //clientes encuestado por el momento del total
-        //vendedor de cada cliente
-        //erght
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        $encuesta_completa = EncuestaResource::collection($encuesta); 
-
-        return response()->json($encuesta_completa);
-       
+        //$encuesta_completa = EncuestaResource::collection($encuesta); 
+        return response()->json($encuesta);       
     }
 
     /**
@@ -141,8 +135,7 @@ class EncuestaClienteController extends Controller
     public function update(Request $request, $id)
     {
          $validator = Validator::make($request->all(), [
-            'descripcion'=>'required|max:255|string|unique:encuestas,descripcion,'.$id,           
-            'tipo_encuesta'=>'required|exists:tipo_encuesta,id',
+            'descripcion'=>'required|max:255|string|unique:encuestas,descripcion,'.$id,  
             'fecha_inicio' => 'required|date',
         ]);
         if ($validator->fails()) {
@@ -151,16 +144,11 @@ class EncuestaClienteController extends Controller
 
         $encuesta = \App\Encuesta::findOrFail($id);
         if($encuesta){
-            $empezo = (new DateTime($this->inicio))->diff(new DateTime())->format('%R');
+            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
             //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
             if($empezo == '-'){ // es porque esta Inactivo, por lo que puede ser editado y eliminado                
                 $encuesta->descripcion = $request->get('descripcion');
-                $encuesta->inicio = $request->get('fecha_inicio');
-                if($comuna->region_id !== $request->get('tipo_encuesta')){
-                    $comuna->tipo_encuesta()->dissociate();
-                    $tipo_encuesta = \App\Region::findOrFail($request->get('region_id'));
-                    $encuesta->tipo_encuesta()->associate($tipo_encuesta);
-                }
+                $encuesta->inicio = $request->get('fecha_inicio');               
                 $encuesta->save();
                 return response()->json('ok');
             }

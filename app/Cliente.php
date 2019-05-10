@@ -18,8 +18,8 @@ class Cliente extends Model
     	return $this->belongsto('App\User');
     }
 
-    public function localidad(){
-    	return $this->belongsto('App\Localidad');
+    public function comuna(){
+    	return $this->belongsto('App\Comuna');
     }
      public function encuestas (){
         return belongsToMany('App\Encuesta','encuesta_cliente','cliente_id','encuesta_id')->using('App\Encuesta_Cliente')->withTimestamps()->withPivot(['cumpleaños','telefono','email']);

@@ -17,8 +17,8 @@ class CreateClientesMarcasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('marca_id');
             $table->foreign('marca_id')->references('id')->on('marcas')->onDelete('cascade');
+            $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');  
-            $table->unsignedBigInteger('encuesta_id');
             $table->timestamps();
         });
     }

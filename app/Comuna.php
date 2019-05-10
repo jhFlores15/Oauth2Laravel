@@ -15,4 +15,7 @@ class Comuna extends Model
      public function localidades(){
     	return $this->hasMany('App\Localidad');
     }
+     public function clientes(){
+    	return $this->hasMany('App\Cliente');
+    }
 }

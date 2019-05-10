@@ -1,0 +1,13 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ClienteMarca extends Model
+{
+  //   public function clientes (){
+
+		// return $this->belongsToMany('App\Cliente','encuesta_cliente','encuesta_id','cliente_id')->using('App\EncuestaCliente')->withTimestamps()->withPivot(['cumpleaños','telefono','email']);
+  //   }
+}

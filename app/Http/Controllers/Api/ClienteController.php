@@ -158,7 +158,7 @@ class ClienteController extends Controller
                     $cliente->dv = $line['dv'];
                     $cliente->razon_social = $line['razon_social'];
                     $cliente->direccion = $line['direccion'];                    
-                    $comuna = \App\Comuna::all()->where('codigo','=',$line['cod_comuna'])->first();
+                    $comuna = \App\Comuna::all()->where('nombre','=',$line['comuna'])->first();
                     $cliente->comuna_id = $comuna->id;
                     $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
                     $cliente->user_id = $vendedor->id;
@@ -171,7 +171,7 @@ class ClienteController extends Controller
                         $cliente->dv = $line['dv'];
                         $cliente->razon_social = $line['razon_social'];
                         $cliente->direccion = $line['direccion'];
-                        $comuna = \App\Comuna::all()->where('codigo','=',$line['cod_comuna'])->first();
+                        $comuna = \App\Comuna::all()->where('nombre','=',$line['comuna'])->first();
                         $cliente->comuna_id = $comuna->id;
                         $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
                         $cliente->user_id = $vendedor->id;
@@ -179,13 +179,10 @@ class ClienteController extends Controller
                 } 
                 return ;
             });
-            //eliminar no actualizados
-            // $clientes_eliminar = \App\Cliente::role()->updated()->orderBy('codigo')->get();
-            // if($clientes_eliminar){
-            //     foreach ($clientes_eliminar as $cliente) {
-            //          $cliente->delete();
-            //     }
-            // }
+            $clientes_eliminar = \App\Cliente::updatedd()->orderBy('codigo')->get();
+
+            $arrays = ($clientes_eliminar->modelKeys());
+             \App\Cliente::destroy($arrays);
         }
         return response()->json('ok');
         

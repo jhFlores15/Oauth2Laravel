@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Cliente extends Model
 {
@@ -24,5 +25,8 @@ class Cliente extends Model
      public function encuestas (){
         return belongsToMany('App\Encuesta','encuesta_cliente','cliente_id','encuesta_id')->using('App\Encuesta_Cliente')->withTimestamps()->withPivot(['fecha_nacimiento','telefono','email']);
     }
-
+    public function scopeUpdatedd($query)
+    {
+        return $query->whereDate('updated_at', '!=', Carbon::today());
+    }
 }

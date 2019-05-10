@@ -10,7 +10,7 @@
 		<div class="row text-center" style="padding-left: 100px;">
 			<a type="button" href="/encuestas/create" class="btn btn-primary ">Crear Encuesta</a>
 		</div>			
-		<table id="localidades" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
+		<table id="comunas" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 
 				<tr>
 					<th>ID</th>
@@ -35,7 +35,7 @@
  			location.href = 'http://localhost:3000/';
  		}
 
-		var table = $('#localidades').DataTable(
+		var table = $('#comunas').DataTable(
 			{
 			'paging': true,
 			"serverSide": true,

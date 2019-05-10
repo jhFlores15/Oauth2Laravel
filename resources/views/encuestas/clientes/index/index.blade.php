@@ -18,7 +18,7 @@
 					<th>Razon Social</th>
 					<th>Direccion</th>
 					<th>&nbsp;</th>
-					<th>Localidad</th>
+					<th>Comuna</th>
 					
 				</tr>
 			</thead>							
@@ -71,7 +71,7 @@
 				{data: 'razon_social'},
 				{data: 'direccion'},
 				{data: 'btn'},
-				{data: 'localidad.nombre'},
+				{data: 'comuna.nombre'},
 				
 			],
 			"language":{

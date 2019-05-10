@@ -40,7 +40,7 @@
 				        <th>dv</th>
 				        <th>razon_social</th>
 				        <th>direccion</th>
-				        <th>cod_localidad</th>
+				        <th>comuna</th>
 				        <th>cod_vendedor</th>
 				      </tr>
 				    </thead>			    
@@ -57,7 +57,7 @@
 						<th>dv</th>
 						<th>Vendedor</th>
 						<th>Direccion</th>
-						<th>Localidad</th>						
+						<th>Comuna</th>						
 						<th>Registro</th>
 						<th>&nbsp;</th>
 					</tr>
@@ -121,8 +121,8 @@
 						    	<div id="listVendedores"></div>	
 						    </div>	
 						    <div class="form-group col-md-6">
-						    	<label >Localidades</label>
-						       	<div id = "listLocalidades"></div>
+						    	<label >Comunas</label>
+						       	<div id = "listComunas"></div>
 						    </div>				   
 					 	 </div>	
 					</form>
@@ -213,21 +213,21 @@
 
 		$.ajax({
 			method:"GET",
-			url:'/api/localidades/',
+			url:'/api/comunas/',
 			headers : {
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){
-				var localidades = resp.data;
-				var opciones = '<select class="form-control" id="localidadesCombo">';
-				for (var i = 0; i < localidades.length; i++) {
-					opciones += '<option value="'+localidades[i]['id']+'">'+localidades[i]['nombre']+'</option>';
+				var comunas = resp.data;
+				var opciones = '<select class="form-control" id="ComunasCombo">';
+				for (var i = 0; i < comunas.length; i++) {
+					opciones += '<option value="'+comunas[i]['id']+'">'+comunas[i]['nombre']+'</option>';
 				}
-				$('#listLocalidades').html(opciones+'</select>');		
+				$('#listComunas').html(opciones+'</select>');		
 			},
 			error(error){				
-				alert('localidades no Encontrados');				
+				alert('comunas no Encontrados');				
 			}
 		});
  	}
@@ -249,12 +249,12 @@
 		var direccion = document.getElementById('direccionNew').value;
 
 		var vendedor_id  = $('#listVendedores option:selected').val();
-		var localidad_id  = $('#listLocalidades option:selected').val();
+		var comuna_id  = $('#listComunas option:selected').val();
 
-		ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,localidad_id);
+		ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id);
  	}
 
- 	function ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,localidad_id){
+ 	function ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id){
 		var data = {
 			'codigo': codigo,
 			'rut' : rut,
@@ -262,7 +262,7 @@
 			'razon_social' : razon_social,
             'direccion' : direccion,
             'user_id' : vendedor_id,
-            'localidad_id':localidad_id,
+            'comuna_id':comuna_id,
 		};
 		$.ajax({
 			method:"POST",
@@ -355,7 +355,7 @@
 				{data: 'dv'},
 				{data:'vendedor.codigo'},
 				{data:'direccion'},
-				{data:'localidad.nombre'},
+				{data:'comuna.nombre'},
 				{data:'created_at'},
 				{data: 'btn'},
 			],

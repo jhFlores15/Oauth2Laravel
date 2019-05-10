@@ -7,7 +7,7 @@
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuestas</h2>
 		<br>					
-		<table id="localidades" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
+		<table id="comunas" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 
 				<tr>
 					<th>Descripcion</th>
@@ -28,7 +28,7 @@
  			location.href = '/';
  		}
 
-		var table = $('#localidades').DataTable(
+		var table = $('#comunas').DataTable(
 			{
 			'paging': true,
 			"serverSide": true,

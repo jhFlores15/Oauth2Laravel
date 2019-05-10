@@ -112,7 +112,7 @@
 								<th>fecha_nacimiento</th>
 								<th>Telefono</th>
 								<th>Email</th>
-								<th>Localidad</th>
+								<th>Comuna</th>
 								<th>&nbsp;</th>
 							</tr>
 						</thead>							
@@ -130,7 +130,7 @@
 								<th>dv</th>
 								<th>Vendedor</th>
 								<th>Direccion</th>
-								<th>Localidad</th>
+								<th>Comuna</th>
 								<th>&nbsp;</th>
 							</tr>
 						</thead>							
@@ -504,7 +504,7 @@
 				{data:'telefono'},
 				{data:'email'},
 				// {data:'direccion'},
-				{data:'localidad.nombre'},
+				{data:'comuna.nombre'},
 				{data: 'btn'},
 			],
 			dom: 'Bfrtip',
@@ -589,7 +589,7 @@
 				{data: 'dv'},
 				{data:'vendedor.codigo'},
 				{data:'direccion'},
-				{data:'localidad.nombre'},
+				{data:'comuna.nombre'},
 				{data: 'btn'},
 			],
 			dom: 'Bfrtip',

@@ -36,8 +36,6 @@
                         </a>
                         <a class="dropdown-item" href="/comunas">Comunas <span class="sr-only">(current)</span>
                         </a>
-                        <a class="dropdown-item" href="/localidades">Localidades <span class="sr-only">(current)</span>
-                        </a>
                         <a class="dropdown-item" href="/clientes">Clientes <span class="sr-only">(current)</span>
                         </a>
 

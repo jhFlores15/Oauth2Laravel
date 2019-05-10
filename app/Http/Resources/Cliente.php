@@ -23,7 +23,7 @@ class Cliente extends JsonResource
             'rut' => $this->rut,
             'dv' => $this->dv,
             'direccion' => $this->direccion,
-            'localidad' => \App\Localidad::find($this->localidad_id),
+            'comuna' => \App\Comuna::find($this->comuna_id),
             'vendedor' => \App\User::find($this->user_id),
             'created_at' => ($this->created_at)->format('d-m-Y'),
             'updated_at' => ($this->updated_at)->format('d-m-Y'),

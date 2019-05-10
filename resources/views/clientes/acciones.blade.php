@@ -116,8 +116,8 @@
 					    	<div id="vendedoresList"></div>	
 					    </div>	
 					    <div class="form-group col-md-6">
-					    	<label >Localidades</label>
-					       	<div id = "localidadesList"></div>
+					    	<label >Comunas</label>
+					       	<div id = "comunasList"></div>
 					    </div>				   
 				 	 </div>
 				</form>				
@@ -161,14 +161,14 @@
 		document.getElementById('userDelete').value = cliente.user.codigo;
 	}
 	function llenarModalEditar(cliente){
-		comboboxEdit(cliente.localidad_id, cliente.user_id);
+		comboboxEdit(cliente.comuna_id, cliente.user_id);
 		document.getElementById('codigoEdit').value = cliente.codigo;
 		document.getElementById('nameEdit').value = cliente.razon_social;
 		document.getElementById('rutEdit').value = cliente.rut;
 		document.getElementById('dvEdit').value = cliente.dv;
 		document.getElementById('direccionEdit').value = cliente.direccion;
 	}
-	function comboboxEdit(localidad_id, user_id){
+	function comboboxEdit(comuna_id, user_id){
  			$.ajax({
 			method:"GET",
 			url:'/api/vendedores/',
@@ -196,26 +196,26 @@
 
 		$.ajax({
 			method:"GET",
-			url:'/api/localidades/',
+			url:'/api/comunas/',
 			headers : {
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){
-				var localidades = resp.data;
-				var opciones = '<select class="form-control" id="localidadesComboEdit">';
-				for (var i = 0; i < localidades.length; i++) {
-					if(localidades[i]['id'] == localidad_id){
-						opciones += '<option selected="selected" value="'+localidades[i]['id']+'">'+localidades[i]['nombre']+'</option>';
+				var comunas = resp.data;
+				var opciones = '<select class="form-control" id="comunasComboEdit">';
+				for (var i = 0; i < comunas.length; i++) {
+					if(comunas[i]['id'] == comuna_id){
+						opciones += '<option selected="selected" value="'+comunas[i]['id']+'">'+comunas[i]['nombre']+'</option>';
 					}
 					else{
-						opciones += '<option value="'+localidades[i]['id']+'">'+localidades[i]['nombre']+'</option>';
+						opciones += '<option value="'+comunas[i]['id']+'">'+comunas[i]['nombre']+'</option>';
 					}
 				}
-				$('#localidadesList').html(opciones+'</select>');		
+				$('#comunasList').html(opciones+'</select>');		
 			},
 			error(error){				
-				alert('localidades no Encontrados');				
+				alert('comunas no Encontrados');				
 			}
 		});
  	}
@@ -232,14 +232,14 @@
 		var razon_social = document.getElementById('nameEdit').value;
 		var direccion = document.getElementById('direccionEdit').value;
 		var vendedor_id  = $('#vendedoresComboEdit option:selected').val();
-		var localidad_id  = $('#localidadesComboEdit option:selected').val();
+		var comuna_id  = $('#comunasComboEdit option:selected').val();
 
-		ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,localidad_id);	
+		ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id);	
 	}
 	
 
 	//////////////funciones ajax//////////////
-	function ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,localidad_id){
+	function ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id){
 		var data = {
 			'codigo': codigo,
 			'rut' : rut,
@@ -247,7 +247,7 @@
 			'razon_social' : razon_social,
             'direccion' : direccion,
             'user_id' : vendedor_id,
-            'localidad_id':localidad_id,
+            'comuna_id':comuna_id,
 		};
 		$.ajax({
 			method:"PUT",

@@ -41,7 +41,7 @@ class ClienteController extends Controller
             'dv' => 'required',
             'razon_social' => 'required|string',
             'direccion'=>'required|max:255|string|unique:clientes',            
-            'localidad_id' =>'exists:localidades,id',                       
+            'comuna_id' =>'exists:comunas,id',                       
             'user_id'=>'required|exists:users,id',
         ]);
         if ($validator->fails()) {
@@ -55,8 +55,8 @@ class ClienteController extends Controller
         $cliente->razon_social = $request->get('razon_social');
         $cliente->direccion = $request->get('direccion');
 
-        $localidad = \App\Localidad::findOrFail($request->get('localidad_id'));
-        $cliente->localidad()->associate($localidad);
+        $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
+        $cliente->comuna()->associate($comuna);
 
         $user = \App\User::findOrFail($request->get('user_id'));
         $cliente->user()->associate($user);
@@ -76,7 +76,7 @@ class ClienteController extends Controller
     public function show($id)
     {
          $cliente = cliente::findOrFail($id);
-         $cliente->localidad;
+         $cliente->comuna;
          $cliente->user;
          return response()->json($cliente);
     }
@@ -96,7 +96,7 @@ class ClienteController extends Controller
             'dv' => 'required',
             'razon_social' => 'required|string',
             'direccion'=>'required|max:255|string|unique:clientes,direccion,'.$id,           
-            'localidad_id' =>'exists:localidades,id',                       
+            'comuna_id' =>'exists:comunas,id',                       
             'user_id'=>'required|exists:users,id',
         ]);
         if ($validator->fails()) {
@@ -111,10 +111,10 @@ class ClienteController extends Controller
         $cliente->direccion = $request->get('direccion');
 
 
-        if($cliente->localidad_id !== $request->get('localidad_id')){
-            $cliente->localidad()->dissociate();
-            $localidad = \App\Localidad::findOrFail($request->get('localidad_id'));
-            $cliente->localidad()->associate($localidad);
+        if($cliente->comuna_id !== $request->get('comuna_id')){
+            $cliente->comuna()->dissociate();
+            $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
+            $cliente->comuna()->associate($comuna);
         }
         if($cliente->user_id !== $request->get('user_id')){
             $cliente->user()->dissociate();
@@ -158,8 +158,8 @@ class ClienteController extends Controller
                     $cliente->dv = $line['dv'];
                     $cliente->razon_social = $line['razon_social'];
                     $cliente->direccion = $line['direccion'];                    
-                    $localidad = \App\Localidad::all()->where('codigo','=',$line['cod_localidad'])->first();
-                    $cliente->localidad_id = $localidad->id;
+                    $comuna = \App\Comuna::all()->where('codigo','=',$line['cod_comuna'])->first();
+                    $cliente->comuna_id = $comuna->id;
                     $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
                     $cliente->user_id = $vendedor->id;
                     $cliente->save();
@@ -171,8 +171,8 @@ class ClienteController extends Controller
                         $cliente->dv = $line['dv'];
                         $cliente->razon_social = $line['razon_social'];
                         $cliente->direccion = $line['direccion'];
-                        $localidad = \App\Localidad::all()->where('codigo','=',$line['cod_localidad'])->first();
-                        $cliente->localidad_id = $localidad->id;
+                        $comuna = \App\Comuna::all()->where('codigo','=',$line['cod_comuna'])->first();
+                        $cliente->comuna_id = $comuna->id;
                         $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
                         $cliente->user_id = $vendedor->id;
                         $cliente->save();

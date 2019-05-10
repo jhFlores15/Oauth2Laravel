@@ -35,7 +35,7 @@ class ECV extends JsonResource
             'dv' => $cliente->dv,
             'encuesta' => $encuestado,
             'direccion' => $cliente->direccion,
-            'localidad' => \App\Localidad::find($cliente->localidad_id),
+            'comuna' => \App\Comuna::find($cliente->comuna_id),
             'vendedor' => \App\User::find($cliente->user_id),
             'created_at' => ($cliente->created_at)->format('d-m-Y'),
             'updated_at' => ($cliente->updated_at)->format('d-m-Y'),

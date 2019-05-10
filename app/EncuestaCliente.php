@@ -34,4 +34,23 @@ class EncuestaCliente extends Pivot
         return $query->whereColumn('created_at', 'updated_at');
 
     }
+    public function scopeTelefono($query){
+        return $query->whereNotNull('telefono'); 
+    }
+    public function scopeEmail($query){
+        return $query->whereNotNull('email');
+    }
+    public function scopeFecha_nacimiento($query){
+        return $query->whereNotNull('fecha_nacimiento');
+    }
+    public function scopeTelefonoN($query){
+        return $query->whereNull('telefono'); 
+    }
+    public function scopeEmailN($query){
+        return $query->whereNull('email');
+    }
+    public function scopeFecha_nacimientoN($query){
+        return $query->whereNull('fecha_nacimiento');
+    }
+   
 }

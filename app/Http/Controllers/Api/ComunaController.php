@@ -20,7 +20,8 @@ class ComunaController extends Controller
         $comunas = ComunaResource::collection(Comuna::all());
 
          return datatables()
-            ->resource($comunas)
+             ->resource($comunas)
+            //->eloquent(ComunaResource::collection(Comuna::all()))
             ->addColumn('btn','comunas.acciones')
             ->rawColumns(['btn'])
             ->toJson();

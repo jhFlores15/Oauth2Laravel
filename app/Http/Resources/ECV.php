@@ -19,12 +19,12 @@ class ECV extends JsonResource
         //return parent::toArray($request);
         $cliente = \App\Cliente::findOrFail($this->cliente_id);
         $encuestado = 'Encuestar';
-        $cumpleaños ="";
-        if($this->cumpleaños || $this->telefono || $this->email ){
+        $fecha_nacimiento ="";
+        if($this->fecha_nacimiento || $this->telefono || $this->email ){
             $encuestado = 'Editar Encuesta';
         }
-        if($this->cumpleaños){
-            $cumpleaños = Carbon::parse($this->cumpleaños)->format('d-m-Y');
+        if($this->fecha_nacimiento){
+            $fecha_nacimiento = Carbon::parse($this->fecha_nacimiento)->format('d-m-Y');
         }
          return[          
             'id' => $cliente->id,
@@ -39,7 +39,7 @@ class ECV extends JsonResource
             'vendedor' => \App\User::find($cliente->user_id),
             'created_at' => ($cliente->created_at)->format('d-m-Y'),
             'updated_at' => ($cliente->updated_at)->format('d-m-Y'),
-            'cumpleaños' =>  $cumpleaños,
+            'fecha_nacimiento' =>  $fecha_nacimiento,
             'telefono' => $this->telefono,
             'email' => $this->email,
 

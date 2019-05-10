@@ -7,9 +7,9 @@
         <form>
           <div class="form-group">
             <label >Fecha de Nacimiento</label>
-            <input type="date" class="form-control" v-model="encuesta_cliente.cumpleaños" placeholder="">
-            <div class="alert alert-danger"  v-if="erroresEncuesta.cumpleaños"  role="alert">
-              {{ erroresEncuesta.cumpleaños[0] }}
+            <input type="date" class="form-control" v-model="encuesta_cliente.fecha_nacimiento" placeholder="">
+            <div class="alert alert-danger"  v-if="erroresEncuesta.fecha_nacimiento"  role="alert">
+              {{ erroresEncuesta.fecha_nacimiento[0] }}
             </div>
           </div>
           <div class="form-group">
@@ -48,12 +48,12 @@ export default {
           },
           encuesta:{},
           encuesta_cliente:{
-            cumpleaños:'',
+            fecha_nacimiento:'',
             email:'',
             telefono:'',
           },
           erroresEncuesta:{
-            cumpleaños:'',
+            fecha_nacimiento:'',
             email:'',
             telefono:'',
           },
@@ -111,7 +111,7 @@ export default {
       putGuardar(){
         this.erroresEncuesta = [];
         axios.put('/api/encuestas/clientes/'+this.encuesta_id+'/'+this.cliente_id,{          
-          'cumpleaños' : this.encuesta_cliente.cumpleaños,
+          'fecha_nacimiento' : this.encuesta_cliente.fecha_nacimiento,
           'email' : this.encuesta_cliente.email,
           'telefono' : this.encuesta_cliente.telefono,          
         },this.config).then(response =>{

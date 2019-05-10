@@ -80,9 +80,9 @@ const appp = new Vue({
 		    	if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
                 }
-                else{
-                    alert("error, archivo subido no cumple con las condiciones, ir a Ver la encuesta para subir nuevamente el archivo");
-                }
+               
+                this.eliminarEncuesta(encuesta.id);
+
 		    });
     		
     	},
@@ -102,6 +102,18 @@ const appp = new Vue({
 		    	
 		    });
     	},
+        eliminarEncuesta(id){
+            // axios.delete('/api/encuestas/'+id, {this.config});
+
+             axios.delete('/api/encuestas/clientes/'+id,this.config).then(response=>{
+                console.log(response);
+            }).catch(error=>{
+                console.log(error);
+                if(error.response.status==500){
+                    alert("no se ha podido realizar esta accion");
+                }
+            })
+        },        
     }
      
 });

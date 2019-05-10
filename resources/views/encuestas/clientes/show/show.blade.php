@@ -55,7 +55,7 @@
 			    <div class="form-group col">
 			      <label for="inputPassword4">Estado</label>
 			     	<div class="card card-body text-center" >
-			      	<label for="">{{ $encuesta->estado}}</label>
+			      	<label style="color: red;" for=""><b><h5>{{ $encuesta->estado}}</h5></b></label>
 			      </div>
 			    </div>
 			    <div class="form-group col">
@@ -109,7 +109,7 @@
 								{{-- <th>Rut</th>
 								<th>dv</th> --}}
 								<th>Vendedor</th>
-								<th>Cumpleaños</th>
+								<th>fecha_nacimiento</th>
 								<th>Telefono</th>
 								<th>Email</th>
 								<th>Localidad</th>
@@ -272,7 +272,10 @@
   </div>
 </div>
 <script>
-	
+	window.onload = function() {
+		alertify.set('notifier','position', 'top-right');
+	   	alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
+	};
 	function modalEliminar(id){
 		document.getElementById('okDelete').value = id;
 		ajax_getEncuesta(id,'eliminar');
@@ -497,7 +500,7 @@
 				// {data: 'rut'},
 				// {data: 'dv'},
 				{data:'vendedor.codigo'},
-				{data:'cumpleaños'},
+				{data:'fecha_nacimiento'},
 				{data:'telefono'},
 				{data:'email'},
 				// {data:'direccion'},
@@ -506,7 +509,7 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 1, 2, 50, -1 ],
+	            [ 10, 25, 50, -1 ],
 	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
 	        ],
 	        buttons: [

@@ -69,8 +69,23 @@ class EncuestaClienteController extends Controller
             $csv = $request->file('csv');
             $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
                 $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
+                    $fecha = null;$telefono=null;$email =null;
+                
+                    if($line['fecha_nacimiento']){
+                        $fecha = Carbon::parse($line['fecha_nacimiento'])->format('Y-m-d');
+                    }
+                    if($line['telefono']){
+                        $telefono = $line['telefono'];
+                    }
+                    if($line['email']){
+                        $email = $line['email'];
+                    }
                     if($cliente){                       
-                        return $encuesta->clientes()->attach($cliente->id);   
+                        return $encuesta->clientes()->attach($cliente->id,[
+                            'fecha_nacimiento' => $fecha ,
+                            'telefono'  => $telefono,
+                            'email' => $email,
+                        ]);   
                     } 
             });
         }
@@ -86,8 +101,12 @@ class EncuestaClienteController extends Controller
 
     public function clientes($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
         //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
-        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
+        $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
+        $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
+        $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->email()->get();
+        $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
 
+        $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
         $clientess = ECVResource::collection(collect($encuesta_clientes));
 
         // return response()->json($clientess);
@@ -102,7 +121,13 @@ class EncuestaClienteController extends Controller
     }
      public function clientesNo($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
         //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
-        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
+        //$encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
+        // $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
+        // $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->get();
+        // $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->emailN()->get();
+        // $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
+
+        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->emailN()->fecha_nacimientoN()->get();
 
         $clientess = ECVResource::collection(collect($encuesta_clientes));
 

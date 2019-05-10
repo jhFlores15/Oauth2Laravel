@@ -35,7 +35,18 @@ class EncuestaClienteController extends Controller
             $estado = 'En Proceso';
         }
         $encuesta->{"estado"}= $estado;
-        $clientesCount = \App\EncuestaCliente::date()->encuesta($encuesta->id)->count();
+
+
+        $encuesta_clientes1 = \App\EncuestaCliente::encuesta($id)->date()->get();
+        $encuesta_clientes2 = \App\EncuestaCliente::encuesta($id)->telefono()->get();
+        $encuesta_clientes3 = \App\EncuestaCliente::encuesta($id)->email()->get();
+        $encuesta_clientes4 = \App\EncuestaCliente::encuesta($id)->fecha_nacimiento()->get();
+
+        $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
+
+
+
+        $clientesCount = count($encuesta_clientes);
         $clientesCount2 = \App\EncuestaCliente::encuesta($encuesta->id)->count();
         $encuesta->{"registros"}= $clientesCount;
         $encuesta->{"total"}= $clientesCount2;

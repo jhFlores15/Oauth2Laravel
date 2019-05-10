@@ -16,9 +16,9 @@ class CreateEncuestaClienteTable extends Migration
         Schema::create('encuesta_cliente', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->date('cumpleaños')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
             $table->string('telefono')->nullable();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');  
             $table->unsignedBigInteger('encuesta_id');

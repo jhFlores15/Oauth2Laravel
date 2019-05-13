@@ -15,7 +15,7 @@
 			  		<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
 			  	</li>
 		  	@endif
-		  	@if($encuesta->registros <= 0)
+		  	@if($encuesta->estado == "Inactivo")
 		  		<li class="nav-item">
 			  		<a type="button" class=" btn btn-outline-primary " onclick="showModalEditar()"  href="#">Editar Encuesta</a>
 			  	</li>
@@ -273,8 +273,10 @@
 </div>
 <script>
 	window.onload = function() {
-		alertify.set('notifier','position', 'top-right');
-	   	alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
+		if('{{ $encuesta->estado }}' == 'En Proceso'){
+			alertify.set('notifier','position', 'top-right');
+	   		alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
+		}		
 	};
 	function modalEliminar(id){
 		document.getElementById('okDelete').value = id;

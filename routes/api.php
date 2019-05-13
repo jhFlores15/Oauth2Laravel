@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('encuesta/clientes/iniciar/{encuesta}','Api\EncuestaClienteController@iniciar');
     Route::put('encuesta/clientes/terminar/{encuesta}','Api\EncuestaClienteController@terminar');
    
-
+    Route::get('tipos_productos', 'Api\TipoProductoController@index');
     Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');
     Route::get('administradores','Api\UserController@administradores');
     Route::get('vendedores','Api\UserController@vendedores');
@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 
     /////////////vendedor/////
+    Route::resource('encuestas/existencia','Api\EncuestaExistenciaController');
      Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update');
      Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show');
      Route::get('encuestas/cliente/{encuesta}','Api\EncuestaClienteVendedorController@index');

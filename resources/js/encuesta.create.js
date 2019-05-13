@@ -33,12 +33,15 @@ const appp = new Vue({
 	      this.configCliente = configC; 
     	}
     	this.getTiposEncuesta();
+        this.getTiposProductos();
 	},
 	data:{
     	config:{},
     	configCliente:{},
     	tipos_encuesta:{},
+        tipos_productos:{},
     	select_tipo_encuesta:0,
+        select_tipo_producto:0,
     	descripcion:'',
     	fecha_inicio:'',
     	csv:'',
@@ -49,8 +52,68 @@ const appp = new Vue({
             csv:'',
         },
     	file:'',
+        categorias:[],
+         categoria:{
+            nombre:'',
+            productos:[],
+         },
+         // producto:{
+         //    nombre:'',
+         //    tipo:0,
+         // },
+         nombre:'',
+         tipo:0,
     },
-    methods:{   
+    methods:{
+        postEncuestaExistente(){
+            axios.post('/api/encuestas/existencia',{              
+                'descripcion' : this.descripcion,
+                'fecha_inicio' : this.fecha_inicio,
+                'tipo_encuesta' : this.select_tipo_encuesta,  
+                'categorias' : this.categorias,
+        
+            },this.config).then(response =>{
+                location.href='/encuestas/existencia/'+response.data.id;/////ir a ver encuesta           
+            }).catch(error =>{
+                if(error.response.status = 422){
+                    this.erroresEncuesta = error.response.data.error;
+                }
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
+            });
+
+        },
+        agregarProducto(){
+            if((this.nombre !== '') && (this.tipo !== 0 && this.tipo !== '')){
+                var producto ={
+                    nombre : this.nombre,
+                    tipo : this.tipo,
+                };
+                this.categoria.productos.push(producto);
+                this.nombre='';
+                this.tipo=0;
+            }
+           
+        },
+        agregarCategoria(){
+            if(this.categoria.nombre !== ''){
+                if(this.categoria.productos.length !== 0){
+                    this.categorias.push(this.categoria);
+                     this.categoria={
+                        nombre:'',
+                        productos:[],
+                     }
+                }
+                else{
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
+                }                
+            }
+             else{
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('Ingrese nombre de Categoria', 'error', 10, function(){  console.log(); });
+            }
+        },
     	selectedFile(event) {
   	      this.file = event.target.files[0];
   	    },
@@ -69,6 +132,15 @@ const appp = new Vue({
 		          console.log(error)
 		        })
     	},
+        getTiposProductos(){
+            axios.get('/api/tipos_productos/',this.config).
+                then(response => {
+                  this.tipos_productos= response.data;
+                  console.log(this.tipos_productos);
+                }).catch(error => {
+                  console.log(error)
+                })
+        },
     	postFileCliente(encuesta){
     		let formData = new FormData();            
             formData.append('csv', this.file);

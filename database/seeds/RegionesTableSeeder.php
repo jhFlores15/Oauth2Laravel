@@ -13,98 +13,98 @@ class RegionesTableSeeder extends Seeder
     public function run()
     {
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Tarapaca',
+        	'nombre' => 'Tarapaca',
         	'numero' => '1',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
 
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Antofagasta',
+        	'nombre' => 'Antofagasta',
         	'numero' => '2',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Atacama',
+        	'nombre' => 'Atacama',
         	'numero' => '3',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Coquimbo',
+        	'nombre' => 'Coquimbo',
         	'numero' => '4',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Valparaiso',
+        	'nombre' => 'Valparaiso',
         	'numero' => '5',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region del Libertador General Bernardo O´Higgins',
+        	'nombre' => 'Libertador General Bernardo O´Higgins',
         	'numero' => '6',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region del Maule',
+        	'nombre' => 'Maule',
         	'numero' => '7',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Concepcion',
+        	'nombre' => 'Concepcion',
         	'numero' => '8',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region del Araucania',
+        	'nombre' => 'Araucania',
         	'numero' => '9',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region los Lagos',
+        	'nombre' => 'Los Lagos',
         	'numero' => '10',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Aysen del General Carlos Ibañes del Campo',
+        	'nombre' => 'Aysen del General Carlos Ibañes del Campo',
         	'numero' => '11',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Magallanes y de la Antartica Chilena',
+        	'nombre' => 'Magallanes y de la Antartica Chilena',
         	'numero' => '12',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region Metropolitana',
+        	'nombre' => 'Metropolitana',
         	'numero' => '13',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de los Rios',
+        	'nombre' => 'Los Rios',
         	'numero' => '14',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region de Arica y Parinacota',
+        	'nombre' => 'Arica y Parinacota',
         	'numero' => '15',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
         DB::table('regiones')->insert([
-        	'nombre' => 'Region del Nuble',
+        	'nombre' => 'Ñuble',
         	'numero' => '16',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),

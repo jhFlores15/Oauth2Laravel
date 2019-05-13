@@ -36,7 +36,7 @@ class EncuestaClienteVendedorController extends Controller
             // dd($clientess);
 
         }
-        else{
+        else{ // listado de clientes del vendedro
             $clientes = ClienteResource::collection(Cliente::where('user_id','=',$vendedor->id)); //PARA LOS OTROS TIPOS 
         }
         $vendedor = Auth::user();

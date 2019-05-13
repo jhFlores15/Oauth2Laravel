@@ -10,5 +10,8 @@ class Marca extends Model
 	public function categorias(){
     	return $this->belongsto('App\Categoria');
     }
+    public function tipo_producto(){
+    	return $this->belongsto('App\Tipo_Producto');
+    }
     
 }

@@ -17,8 +17,6 @@ class Encuesta extends Model
 
 		return $this->belongsToMany('App\Cliente','encuesta_cliente','encuesta_id','cliente_id')->using('App\EncuestaCliente')->withTimestamps()->withPivot(['fecha_nacimiento','telefono','email']);
     }
-
-
     public function scopeInicio($query){
     	return $query->whereDate('inicio', '<=', Carbon::today());
     }

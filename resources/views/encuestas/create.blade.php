@@ -32,20 +32,6 @@
 				    </div>
 				  </div>
 				  <div class="row justify-content-center" v-if="select_tipo_encuesta == 2">
-				  	<!--<div class="col-md-8">
-				  		<div class="input-group mb-3">
-						  <div class="input-group-prepend">
-						    	<img src="https://img.icons8.com/color/40/000000/import-csv.png">					   
-						  </div>
-						  <div class="custom-file">
-						    <input type="file" id="file" ref="file" class="custom-file-input"  v-on:change="handleFileUpload()"  required accept=".csv" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-						    <label class="custom-file-label" for="inputGroupFile01" >Elegir Archivo CSV</label>
-						  </div>						  
-						</div>
-						<div class="alert alert-danger" role="alert" v-if="erroresEncuesta.csv" >@{{ erroresEncuesta.csv[0] }}</div>
-					  </div>-->
-
-
 						<div class="col-md-8">
 					  		<div class="input-group mb-3">
 								<div class="input-group-prepend">
@@ -64,17 +50,95 @@
 							      </tr>
 							    </thead>			    
 				  			</table>
-					  </div>	
-
-
-				  	</div>
-
-				  	 <div v-if="(select_tipo_encuesta == 1 )|| (select_tipo_encuesta == 2)">
-				  	 	<!-- Aqui lo que pase con los otros dos tipos de encuesta-->
-				  	 </div>
-				  	 <div class="row">
-				  	 	 <button class="btn btn-primary"  @click.stop='postEncuestaCliente()' type="button">Crear</button>
-				  	 </div>	
+				  			<button class="btn btn-primary"  @click.stop='postEncuestaCliente()' type="button">Crear</button>
+					 	</div>
+					</div>
+				  	 <div v-if="(select_tipo_encuesta == 1) || (select_tipo_encuesta == 3)" class="row justify-content-center" >
+				  	 	<div class="col-md-12">				  	 	
+					  	 	<div class="card card-body" style="margin:auto;">
+					  	 		<form>
+							  		<div class="form-row">							  		
+							  			<div class="form-group col-md-4">
+									      <label for="inputEmail4">Categoria</label>
+									      <input type="text" class="form-control" id="inputEmail4" v-model="categoria.nombre" >
+									    </div>
+										<div class="card card-body" style="margin:auto;">
+											<form>
+							  					<div class="form-row">	
+												    <div class="form-group col-md-5">
+												      <label for="inputPassword4">Marca/Producto</label>
+												      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model="nombre">
+												    </div>
+												     <div class="form-group col-md-5">
+												      <label for="inputPassword4">Tipo Producto</label>
+												      <select   class="form-control" v-model ="tipo">
+												     	<option v-for="tipo in tipos_productos" :value="tipo.id">@{{ tipo.nombre}}</option>
+												     </select>
+												    </div>
+												    <div class="form-group col-md-2">
+												    	<b-button v-b-tooltip.hover class="btn btn-light" title="Agregar Producto" @click.stop="agregarProducto()">
+												    		Agregar
+												    	</b-button>
+												    </div>
+												 </div>	
+											</form>		
+											<div v-for="producto in categoria.productos">
+												<form >
+								  					<div class="form-row">	
+													    <div class="form-group col-md-5">
+													      
+													      <input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="producto.nombre" >
+													    </div>
+													     <div class="form-group col-md-5">
+													     	<div v-for="tipo in tipos_productos" v-if="producto.tipo == tipo.id">
+													     		<input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="tipo.nombre" >
+													     	</div>												     
+													      {{-- <select  class="form-control" v-model ="producto.tipo">
+													     	<option v-for="tipo in tipos_productos" :value="tipo.id">@{{ tipo.nombre}}</option>
+													     </select> --}}
+													    </div>
+													 </div>	
+												</form>
+											</div>									
+										</div>								  		
+							    	</div>	
+								</form>
+								<b-button v-b-tooltip.hover class="btn btn-light" title="Agregar Categoria" @click.stop="agregarCategoria()">
+						    		Agregar Categoria
+						    	</b-button>
+					  	 	</div>
+					  	 	<br><br>
+					  	 	<div class="card card-body" style="margin:auto;" v-for="categoriaT in categorias">
+					  	 		<form>
+							  		<div class="form-row">							  		
+							  			<div class="form-group col-md-4">
+							  				<label style="margin: auto;" for=""><b>@{{ categoriaT.nombre }}</b></label>
+									      {{-- <input type="text" readonly  class="form-control-plaintext" v-model ="categoriaT.nombre"> --}}
+									    </div>
+									    <div class="card card-body" style="margin:auto;" >
+									    	<div v-for="prod in categoriaT.productos">
+												<form >
+								  					<div class="form-row">	
+													    <div class="form-group col-md-5">
+													      
+													      <input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="prod.nombre" >
+													    </div>
+													     <div class="form-group col-md-5">
+													     	<div v-for="tipo in tipos_productos" v-if="prod.tipo == tipo.id">
+													     		<input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="tipo.nombre" >
+													     	</div>	
+													    </div>
+													 </div>	
+												</form>
+											</div>	
+										</div>						  		
+							    	</div>	
+								</form>
+					  	 	</div>				  	 	
+					  	 </div>
+					  	 <button v-if="(select_tipo_encuesta == 1) && (categorias.length > 0)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button>
+					  	{{--  <button v-if="(select_tipo_encuesta == 2)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button> --}}
+					 </div> 
 				</form>
 			</div>
 		</div>

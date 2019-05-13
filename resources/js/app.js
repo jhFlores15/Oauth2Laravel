@@ -53,6 +53,7 @@ Vue.use(BootstrapVue);
 
 Vue.component('login-component', require('./components/auth/Login.vue').default);
 Vue.component('encuesta-vendedor-cliente-edit-component', require('./components/encuestas.vendedor/cliente_edit.vue').default);
+Vue.component('encuesta-existencia-edit-component', require('./components/encuesta.existencia/edit.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

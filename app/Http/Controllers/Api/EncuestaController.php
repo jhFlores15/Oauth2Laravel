@@ -62,7 +62,8 @@ class EncuestaController extends Controller
      */
     public function show($id)
     {
-        
+        $encuesta = \App\Encuesta::findOrFail($id);
+        return response()->json($encuesta);        
     }
 
     /**

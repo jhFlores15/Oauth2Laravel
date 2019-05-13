@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Marca extends Model
 {
     protected $table = 'marcas';
-	public function categorias(){
+	public function categoria(){
     	return $this->belongsto('App\Categoria');
     }
     public function tipo_producto(){

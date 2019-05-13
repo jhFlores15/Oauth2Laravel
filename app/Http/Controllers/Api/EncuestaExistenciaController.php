@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use App\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
+use App\Encuesta;
 
 class EncuestaExistenciaController extends Controller
 {
@@ -80,7 +82,10 @@ class EncuestaExistenciaController extends Controller
      */
     public function show($id)
     {
-        //
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta = EncuestaExistenciaResource::collection(Encuesta::all()->where('id',$id)); 
+        return response()->json($encuesta);
+
     }
 
     /**

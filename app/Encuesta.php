@@ -14,8 +14,13 @@ class Encuesta extends Model
     	return $this->belongsto('App\Tipo_Encuesta');
     }
     public function clientes (){
-
 		return $this->belongsToMany('App\Cliente','encuesta_cliente','encuesta_id','cliente_id')->using('App\EncuestaCliente')->withTimestamps()->withPivot(['fecha_nacimiento','telefono','email']);
+    }
+    // public function marcas (){
+    //     return $this->belongsToMany('App\Categoria','marcas','encuesta_id','categoria_id')->using('App\Marca')->withTimestamps()->withPivot(['nombre']);
+    // }
+     public function marcas(){
+        return $this->hasMany('App\Marca');
     }
     public function scopeInicio($query){
     	return $query->whereDate('inicio', '<=', Carbon::today());

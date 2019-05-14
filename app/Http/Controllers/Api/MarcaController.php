@@ -70,9 +70,6 @@ class MarcaController extends Controller
         } 
         else{
         	return response()->json('Categoria debe tener como minimo 1 producto/marca');
-        } 
-	    
-	    
-          
+        }  
     }
 }

@@ -2,7 +2,7 @@
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Editar Encuesta</h2>
 		<br>	
-		<div class="row text-center justify-content-center">
+		<div class="row text-center d-flex justify-content-center">
 			<div class="col-md-8">
 				<form class="needs-validation" novalidate>
 				  <div class="form-row">
@@ -27,123 +27,132 @@
 				    </div>
 				  </div>
 				</form>
+				<div class="text-right">
+					<button class="btn btn-primary ml-auto text-left" style="text-align:right !important;" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				   Agregar Categoria
+				 </button>
+				</div>				
+				 <div class="collapse ml-auto" id="collapseExample">
+				  <div class="card card-body" style="margin:auto;">
+				   <form>
+				  		<div class="form-row">							  		
+				  			<div class="form-group col-md-4">
+						      <label for="inputEmail4">Categoria</label>
+						      <input type="text" class="form-control" id="inputEmail4" @change.prevent="putCategoria()" v-on:keyup.enter.prevent="putCategoria()" required>
+						  	</div>						  	
+							<div class="card card-body" style="margin:auto;">
+								<form>
+				  					<div class="form-row">	
+									    <div class="form-group col-md-5">
+									      <label for="inputPassword4">Marca/Producto</label>
+									  	</div>
+									     <div class="form-group col-md-5">
+									      <label for="inputPassword4">Tipo Producto</label>
+									  </div>
+									    <div class="form-group col-md-2">
+									    	
+									    </div>
+									 </div>	
+								</form>								
+								<form >
+				  					<div class="form-row">	
+									    <div class="form-group col-md-5">
+									      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito"  >
+									    </div>
+									     <div class="form-group col-md-5">
+									      <select   class="form-control" >
+									     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
+									     </select>
+									    </div>
+									    <div class="form-group col-md-2">									    	
+									    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postProducto(i)" title="Agregar Producto/Marca">
+												<img src="https://img.icons8.com/color/30/000000/plus.png">
+									    	 </b-button>
+									    </div>
+									</div>												 
+								</form>								
+							</div>								  		
+				    	</div>	
+					</form>
+				  </div>
+				</div>
 				<div class="justify-content-center text-center">
 					<div class="col-md-12"  v-for="(marca , i) in marcas" :key="marca[0].categoria.id">				  	 	
-					  	 	<div class="card card-body" style="margin:auto;">
-					  	 		<form>
-							  		<div class="form-row">							  		
-							  			<div class="form-group col-md-4">
-									      <label for="inputEmail4">Categoria</label>
-									      <input type="text" class="form-control" id="inputEmail4" @change.prevent="putCategoria(marca[0].categoria)" v-on:keyup.enter.prevent="putCategoria(marca[0].categoria)" v-model.lazy=" marca[0].categoria.nombre" required>
-									       <div class="alert alert-danger" role="alert" v-if="erroresCategoria.nombre" >{{ erroresCategoria.nombre[0] }}</div>	
-									       								      
-									    </div>
+				  	 	<div class="card card-body" style="margin:auto;">	
+				  	 		<form>
+						  		<div class="form-row">							  		
+						  			<div class="form-group col-md-4">
+									    <label for="inputEmail4">Categoria</label>
+									    <input type="text" class="form-control" id="inputEmail4" @change.prevent="putCategoria(marca[0].categoria)" v-on:keyup.enter.prevent="putCategoria(marca[0].categoria)" v-model.lazy=" marca[0].categoria.nombre" required>
+										<br><br>
+										<b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="deleteCategoria(marca[0].categoria)" title="Eliminar Categoria y sus Productos/Marcas">
+											<img src="https://img.icons8.com/flat_round/30/000000/delete-sign.png">
+								    	</b-button>
+								 	 </div>
+								 	<div class="form-group col-md-8">
 										<div class="card card-body" style="margin:auto;">
-											<form>
-							  					<div class="form-row">	
-												    <div class="form-group col-md-5">
-												      <label for="inputPassword4">Marca/Producto</label>
-												  	</div>
-												     <div class="form-group col-md-5">
-												      <label for="inputPassword4">Tipo Producto</label>
-												  </div>
-												    <div class="form-group col-md-2">
-												    	
-												    </div>
-												 </div>	
-											</form>
-											<form v-for="marc in marca">
-							  					<div class="form-row">	
-												    <div class="form-group col-md-5">
-												      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marc.nombre" v-on:change.prevent="putMarca(marc)" v-on:keyup.enter.prevent="putMarca(marc)">
-												    </div>
-												     <div class="form-group col-md-5">
-												      <select   class="form-control" v-model.lazy="marc.tipo_producto.id" v-on:change.prevent="putMarca(marc)" v-on:keyup.enter.prevent="putMarca(marc)">
-												     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
-												     </select>
-												    </div>
-												    <div class="form-group col-md-2">
-												    	<b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="deleteProducto(marc)" title="Eliminar">
-															<img src="https://img.icons8.com/flat_round/25/000000/delete-sign.png">
-												    	 </b-button>
-												    </div>
-												 </div>	
-											</form>
-											<form >
-							  					<div class="form-row">	
-												    <div class="form-group col-md-5">
-												      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marca_producto[i].nombre"  >
-												    </div>
-												     <div class="form-group col-md-5">
-												      <select   class="form-control" v-model.lazy="marca_producto[i].tipo_producto_id" >
-												     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
-												     </select>
-												    </div>
-												    <div class="form-group col-md-2">
-												    	
-												    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postProducto(i)" title="Agregar Producto/Marca">
-															<img src="https://img.icons8.com/color/30/000000/plus.png">
-												    	 </b-button>
+										<form>
+						  					<div class="form-row">	
+											    <div class="form-group col-md-5">
+											      <label for="inputPassword4">Marca/Producto</label>
+											  	</div>
+											     <div class="form-group col-md-5">
+											      <label for="inputPassword4">Tipo Producto</label>
+											  </div>
+											    <div class="form-group col-md-2">
+											    	
+											    </div>
+											 </div>	
+										</form>
+										<form v-for="marc in marca">
+						  					<div class="form-row">	
+											    <div class="form-group col-md-5">
+											      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marc.nombre" v-on:change.prevent="putMarca(marc)" v-on:keyup.enter.prevent="putMarca(marc)">
+											    </div>
+											     <div class="form-group col-md-5">
+											      <select   class="form-control" v-model.lazy="marc.tipo_producto.id" v-on:change.prevent="putMarca(marc)" v-on:keyup.enter.prevent="putMarca(marc)">
+											     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
+											     </select>
+											    </div>
+											    <div class="form-group col-md-2">
+											    	<b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="deleteProducto(marc)" title="Eliminar">
+														<img src="https://img.icons8.com/flat_round/25/000000/delete-sign.png">
+											    	 </b-button>
+											    </div>
+											 </div>	
+										</form>
+										<form >
+						  					<div class="form-row">	
+											    <div class="form-group col-md-5">
+											      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marca_producto[i].nombre"  >
+											    </div>
+											     <div class="form-group col-md-5">
+											      <select   class="form-control" v-model.lazy="marca_producto[i].tipo_producto_id" >
+											     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
+											     </select>
+											    </div>
+											    <div class="form-group col-md-2">
+											    	
+											    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postProducto(i)" title="Agregar Producto/Marca">
+														<img src="https://img.icons8.com/color/30/000000/plus.png">
+											    	 </b-button>
 
 
-												    	 <!-- <img src="https://img.icons8.com/color/48/000000/delete-sign.png"> -->
-												    </div>
-												 </div>	
-												 
-											</form>								
-										</div>								  		
-							    	</div>	
-								</form>							
-					  	 	</div>
-					</div>
+											    	 <!-- <img src="https://img.icons8.com/color/48/000000/delete-sign.png"> -->
+											    </div>
+											</div>												 
+										</form>								
+										</div>	
+									</div>							  		
+						    	</div>	
+						    </form>
+														
+				  	 	</div>				  	 	
+					</div>					
 				</div>
 			</div>
 		</div>
-
-
-		<!-- ////////////////////Modal Eliminar////////////////////////////-->
-		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Eliminar Encuesta</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body text-center">
-		      	<div class="container-fluid text-center">
-		      		<div class="row text-center">
-		      		<h5>¿Esta Seguro?</h5>
-			      	</div>
-			      	<div class="row text-center">
-			      		<form>	   
-			      			<div class="form-group row">
-							    <label for="staticEmail" class="col-md-4 col-form-label">Descripcion</label>
-							    <div class="col-md-8">
-							     	<input type="text" readonly class="form-control-plaintext" id="descripcionDelete" value="">
-							    </div>
-						 	 </div>
-						  	<div class="form-group row">
-						    	<label for="staticEmail" class="col-md-4 col-form-label">Fecha Inicio</label>
-						    	<div class="col-md-8">
-						      		<input type="date" readonly class="form-control-plaintext" id="fechaDelete" value="">
-						   		 </div>
-						 	</div>
-						</form>
-			      	</div>      		
-		      	</div>        
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-		        <button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
 	</div>
-	
-
 </template>
 <script>
 export default {
@@ -188,8 +197,20 @@ export default {
   
   },
   methods:{
-  	deleteProducto(marca){
+  	deleteCategoria(categoria){
+  		var config = this.config;
+  		alertify.confirm('Esta Seguro de Eliminar esta Categoria', 'Nombre: '+categoria.nombre, function(){
+  			axios.delete('/api/categorias/'+categoria.id,config).then(response=>{
+  				location.reload(true);  				  				
+	  		}).catch(error=>{
+                alertify.set('notifier','position', 'top-right');
+	            alertify.notify('Error', 'error', 3, function(){  console.log(); });      
+	            
+	        })
 
+  		}, function(){ });  		
+  	},
+  	deleteProducto(marca){
   		var config = this.config;
   		alertify.confirm('Esta Seguro de Eliminar este Producto/Marca', 'Nombre: '+marca.nombre, function(){
   			axios.delete('/api/marcas/'+marca.id,config).then(response=>{
@@ -199,8 +220,7 @@ export default {
   				}
   				else{
   					location.reload(true);
-  				}
-  				
+  				}  				
 	  		}).catch(error=>{
 	            console.log(error);
 	            if(error.response.status==500){
@@ -209,11 +229,7 @@ export default {
 	            }
 	        })
 
-  		}, function(){ });
-
-
-  		console.log(marca);
-  		
+  		}, function(){ });  		
   	},
   	postProducto(i){
   		var objeto = this.marca_producto[i];

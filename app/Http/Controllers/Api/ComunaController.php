@@ -107,6 +107,6 @@ class ComunaController extends Controller
     {
         $comuna = \App\Comuna::findOrFail($id);
         $comuna->delete();
-        return 'ok';
+        return response()->json('ok');
     }
 }

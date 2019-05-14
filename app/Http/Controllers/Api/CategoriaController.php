@@ -23,4 +23,11 @@ class CategoriaController extends Controller
        
         return response()->json('ok');
     }
+    public function destroy($id)
+    { 
+        $categoria = \App\Categoria::findOrFail($id);  
+        $categoria->marcas()->delete();
+        $categoria->delete();
+        return response()->json('ok');
+    }
 }

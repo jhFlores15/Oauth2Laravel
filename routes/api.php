@@ -33,6 +33,9 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('regiones','Api\RegionController');
     Route::resource('comunas','Api\ComunaController');
+    Route::resource('categorias','Api\CategoriaController');
+    Route::resource('marcas','Api\MarcaController');
+
     //Route::resource('familia','Api\FamiliaCarozziController');
     Route::resource('clientes','Api\ClienteController');
     Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file');

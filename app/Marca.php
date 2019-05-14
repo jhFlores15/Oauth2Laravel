@@ -13,5 +13,9 @@ class Marca extends Model
     public function tipo_producto(){
     	return $this->belongsto('App\Tipo_Producto');
     }
+      public function clientes (){
+
+		return $this->belongsToMany('App\Cliente','clientes_marcas','marca_id','cliente_id')->withTimestamps()->withPivot(['valor']);
+    }
     
 }

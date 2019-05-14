@@ -175,8 +175,6 @@ const appp = new Vue({
 		    });
     	},
         eliminarEncuesta(id){
-            // axios.delete('/api/encuestas/'+id, {this.config});
-
              axios.delete('/api/encuestas/clientes/'+id,this.config).then(response=>{
                 console.log(response);
             }).catch(error=>{

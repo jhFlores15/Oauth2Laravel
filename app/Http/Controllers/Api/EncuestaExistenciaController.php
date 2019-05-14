@@ -30,7 +30,7 @@ class EncuestaExistenciaController extends Controller
     public function store(Request $request)
     {
           $validator = Validator::make($request->all(), [
-            'descripcion'=>'required|max:255|string|unique:encuestas',            
+            'descripcion'=>'required|max:255|string',            
             'tipo_encuesta'=>'required|exists:tipo_encuesta,id',
             'fecha_inicio' => 'required|date',
         ]);

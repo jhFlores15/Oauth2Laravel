@@ -75,7 +75,20 @@ class EncuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $validator = Validator::make($request->all(), [
+            'descripcion'=>'required|max:255|string',  
+            'fecha_inicio' => 'required|date',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
+        $encuesta = \App\Encuesta::findOrFail($id);                
+        $encuesta->descripcion = $request->get('descripcion');
+        $encuesta->inicio = $request->get('fecha_inicio');               
+        $encuesta->save();
+        return response()->json('ok');
+        
     }
 
     /**

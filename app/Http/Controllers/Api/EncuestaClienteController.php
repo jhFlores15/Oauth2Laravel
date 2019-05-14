@@ -39,7 +39,7 @@ class EncuestaClienteController extends Controller
     public function store(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'descripcion'=>'required|max:255|string|unique:encuestas',            
+            'descripcion'=>'required|max:255|string',            
             'tipo_encuesta'=>'required|exists:tipo_encuesta,id',
             'fecha_inicio' => 'required|date',
         ]);
@@ -160,7 +160,7 @@ class EncuestaClienteController extends Controller
     public function update(Request $request, $id)
     {
          $validator = Validator::make($request->all(), [
-            'descripcion'=>'required|max:255|string|unique:encuestas,descripcion,'.$id,  
+            'descripcion'=>'required|max:255|string',  
             'fecha_inicio' => 'required|date',
         ]);
         if ($validator->fails()) {

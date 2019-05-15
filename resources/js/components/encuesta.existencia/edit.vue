@@ -143,7 +143,7 @@
 											 </div>	
 										</form>
 										<form >
-						  					<!-- <div class="form-row">	
+						  					<div class="form-row">	
 											    <div class="form-group col-md-5">
 											      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marca_producto[i].nombre"  >
 											    </div>
@@ -157,7 +157,7 @@
 														<img src="https://img.icons8.com/color/30/000000/plus.png">
 											    	 </b-button>
 											    </div>
-											</div>		 -->										 
+											</div>												 
 										</form>
 																		
 										</div>	
@@ -378,7 +378,6 @@ export default {
 		axios.get('/api/tipos_encuesta/',this.config).
 	        then(response => {
 	          this.tipos_encuesta= response.data;
-	          console.log(this.tipos_encuesta);
 	        }).catch(error => {
 	          console.log(error)
 	        })
@@ -395,7 +394,6 @@ export default {
         axios.get('/api/tipos_productos/',this.config).
             then(response => {
               this.tipos_productos= response.data;
-              console.log(this.tipos_productos);
             }).catch(error => {
               console.log(error)
             })
@@ -405,25 +403,23 @@ export default {
 	        then(response => {
 	        	var array = []; 
 	          this.marcas= response.data[0].marcas;
-	          for (const marca in this.marcas){
-	          	console.log(marca[1]);
-	          	// var num=[];
-	          	// var i=0;
-	          	// do{
-	          	// 	console.log(marca[i]);
-          		// 	num.push(marca[i]);
-          		// 	i++;
-	          	// }
-	          	// while(marca[i] !== undefined);
+	          for (const marca in this.marcas){          	
+	          	var num=[];
+	          	var i=0;
+	          	do{
+	          		console.log(marca[i]);
+          			num.push(marca[i]);
+          			i++;
+	          	}
+	          	while( (marca[i] ) || (!isNaN(marca[i])) );
 
-	          	// array.push(num.join(''));
+	          	array.push(num.join(''));
 	          }
 	          	for (var i = 0; i < array.length; i++) {
 	          		this.marca_producto[array[i]] ={
 	          			nombre:'',tipo_producto_id:0,
 	          		} 
 	          	}
-	          console.log(this.marca_producto);
 	        }).catch(error => {
 	          console.log(error)
 	        })

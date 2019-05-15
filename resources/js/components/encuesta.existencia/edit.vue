@@ -37,10 +37,15 @@
 				   <form>
 				  		<div class="form-row">							  		
 				  			<div class="form-group col-md-4">
-						      <label for="inputEmail4">Categoria</label>
-						      <input type="text" class="form-control" id="inputEmail4" @change.prevent="putCategoria()" v-on:keyup.enter.prevent="putCategoria()" required>
-						  	</div>						  	
-							<div class="card card-body" style="margin:auto;">
+							      <label for="inputEmail4">Categoria</label>
+							      <input type="text" class="form-control" id="inputEmail4" required v-model="nombreC">
+							      <br><br>
+							      <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postCategoria()" title="Guardar Categoria y sus productos">
+									<img src="https://img.icons8.com/color/30/000000/plus.png">
+						    	 </b-button>
+						  	</div>
+						  	<div class="form-group col-md-8">						  	
+								<div class="card card-body" style="margin:auto;">
 								<form>
 				  					<div class="form-row">	
 									    <div class="form-group col-md-5">
@@ -57,21 +62,37 @@
 								<form >
 				  					<div class="form-row">	
 									    <div class="form-group col-md-5">
-									      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito"  >
+									      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito"  v-model="nombreM">
 									    </div>
 									     <div class="form-group col-md-5">
-									      <select   class="form-control" >
+									      <select   class="form-control" v-model="tipoM">
 									     	<option v-for="tipo in tipos_productos" :value="tipo.id">{{ tipo.nombre}}</option>
 									     </select>
 									    </div>
 									    <div class="form-group col-md-2">									    	
-									    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postProducto(i)" title="Agregar Producto/Marca">
+									    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="agregarMarca(i)" title="Agregar Producto/Marca">
 												<img src="https://img.icons8.com/color/30/000000/plus.png">
 									    	 </b-button>
 									    </div>
 									</div>												 
-								</form>								
-							</div>								  		
+								</form>	
+								<div v-for="producto in productos">
+									<form >
+					  					<div class="form-row">	
+										    <div class="form-group col-md-5">
+										    	<input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="producto.nombre" >
+										    </div>
+										     <div class="form-group col-md-5">
+										     	<div v-for="tipo in tipos_productos" v-if="producto.tipo == tipo.id">
+										     		<input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="tipo.nombre" >
+										     	</div>
+										    </div>
+										 </div>	
+									</form>
+								</div>									
+								</div>
+							</div>
+
 				    	</div>	
 					</form>
 				  </div>
@@ -122,7 +143,7 @@
 											 </div>	
 										</form>
 										<form >
-						  					<div class="form-row">	
+						  					<!-- <div class="form-row">	
 											    <div class="form-group col-md-5">
 											      <input type="text" class="form-control" id="inputPassword4" placeholder="Quaker / Trencito" v-model.lazy="marca_producto[i].nombre"  >
 											    </div>
@@ -132,16 +153,13 @@
 											     </select>
 											    </div>
 											    <div class="form-group col-md-2">
-											    	
 											    	 <b-button v-b-tooltip.hover variant="light" size="sm" v-on:click.stop="postProducto(i)" title="Agregar Producto/Marca">
 														<img src="https://img.icons8.com/color/30/000000/plus.png">
 											    	 </b-button>
-
-
-											    	 <!-- <img src="https://img.icons8.com/color/48/000000/delete-sign.png"> -->
 											    </div>
-											</div>												 
-										</form>								
+											</div>		 -->										 
+										</form>
+																		
 										</div>	
 									</div>							  		
 						    	</div>	
@@ -169,8 +187,10 @@ export default {
           tipos_productos:[],
           marcas:[],
           marca_producto:[],
-          prod_nombre:'',
-          tipo_id:'',
+          nombreC:'',
+          productos:[],
+          nombreM:'',
+          tipoM:0,
       }
   },
   
@@ -197,6 +217,47 @@ export default {
   
   },
   methods:{
+  	postCategoria(){
+  		if(this.nombreC !== ''){
+            if(this.productos.length !== 0){
+            	axios.post('/api/categorias/',{
+		            'nombre' : this.nombreC,
+		            'marcas' :this.productos, 
+		            'encuesta_id' :this.encuesta_id,  
+		        },this.config).then(response =>{
+		        	alertify.set('notifier','position', 'top-right');
+		        	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
+		        	location.reload(true);
+		        }).catch(error =>{
+		            if(error.response.status = 422){
+		                this.erroresCategoria = error.response.data.error;
+		            }
+		            alertify.set('notifier','position', 'top-right');
+		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
+		        });              
+            }
+            else{
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
+            }                
+        }
+         else{
+            alertify.set('notifier','position', 'top-right');
+            alertify.notify('Ingrese nombre de Categoria', 'error', 10, function(){  console.log(); });
+        }
+  	},
+  	agregarMarca(){
+        if((this.nombreM !== '') && (this.tipoM !== 0 && this.tipoM !== '')){
+            var producto ={
+                nombre : this.nombreM,
+                tipo : this.tipoM,
+            };
+            this.productos.push(producto);
+            this.nombreM='';
+            this.tipoM=0;
+        }
+           
+        },
   	deleteCategoria(categoria){
   		var config = this.config;
   		alertify.confirm('Esta Seguro de Eliminar esta Categoria', 'Nombre: '+categoria.nombre, function(){
@@ -345,7 +406,18 @@ export default {
 	        	var array = []; 
 	          this.marcas= response.data[0].marcas;
 	          for (const marca in this.marcas){
-	          	array.push(marca[0]);}
+	          	console.log(marca[1]);
+	          	// var num=[];
+	          	// var i=0;
+	          	// do{
+	          	// 	console.log(marca[i]);
+          		// 	num.push(marca[i]);
+          		// 	i++;
+	          	// }
+	          	// while(marca[i] !== undefined);
+
+	          	// array.push(num.join(''));
+	          }
 	          	for (var i = 0; i < array.length; i++) {
 	          		this.marca_producto[array[i]] ={
 	          			nombre:'',tipo_producto_id:0,

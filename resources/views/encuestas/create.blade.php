@@ -136,7 +136,7 @@
 								</form>
 					  	 	</div>				  	 	
 					  	 </div>
-					  	 <button v-if="(select_tipo_encuesta == 1) && (categorias.length > 0)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button>
+					  	 <button v-if="(select_tipo_encuesta !== 2) && (categorias.length > 0)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button>
 					  	{{--  <button v-if="(select_tipo_encuesta == 2)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button> --}}
 					 </div> 
 				</form>

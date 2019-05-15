@@ -31,6 +31,17 @@ class Encuesta extends Model
     public function scopeTermino($query){
     	return $query->where('termino', '>', Carbon::today());
     }
+
+    public static function Editable_Eliminable($encuesta_id){
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $marcas = $encuesta->marcas;
+        foreach ($marcas as $marca) {
+            if(count($marca->clientes) > 0){
+                return false;
+            }           
+        }
+        return true;
+    }
     
 
 

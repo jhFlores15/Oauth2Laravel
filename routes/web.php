@@ -26,6 +26,7 @@ Route::get('encuestas/vendedor','EncuestaController@index_vendedor');
 Route::get('encuestas', 'EncuestaController@index')->name('encuesta.index');
 //Route::get('encuestas/{encuesta}', 'EncuestaController@show')->name('encuesta.show');
 Route::get('encuestas/create', 'EncuestaController@create')->name('encuesta.create');
+Route::get('encuestas/{encuesta_id}/edit', 'EncuestaController@edit');
 
 
 //////////////////////vendedor////////////7

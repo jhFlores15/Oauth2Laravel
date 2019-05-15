@@ -27,7 +27,7 @@ class EncuestaExistenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) /// para existencia y precio
     {
           $validator = Validator::make($request->all(), [
             'descripcion'=>'required|max:255|string',            
@@ -44,7 +44,6 @@ class EncuestaExistenciaController extends Controller
         $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
         $encuesta->tipo_encuesta()->associate($tipo_encuesta);
         //$encuesta->save();
-
     
         DB::beginTransaction();
          

@@ -16,7 +16,7 @@
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
 		Eliminar
 	</button>
-	 <a type="button" href="/encuestas/existencia/precio/{{ $id }}/edit/" class="btn btn-primary btn-sm">Editar</a>
+	 <a type="button" href="/encuestas/{{ $id }}/edit/" class="btn btn-primary btn-sm">Editar</a>
 @endif
 
 
@@ -55,7 +55,13 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>
+
+		@if($tipo_encuesta->id == 2)
+       		<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>
+       	@endif
+       	@if(($tipo_encuesta->id == 1) ||($tipo_encuesta->id == 3)) <!-- Existencia Precio-->
+       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>
+       	@endif		
       </div>
     </div>
   </div>
@@ -88,6 +94,31 @@
 	function eliminarEncuesta(){ // este tipo de encuesta
 		var id = document.getElementById('okDelete').value;
 		ajaxEliminar(id);
+	}
+	function eliminarEncuestaEP(){ // este tipo de encuesta
+		var id = document.getElementById('okDelete').value;
+		ajaxEliminarEP(id);
+	}
+	function ajaxEliminarEP(id){// este tipo de encuesta
+		$.ajax({
+			method:"DELETE",
+			url:'/api/encuestas/'+id,
+			headers : {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){	
+				console.log(resp);
+				if(resp == 'ok'){
+					alert('Encuesta Eliminada Exitosamente');
+					location.reload();
+				}
+			},
+			error(error){
+				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
+				$('#deleteModal').modal('hide');
+			}
+		});
 	}
 	function ajaxEliminar(id){// este tipo de encuesta
 		$.ajax({

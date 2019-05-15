@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Http\Resources\Encuesta as EncuestaResource;
+use App\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
 use App\Encuesta;
+use Illuminate\Support\Facades\DB;
 
 
 class EncuestaController extends Controller
@@ -48,10 +50,50 @@ class EncuestaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) /// para existencia y precio
     {
-       
-
+          $validator = Validator::make($request->all(), [
+            'descripcion'=>'required|max:255|string',            
+            'tipo_encuesta'=>'required|exists:tipo_encuesta,id',
+            'fecha_inicio' => 'required|date',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+        $categorias = $request->get('categorias');       
+        $encuesta = new \App\Encuesta();
+        $encuesta->descripcion = $request->get('descripcion');
+        $encuesta->inicio = $request->get('fecha_inicio');
+        $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
+        $encuesta->tipo_encuesta()->associate($tipo_encuesta);
+        //$encuesta->save();
+    
+        DB::beginTransaction();
+         
+        try {
+            $encuesta->save();
+           foreach ($categorias as $categoria ) {
+                $categoriaN = new \App\Categoria();
+                $categoriaN->nombre =  $categoria['nombre'];
+                $categoriaN->save(); 
+                foreach ($categoria['productos'] as $marcaT) {
+                    $marca = new \App\Marca();
+                    $marca->categoria_id = $categoriaN->id;
+                    $marca->encuesta_id = $encuesta->id;
+                    $marca->nombre = $marcaT['nombre'];
+                    $marca->tipo_producto_id = $marcaT['tipo'];
+                    $marca->save();                       
+                }          
+            }         
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return response()->json($encuesta);
     }
 
     /**
@@ -97,8 +139,28 @@ class EncuestaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id) //Existencia -Precio
     {
-        //
+        $encuesta = \App\Encuesta::findOrFail($id);
+        DB::beginTransaction();         
+        try {
+            $marcas = $encuesta->marcas;
+            foreach ($marcas as $marca) {
+               $categoria = \App\Categoria::find($marca->categoria_id);
+               if($categoria){
+                    $categoria->marcas()->delete();
+                    $categoria->delete();
+                }                
+            }
+            $encuesta->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return response()->json('ok');
     }
 }

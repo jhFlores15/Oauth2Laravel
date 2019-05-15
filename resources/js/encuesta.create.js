@@ -66,7 +66,7 @@ const appp = new Vue({
     },
     methods:{
         postEncuestaExistente(){
-            axios.post('/api/encuestas/existencia',{              
+            axios.post('/api/encuestas/',{              
                 'descripcion' : this.descripcion,
                 'fecha_inicio' : this.fecha_inicio,
                 'tipo_encuesta' : this.select_tipo_encuesta,  

@@ -17,8 +17,7 @@ class EncuestaController extends Controller
     public function index_vendedor(){
         return view('encuestas.index_vendedor.index');
     }
-    public function edit($id){
-        
+    public function edit($id){        
         $encuesta = \App\Encuesta::findOrFail($id);
 
         $marcas = $encuesta->marcas;

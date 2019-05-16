@@ -1,0 +1,1 @@
+<a type="button" href="/encuesta/clientes/{{ $encuesta_id }}" class="btn btn-primary btn-sm">Encuesta</a>

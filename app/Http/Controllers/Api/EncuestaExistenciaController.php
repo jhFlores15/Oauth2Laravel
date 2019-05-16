@@ -48,13 +48,13 @@ class EncuestaExistenciaController extends Controller
         foreach ($marcas as $marca) {           
             $idsss [] = $marca[0]->cliente_id;
          }
-         // $clientes = Cliente::all()->whereNotIn('id', $idsss);
-         
-
-         $idss = ClienteVendResource::collection(collect(Cliente::all()->where('user_id','!=', auth()->user()->id)->whereNotIn('id', $idsss))); //No Encuestados
+         $clientes = ClienteVendResource::collection(collect(Cliente::all()->where('user_id','=', auth()->user()->id)->whereNotIn('id', $idsss))); //No Encuestados
+         $clientes->map(function($cliente) use($encuesta_id){
+            $cliente->encuesta_id = $encuesta_id;
+        });
 
          return datatables()
-            ->resource($idss)
+            ->resource($clientes)
             ->addColumn('btn','encuestas.existencia.vendedor.acciones',$encuesta_id)
             ->rawColumns(['btn'])
             ->toJson();    

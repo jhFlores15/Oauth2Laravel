@@ -18,7 +18,7 @@ class ClienteVend extends JsonResource
          $cliente = \App\Cliente::find($this->id);         
           return[
             'id' => $cliente->id,
-            'encuesta_id' => $this->encuesta_id,
+            'encuesta' => $this->encuesta_id,
             'codigo' => $cliente->codigo,
             'razon_social' => $cliente->razon_social,         
             'direccion' => $cliente->direccion,

@@ -33,10 +33,14 @@ class EncuestaExistenciaController extends Controller
             }            
          }         
          $clientes = ClienteVendResource::collection(collect($ids)); //Encuestados del vendedor
+          $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+          $clientes->map(function($cliente) use($encuesta){
+            $cliente->encuesta_id = $encuesta;
+        });
 
         return datatables()
             ->resource($clientes)
-             ->addColumn('btn','encuestas.existencia.vendedor.accionesY',$encuesta_id)
+             ->addColumn('btn','encuestas.existencia.vendedor.accionesY')
             ->rawColumns(['btn'])
             ->toJson();    
     }
@@ -51,13 +55,14 @@ class EncuestaExistenciaController extends Controller
             $idsss [] = $marca[0]->cliente_id;
          }
          $clientes = ClienteVendResource::collection(collect(Cliente::all()->where('user_id','=', auth()->user()->id)->whereNotIn('id', $idsss))); //No Encuestados
-         $clientes->map(function($cliente) use($encuesta_id){
-            $cliente->encuesta_id = $encuesta_id;
+          $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+         $clientes->map(function($cliente) use($encuesta){
+            $cliente->encuesta_id = $encuesta;
         });
 
          return datatables()
             ->resource($clientes)
-            ->addColumn('btn','encuestas.existencia.vendedor.accionesN',$encuesta_id)
+            ->addColumn('btn','encuestas.existencia.vendedor.accionesN')
             ->rawColumns(['btn'])
             ->toJson();    
     }

@@ -72,4 +72,9 @@ class MarcaController extends Controller
         	return response()->json('Categoria debe tener como minimo 1 producto/marca');
         }  
     }
+    public function show($encuesta_id){
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $marcas = $encuesta->marcas;
+        return response()->json($marcas);
+    }
 }

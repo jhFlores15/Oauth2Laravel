@@ -311,23 +311,7 @@ export default {
 	        });
   		}
   		console.log();
-  	},
-  	pOStMarca(marca){
-  		axios.put('/api/marcas',{
-            'nombre' : marca.nombre,
-            'tipo_producto_id' : marca.tipo_producto.id,
-            'categoria_id' : marca.categoria.id,
-        },this.config).then(response =>{
-        	alertify.set('notifier','position', 'top-right');
-        	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
-        }).catch(error =>{
-            if(error.response.status = 422){
-                this.erroresCategoria = error.response.data.error;
-            }
-            alertify.set('notifier','position', 'top-right');
-            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
-        });
-  	},
+  	},  
   	putMarca(marca){
   		axios.put('/api/marcas/'+marca.id,{
             'nombre' : marca.nombre,

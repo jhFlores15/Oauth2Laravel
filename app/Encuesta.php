@@ -24,6 +24,10 @@ class Encuesta extends Model
     {
         return $this->hasManyThrough('App\ClienteMarca', 'App\Marca','encuesta_id','marca_id','id','id');
     }
+    //  public function categorias()
+    // {
+    //     return $this->hasOneThrough('App\Categoria', 'App\Marca','encuesta_id','marca_id','id','id');
+    // }
      public function marcas(){
         return $this->hasMany('App\Marca');
     }

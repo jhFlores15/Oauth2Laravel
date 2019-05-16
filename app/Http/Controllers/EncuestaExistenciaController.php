@@ -20,7 +20,6 @@ class EncuestaExistenciaController extends Controller
          $marcasT = $encuesta->marcas;
          $marcasC = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id);
 
-
          if(count($marcasT) != count($marcasC)){
             foreach ($marcasT as $marca) {
                 $m = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id)->where('marca_id','=', $marca->id);

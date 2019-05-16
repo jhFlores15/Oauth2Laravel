@@ -78,10 +78,7 @@
                  <br>
                  <div class="alert alert-danger" v-if="errorLogin.password"role="alert">
                     {{ errorLogin.password[0] }}
-                  </div>
-                 <div class="alert alert-danger" v-if="errorLogin.message"role="alert">
-                    {{ errorLogin.message }}
-                  </div>
+                  </div>                
               </div>
               <div class="col text-center">
                 <button type="button" @click.stop='postLogin()'  class="btn btn-primary ">Aceptar</button>
@@ -144,6 +141,7 @@ export default {
         })
     },  
     postLogin(){
+       this.errorLogin = '';
       axios.post('/api/auth/login',{
           password : this.password,
           email : this.email,     
@@ -153,8 +151,9 @@ export default {
         localStorage.token_type = response.data.token_type; 
         location.reload();     
       }).catch(error =>{
-          if(error.response.status = 401){
-              this.errorLogin = error.message;
+          if((error.response.status == 401) && (error.response.data.message == 'Los Datos ingresados no son correctos' )){
+              alertify.set('notifier','position', 'top-right');
+             alertify.notify('Los Datos ingresados no son correctos', 'error', 3, function(){  console.log(); });  
           } 
           if(error.response.status = 422){
               this.errorLogin = error.response.data.error;

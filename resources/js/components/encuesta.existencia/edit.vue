@@ -399,7 +399,7 @@ export default {
             })
     },
     getEncuestaE(){
-		axios.get('/api/encuestas/existencia/'+this.encuesta_id,this.config).			
+		axios.get('/api/encuestas/existencia/'+this.encuesta_id+'/edit',this.config).			
 	        then(response => {
 	        	var array = []; 
 	          this.marcas= response.data[0].marcas;

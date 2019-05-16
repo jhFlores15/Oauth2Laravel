@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
+use App\Http\Resources\ClienteVend as ClienteVendResource;
 use App\Encuesta;
+use App\Cliente;
 
 class EncuestaExistenciaController extends Controller
 {
@@ -14,9 +15,49 @@ class EncuestaExistenciaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_encuestados($encuesta_id) 
     {
-        //
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
+        
+        $ids = [];
+        foreach ($marcas as $marca) {
+            $cliente =  \App\Cliente::find($marca[0]->cliente_id);
+            if($cliente->user_id == auth()->user()->id){
+                $id = new \stdClass();
+                $id->id = $marca[0]->cliente_id;
+                $id->encuesta_id = $encuesta_id;
+                $ids [] = $id;
+            }            
+         }         
+         $clientes = ClienteVendResource::collection(collect($ids)); //Encuestados del vendedor
+
+        return datatables()
+            ->resource($clientes)
+             ->addColumn('btn','encuestas.existencia.vendedor.acciones',$encuesta_id)
+            ->rawColumns(['btn'])
+            ->toJson();    
+    }
+    public function index_no_encuestados($encuesta_id) //Vendedor listado de clientes para vendedor
+    {
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
+        
+        $ids = [];
+        $idsss = [];
+        foreach ($marcas as $marca) {           
+            $idsss [] = $marca[0]->cliente_id;
+         }
+         // $clientes = Cliente::all()->whereNotIn('id', $idsss);
+         
+
+         $idss = ClienteVendResource::collection(collect(Cliente::all()->where('user_id','!=', auth()->user()->id)->whereNotIn('id', $idsss))); //No Encuestados
+
+         return datatables()
+            ->resource($idss)
+            ->addColumn('btn','encuestas.existencia.vendedor.acciones',$encuesta_id)
+            ->rawColumns(['btn'])
+            ->toJson();    
     }
 
     /**
@@ -25,9 +66,9 @@ class EncuestaExistenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) /// para existencia y precio
+    public function store(Request $request) //Vendedor
     {
-    
+
     }
 
     /**
@@ -36,11 +77,9 @@ class EncuestaExistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) //Ver Admin
     {
-        $encuesta = Encuesta::findOrFail($id);
-        $encuesta = EncuestaExistenciaResource::collection(Encuesta::all()->where('id',$id)); 
-        return response()->json($encuesta);
+        
 
     }
 
@@ -51,7 +90,7 @@ class EncuestaExistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) //Vendedor
     {
         //
     }
@@ -65,5 +104,10 @@ class EncuestaExistenciaController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function edit($id){
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta = EncuestaExistenciaResource::collection(Encuesta::all()->where('id',$id)); 
+        return response()->json($encuesta);
     }
 }

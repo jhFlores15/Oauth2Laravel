@@ -7,10 +7,7 @@
 	<div class="justify-content-center text-center">
 		@if($encuesta->tipo_encuesta_id == 2)
 			<h2 class="text-center">Encuesta Cliente</h2>
-		@endif
-		{{-- @if($encuesta->tipo_encuesta_id == 2)
-			<h2 class="text-center">Encuesta Cliente</h2> //mas tipos
-		@endif --}}		
+		@endif	
 		<br>			
 		<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 

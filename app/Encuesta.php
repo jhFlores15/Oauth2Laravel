@@ -19,6 +19,11 @@ class Encuesta extends Model
     // public function marcas (){
     //     return $this->belongsToMany('App\Categoria','marcas','encuesta_id','categoria_id')->using('App\Marca')->withTimestamps()->withPivot(['nombre']);
     // }
+
+    public function marca_cliente()
+    {
+        return $this->hasManyThrough('App\ClienteMarca', 'App\Marca','encuesta_id','marca_id','id','id');
+    }
      public function marcas(){
         return $this->hasMany('App\Marca');
     }

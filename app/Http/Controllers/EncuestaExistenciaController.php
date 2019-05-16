@@ -6,21 +6,18 @@ use Illuminate\Http\Request;
 
 class EncuestaExistenciaController extends Controller
 {
-    public function update ($id){ //Vendedor
-
-    	//Si no hay ninguno encuestado
-
-    	$encuesta = \App\Encuesta::findOrFail($id);
-
-    	$marcas = $encuesta->marcas;
-    	foreach ($marcas as $marca) {
-    		if(count($marca->clientes) > 0){
-    			abort(404);
-    		}    		
-    	}
-    	return view('encuestas.existencia.edit' , ['encuesta_id' => $id]);
+    public function index($encuesta_id){
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        return view('encuestas.existencia.vendedor.index' , ['encuesta' => $encuesta]);
     }
-    public function store(Request $request){ //Vendedor
+    public function create ($id){ //Vendedor
+
+       
+    	
+    }
+    public function edit($id){ //Vendedor
+
+        return view('encuestas.existencia.edit' , ['encuesta_id' => $id]);
 
     }
 }

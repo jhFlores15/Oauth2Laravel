@@ -8,6 +8,7 @@ use Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Cliente as ClienteResource;
 use App\Http\Resources\ECV as ECVResource;
+use App\Cliente;
 
 class EncuestaClienteVendedorController extends Controller
 { ///////////DEL LADO DEL VENDEDOR
@@ -36,10 +37,9 @@ class EncuestaClienteVendedorController extends Controller
             // dd($clientess);
 
         }
-        else{ // listado de clientes del vendedro
-            $clientes = ClienteResource::collection(Cliente::where('user_id','=',$vendedor->id)); //PARA LOS OTROS TIPOS 
-        }
-        $vendedor = Auth::user();
+        // else{ // listado de clientes del vendedro
+        //     $clientess = ClienteResource::collection(Cliente::all()->where('user_id','=',$vendedor->id)); //PARA LOS OTROS TIPOS 
+        // }
 
          return datatables()
             ->resource($clientess)

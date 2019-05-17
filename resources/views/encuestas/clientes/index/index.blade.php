@@ -23,29 +23,7 @@
 	</div>
 </div>
  <script >
- 	window.onload = function(){
- 		console.log("montando clientes");
- 		ajaxGetClientes();
- 	};
-
- 	function ajaxGetClientes(){
- 		$.ajax({
-			method:"GET",
-			url:'/api/encuestas/cliente/'+{{ $encuesta->id }},
-			headers : {
-				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
-			},
-			success:function(resp){
-				console.log(resp.data);					
-			},
-			error(error){				
-				// alert('Comunas no Encontradas');
-				// $('#deleteModal').modal('hide');				
-			}
-		});
- 	}
-
+ 	
  	$(document).ready(function(){
 
  		if(!localStorage.getItem('access_token'))
@@ -58,7 +36,7 @@
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
-		        url:'/api/encuestas/cliente/'+{{ $encuesta->id }},
+		        url:'/api/encuestas/clientess/'+{{ $encuesta->id }},
 		        headers : {
  					'Content-Type': 'application/json',
  					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
@@ -71,7 +49,7 @@
 				{data: 'comuna.nombre'},
 				
 			],
-			"language":{
+	        "language":{
 				"info":"_TOTAL_ registros",
 				"search": "Buscar",
 				"paginate":{
@@ -88,15 +66,13 @@
 								'</select> registros',
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
-				"emptyTable":"No tiene Clientes para Encuestar...",
+				"emptyTable":"No hay Encuestas que realizar por el momento...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
-
 			},
 			"pagingType": "full_numbers",
 		});	
-		
 	});		
  </script>
  <style>

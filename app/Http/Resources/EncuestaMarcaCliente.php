@@ -14,6 +14,35 @@ class EncuestaMarcaCliente extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $array = [];
+        $marca = \App\Marca::find($this[0]->marca_id);
+        $encuesta = \App\Encuesta::find($marca->encuesta_id);
+        $marcas = $encuesta->marcas;
+        $categorias = $marcas->groupBy('categoria_id');  
+
+        foreach ($categorias as $categoria){
+            foreach ($categoria as $prod){
+                foreach ($this as $value) {
+                     foreach ($value as $val) {
+                         if($prod->id == $val->marca_id){
+                            $array [] = $val;
+                        }
+                    }
+                }
+            }
+        }
+        $cliente = \App\Cliente::find($this[0]->cliente_id);
+
+        return[
+            'id' => $this[0]->cliente_id,
+            'codigo' => $cliente->codigo,
+            'valores' => $array,
+            'rut' => $cliente->rut,
+            'dv' => $cliente->dv,
+            'razon_social' => $cliente->razon_social,
+            'comuna' => \App\Comuna::find($cliente->comuna_id),
+            'direccion' => $cliente->direccion,
+            'vendedor' => \App\User::find($cliente->user_id),
+        ];
     }
 }

@@ -23,26 +23,23 @@ class EncuestaExistenciaAdminController extends Controller
          $clientes = ClienteResource::collection(collect(Cliente::all()->whereNotIn('id', $idsss)));     
          return datatables()
             ->resource($clientes)
-            ->addColumn('btn','encuestas.existencia.acciones')
-            ->rawColumns(['btn'])
+            // ->addColumn('btn','encuestas.existencia.acciones')
+            // ->rawColumns(['btn'])
             ->toJson();    
     }
     public function index_encuestados($encuesta_id) 
     {
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
-
-        return response()->json($marcas);
-        
+        $clientes = $encuesta->marca_cliente->groupBy('cliente_id');        
              
-        $clientes = ClienteVendResource::collection(collect($ids));
+        $clientes = EncuestaMarcaClienteResource::collection(collect($clientes));
          
+        //return response()->json($clientes);
 
-
-        // return datatables()
-        //     ->resource($clientes)
-        //      ->addColumn('btn','encuestas.existencia.vendedor.accionesY')
-        //     ->rawColumns(['btn'])
-        //     ->toJson();    
+        return datatables()
+            ->resource($clientes)
+            //  ->addColumn('btn','encuestas.existencia.acciones')
+            // ->rawColumns(['btn'])
+            ->toJson();    
     }
 }

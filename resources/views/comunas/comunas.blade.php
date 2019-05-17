@@ -115,6 +115,43 @@
 				{data: 'region.nombre'},
 				{data: 'btn'}
 			],
+			dom: 'Bfrtip',
+			lengthMenu: [
+	            [ 10, 25, 50, -1 ],
+	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	        ],
+	        buttons: [
+	            'copy',
+	            {
+	            	extend: 'excel',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'pdf',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'print',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },autoFilter: true,
+	            }, 
+	            {
+	            	extend: 'colvis',
+	            	text: 'Seleccionar Columnas',
+	            	collectionLayout: 'fixed two-column',
+	            },
+	            'pageLength',
+	        ],
 			"language":{
 				"info":"_TOTAL_ registros",
 				"search": "Buscar",
@@ -124,27 +161,24 @@
 					"first": "Primero",
 					"last" : "Ultimo"
 				},
-				"lengthMenu":'Mostrar <select>'+
-								'<option value="10">10</option>'+
-								'<option value="30">30</option>'+
-								'<option value="60">60</option>'+
-								'<option value="-1">Todos</option>'+
-								'</select> registros',
+				
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
 				"emptyTable":"No hay datos...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
+				"buttons":{
+					 copyTitle: 'Copiado al Portapapeles',
+					 copySuccess: {
+	                    _: '%d lineas copiadas',
+	                    1: '1 linea copiada'
+	                }
+				},
 
 			},
 			"pagingType": "full_numbers",
-			// 'dom': 'Bfrtip',
-			// 'buttons':[
-			// 	'copy','excel','pdf'
-			// ],
-		});	
-		
+			});	
 	});
 
 

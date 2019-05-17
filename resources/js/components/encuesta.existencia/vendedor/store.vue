@@ -87,8 +87,6 @@ export default {
         }).catch(error => {
           console.log(error)
         })
-      
-
   	},
   	postMarca(valor,marca_id){
   		var marca_cliente = {};

@@ -22,9 +22,9 @@
 		  	@endif	
 		  	@if($encuesta->editableEliminable)
 		  		<li class="nav-item">
-		  			<a type="button" href="/encuestas/{{ $encuesta->id }}/edit/" class="btn btn-primary btn-sm">Editar</a>
+		  			<a type="button" href="/encuestas/{{ $encuesta->id }}/edit/" class="btn btn-outline-primary">Editar</a>
 		  		</li>
-		  		 <button type="button" onclick="modalEliminar()" class="btn btn-danger btn-sm ">
+		  		 <button type="button" onclick="modalEliminar()" class="btn btn-outline-danger">
 					Eliminar
 				</button>	
 			    	
@@ -87,29 +87,36 @@
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
 		  	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-		  		<div class="card card-body" style="width: 90%;  margin:auto;">
+		 
 					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
-						<thead> 
-						  {{-- 	<tr>
-						  		<th colspan="2">Datos Cliente</th>
+						<thead> 						
+						  	<tr>
+						  		<th colspan="7">Datos Cliente</th>
 							  	@foreach ($categorias as $categoria)
 							  		 <th colspan="{{ $categoria->count() }}">{{ $categoria[0]->categoria->nombre }}</th>
 							  	@endforeach	
 							  	<th rowspan="2">&nbsp;</th>			               
 			            	</tr>
 							<tr>
+								<th>Codigo</th>
+								<th>Razon Social</th>
+								<th>Rut</th>
+								<th>dv</th>
+								<th>Direccion</th>
+								<th>Comuna</th>
+								<th>Vendedor</th>	
 								@foreach ($categorias as $categoria)
 									@foreach ($categoria as $prod)
 								    	<th>{{ $prod->nombre }}</th>
 								    @endforeach
 								@endforeach	
-							</tr> --}}
+							</tr>
 						</thead>							
 					</table>  
-				</div>
+			
 		  	</div>
 		  	<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				<div class="card card-body" style="width: 90%;  margin:auto;">
+				
 		</nav>
 					<table id="noEncuestados" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 							
@@ -120,12 +127,11 @@
 								<th>dv</th>
 								<th>Vendedor</th>
 								<th>Direccion</th>
-								<th>Comuna</th>	
-								<th>&nbsp;</th>
+								<th>Comuna</th>
 							</tr>
 						</thead>							
 					</table>  
-				</div>
+			
 			</div>
 		</div>
 <!-- ////////////////////Modal Eliminar////////////////////////////-->
@@ -250,7 +256,7 @@
  		{
  			location.href = 'http://localhost:3000/';
  		}
-
+ 		var data = "";
 		var table = $('#clientes').DataTable(
 			{
 			'paging': true,
@@ -261,13 +267,23 @@
  					'Content-Type': 'application/json',
  					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
  				},
+ 				
 		    },		
 			"columns":[
 				{data: 'codigo'},
 				{data: 'razon_social'},
-				{data:'vendedor.codigo'},
+				{data: 'rut'},
+				{data: 'dv'},
+				{data:'direccion'},
 				{data:'comuna.nombre'},
-				{data: 'btn'},
+				{data:'vendedor.codigo'},
+				
+			
+			@for ($i = 0; $i < 9; $i++)
+				 {data: 'valores.{{ $i }}.valor'},
+			@endfor	
+
+				// {data: 'btn'},
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
@@ -352,8 +368,45 @@
 				{data:'vendedor.codigo'},
 				{data:'direccion'},
 				{data:'comuna.nombre'},
-				{data: 'btn'},			
+				// {data: 'btn'},			
 			],
+			dom: 'Bfrtip',
+			lengthMenu: [
+	            [ 10, 25, 50, -1 ],
+	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	        ],
+	        buttons: [
+	            'copy',
+	            {
+	            	extend: 'excel',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'pdf',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'print',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },autoFilter: true,
+	            }, 
+	            {
+	            	extend: 'colvis',
+	            	text: 'Seleccionar Columnas',
+	            	collectionLayout: 'fixed two-column',
+	            },
+	            'pageLength',
+	        ],
 			"language":{
 				"info":"_TOTAL_ registros",
 				"search": "Buscar",
@@ -363,21 +416,24 @@
 					"first": "Primero",
 					"last" : "Ultimo"
 				},
-				"lengthMenu":'Mostrar <select>'+
-								'<option value="10">10</option>'+
-								'<option value="30">30</option>'+
-								'<option value="60">60</option>'+
-								'<option value="-1">Todos</option>'+
-								'</select> registros',
+				
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
-				"emptyTable":"No hay Encuestas que realizar por el momento...",
+				"emptyTable":"No hay datos...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",
+				"buttons":{
+					 copyTitle: 'Copiado al Portapapeles',
+					 copySuccess: {
+	                    _: '%d lineas copiadas',
+	                    1: '1 linea copiada'
+	                }
+				},
+
 			},
 			"pagingType": "full_numbers",
-		});	
+			});	
 		
 	});		
  </script>

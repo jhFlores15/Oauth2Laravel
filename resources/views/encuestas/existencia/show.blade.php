@@ -90,18 +90,20 @@
 		  		<div class="card card-body" style="width: 90%;  margin:auto;">
 					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 
+						  {{-- 	<tr>
+						  		<th colspan="2">Datos Cliente</th>
+							  	@foreach ($categorias as $categoria)
+							  		 <th colspan="{{ $categoria->count() }}">{{ $categoria[0]->categoria->nombre }}</th>
+							  	@endforeach	
+							  	<th rowspan="2">&nbsp;</th>			               
+			            	</tr>
 							<tr>
-								<th>Codigo</th>
-								<th>Razon Social</th>
-								{{-- <th>Rut</th>
-								<th>dv</th> --}}
-								<th>Vendedor</th>
-								<th>fecha_nacimiento</th>
-								<th>Telefono</th>
-								<th>Email</th>
-								<th>Comuna</th>
-								<th>&nbsp;</th>
-							</tr>
+								@foreach ($categorias as $categoria)
+									@foreach ($categoria as $prod)
+								    	<th>{{ $prod->nombre }}</th>
+								    @endforeach
+								@endforeach	
+							</tr> --}}
 						</thead>							
 					</table>  
 				</div>
@@ -110,7 +112,7 @@
 				<div class="card card-body" style="width: 90%;  margin:auto;">
 		</nav>
 					<table id="noEncuestados" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
-						<thead> 
+						<thead> 							
 							<tr>
 								<th>Codigo</th>
 								<th>Razon Social</th>
@@ -254,7 +256,7 @@
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
-		        url: '/api/encuesta/clientes/{{ $encuesta->id }}',
+		        url: '/api/encuestas/existencia/Admin/Y/{{ $encuesta->id }}',
 		        headers : {
  					'Content-Type': 'application/json',
  					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
@@ -263,13 +265,7 @@
 			"columns":[
 				{data: 'codigo'},
 				{data: 'razon_social'},
-				// {data: 'rut'},
-				// {data: 'dv'},
 				{data:'vendedor.codigo'},
-				{data:'fecha_nacimiento'},
-				{data:'telefono'},
-				{data:'email'},
-				// {data:'direccion'},
 				{data:'comuna.nombre'},
 				{data: 'btn'},
 			],

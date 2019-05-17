@@ -69,20 +69,21 @@ export default {
      
   },
   methods:{
+    verifi(c,marcs){
+      if(Object.keys(c).length == marcs.length){
+            location.href = '/encuestas/E/P/'+this.encuesta_id;
+      }
+      else{
+        alertify.set('notifier','position', 'top-right');
+          alertify.notify('Faltan productos por encuestar', 'error', 10, function(){  console.log(); });
+        }
+
+    },
   	terminar(){
   		axios.get('/api/encuestas/cli_marca/'+this.cliente_id+'/'+this.encuesta_id,this.config).
         then(response => { 
         	var marcs = response.data;
-        	console.log(marcs.length);
-        	console.log(this.marcas_se.length);
-        	if(marcs.length == this.marcas_se.length){
-        		location.href = '/encuestas/E/P/'+this.encuesta_id;
-        	}
-        	else{
-        		alertify.set('notifier','position', 'top-right');
-            	alertify.notify('Faltan productos por encuestar', 'error', 10, function(){  console.log(); });        
-        	}
-
+          this.verifi(marcs,  this.marcas_se);
         }).catch(error => {
           console.log(error)
         })

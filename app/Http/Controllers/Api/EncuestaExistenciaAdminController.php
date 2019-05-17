@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cliente as ClienteResource;
+use App\Http\Resources\ClienteVend as ClienteVendResource;
+use App\Http\Resources\EncuestaMarcaCliente as EncuestaMarcaClienteResource;
+
 use App\Cliente;
 
 class EncuestaExistenciaAdminController extends Controller
@@ -28,27 +31,18 @@ class EncuestaExistenciaAdminController extends Controller
     {
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
-        
-        $ids = [];
-        foreach ($marcas as $marca) {
-            $cliente =  \App\Cliente::find($marca[0]->cliente_id);
-            if($cliente->user_id == auth()->user()->id){
-                $id = new \stdClass();
-                $id->id = $marca[0]->cliente_id;
-                $id->encuesta_id = $encuesta_id;
-                $ids [] = $id;
-            }            
-         }         
-         $clientes = ClienteVendResource::collection(collect($ids)); //Encuestados del vendedor
-          $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-          $clientes->map(function($cliente) use($encuesta){
-            $cliente->encuesta_id = $encuesta;
-        });
 
-        return datatables()
-            ->resource($clientes)
-             ->addColumn('btn','encuestas.existencia.vendedor.accionesY')
-            ->rawColumns(['btn'])
-            ->toJson();    
+        return response()->json($marcas);
+        
+             
+        $clientes = ClienteVendResource::collection(collect($ids));
+         
+
+
+        // return datatables()
+        //     ->resource($clientes)
+        //      ->addColumn('btn','encuestas.existencia.vendedor.accionesY')
+        //     ->rawColumns(['btn'])
+        //     ->toJson();    
     }
 }

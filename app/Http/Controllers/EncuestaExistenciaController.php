@@ -77,8 +77,9 @@ class EncuestaExistenciaController extends Controller
             }           
         }
         $encuesta->{"editableEliminable"}= $editable;
-
-        return view('encuestas.existencia.show' , ['encuesta' => $encuesta ]);
+        //categorias y sus productos
+        $categorias = $marcas->groupBy('categoria_id');        
+        return view('encuestas.existencia.show' , ['encuesta' => $encuesta , 'categorias' => $categorias]);
 
     }
 }

@@ -48,8 +48,6 @@ class EncuestaExistenciaController extends Controller
     {
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
-        
-        $ids = [];
         $idsss = [];
         foreach ($marcas as $marca) {           
             $idsss [] = $marca[0]->cliente_id;
@@ -102,6 +100,7 @@ class EncuestaExistenciaController extends Controller
      */
     public function show($id) //Ver Admin
     {
+
         
         
 

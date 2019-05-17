@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Encuesta as EncuestaResource;
+use Carbon\Carbon;
+use DateTime;
 
 class EncuestaExistenciaController extends Controller
 {
@@ -29,6 +32,42 @@ class EncuestaExistenciaController extends Controller
             }
          }
          return view('encuestas.existencia.vendedor.edit' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+
+    }
+    public function show($encuesta_id){
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta->tipo_encuesta;
+         $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
+        $termino="";$m="";$n="";
+        if($encuesta->inicio){
+            $m = Carbon::parse($encuesta->inicio)->format('d-m-Y');
+        }
+        if($encuesta->termino){
+            $n = Carbon::parse($encuesta->termino)->format('d-m-Y');
+            $termino = (new DateTime($encuesta->termino))->diff(new DateTime())->format('%R');
+        }   
+        $estado = '';
+         if($empezo == '-'){
+             $estado = 'Inactivo';
+        }
+        if($termino == '+'){
+            $estado = 'Finalizado';
+        }
+        if($empezo == '+' && $termino == '-'){
+            $estado = 'En Proceso';
+        }
+        if($empezo == '+' && $termino == ''){
+            $estado = 'En Proceso';
+        }
+        $encuesta->{"estado"}= $estado;
+
+         $encuestados = $encuesta->marca_cliente->groupBy('cliente_id');
+         $encuesta->{"registros"}= $encuestados->count();
+
+         $total = \App\Cliente::all()->count();
+        $encuesta->{"total"}= $total;
+
+        return view('encuestas.existencia.show' , ['encuesta' => $encuesta ]);
 
     }
 }

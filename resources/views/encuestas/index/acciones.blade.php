@@ -1,6 +1,10 @@
 @if($tipo_encuesta->id == 2)
 	<a type="button" href="/encuesta/clientes/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
 @endif
+@if($tipo_encuesta->id == 1)
+	<a type="button" href="/encuestas/E/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
+@endif
+
 
 @if ($estado === 'Inactivo' && $tipo_encuesta->id == 2)
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
@@ -9,9 +13,6 @@
 @endif
 
 <?php $boolEditable =  \App\Encuesta::Editable_Eliminable($id); ?>
-@if ($boolEditable === false && $tipo_encuesta->id != 2)
-	<a type="button" href="/encuesta/clientes/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
-@endif
 @if ($boolEditable === true && $tipo_encuesta->id != 2)	
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
 		Eliminar

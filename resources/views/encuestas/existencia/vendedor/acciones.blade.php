@@ -1,0 +1,1 @@
+<a type="button"  href="/clientes/{{ $id }}" class="btn btn-primary btn-sm">Ver Cliente</a>

@@ -19,8 +19,7 @@
 					<th>Tipo de Encuesta</th>
 					<th>Inicio</th>
 					<th>Termino</th>
-					<th>Registro</th>
-					<th>&nbsp;</th>
+					<th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
 				</tr>
 			</thead>							
 		</table>
@@ -53,7 +52,6 @@
 				{data: 'tipo_encuesta.nombre'},
 				{data: 'inicio'},
 				{data: 'termino'},
-				{data: 'created_at'},
 				{data: 'btn'},
 			],
 			"language":{

@@ -67,6 +67,17 @@ class EncuestaExistenciaController extends Controller
          $total = \App\Cliente::all()->count();
         $encuesta->{"total"}= $total;
 
+        $editable = true;
+        
+        $marcas = $encuesta->marcas;
+        foreach ($marcas as $marca) {
+            if(count($marca->clientes) > 0){
+                $editable = false;
+                break;
+            }           
+        }
+        $encuesta->{"editableEliminable"}= $editable;
+
         return view('encuestas.existencia.show' , ['encuesta' => $encuesta ]);
 
     }

@@ -56,6 +56,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('usuarios','Api\UserController@file')->name('usuarios.file');
     Route::delete('usuarios/{user}','Api\UserController@destroy');
 
+    Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados');
+    Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados');
+
 
     /////////////vendedor/////
     Route::resource('encuestas/existencia','Api\EncuestaExistenciaController');

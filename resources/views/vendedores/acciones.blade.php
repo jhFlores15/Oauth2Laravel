@@ -2,7 +2,7 @@
 <button type="button" onclick="modalEditar({{ $id}})" class="btn btn-primary ">
    Editar
 </button>
-<button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger ">
+<button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger  ">
 	Eliminar
 </button>
 
@@ -197,7 +197,8 @@
 	
 
 	//////////////funciones ajax//////////////
-	function ajaxEditar(id,rut,dv,razon_social,email,password,codigo){
+	function ajaxEditar(id,rut,dv,razon_social,email,password,codigo){		
+ 		$('#okEditar').html('<div class="loader"</div>');
 		console.log("lo que recibe ajax"+rut);
 		var data = {
 			'razon_social' : razon_social,
@@ -218,22 +219,24 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Edicion Exitosa');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Edicion Exitosa', 'success', 3, function(){  console.log(); });
 					location.reload(true);
 
 				}
 			},
-			error(error){					
+			error(error){								
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
-					incrustarErrores(errores);
-				}
+					incrustarErrores(errores);}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
-				//alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
 			}
 		});
+			$('#okEditar').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
 
@@ -254,15 +257,15 @@
 				}
 			},
 			error(error){				
-				alert('Usuario no Encontrado');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Usuario no encontrado', 'error', 3, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
-				
-				
 			}
 		});
 	}
 
 	function ajaxEliminar(id){
+		$('#okDelete').html('<div class="loader"</div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/usuarios/'+ id,
@@ -273,15 +276,18 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Eliminado Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Eliminacion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Usuario no puede ser Eliminado, constituye perdida de Datos', 'error', 8, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');	
 	}
 	function incrustarErrores(errores){
 		$('#errorRut').html('<div></div>');
@@ -335,3 +341,23 @@
 
 	}
 </script>
+<style>
+.loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 100%;
+  border-top: 10px solid #3498db;
+  border-bottom: 10px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}  
+</style>

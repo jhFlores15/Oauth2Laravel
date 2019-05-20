@@ -147,8 +147,6 @@ class ClienteController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-
-
         if($request->hasFile('file')){
             $file = $request->file('file');
             $clientes = (new FastExcel)->import($file, function ($line) {

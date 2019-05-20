@@ -25,7 +25,7 @@
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
 					  	  	<div class="input-group-prepend">
-					    		 <button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					    		 <button type="button" id="postDatosSub" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
 					    	</div>					  
 						</div>
 						
@@ -135,7 +135,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	        <button type="button" onclick="okUsuario()" class="btn btn-primary">Guardar</button>
+	        <button type="button" onclick="okUsuario()" id="okUsuario1" class="btn btn-primary">Guardar</button>
 	      </div>
 	    	</div>
 	  	</div>
@@ -147,6 +147,7 @@
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
 	function postDatos(){
+		$('#postDatosSub').html('<div class="loader"</div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -165,7 +166,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Datos Actualizados correctamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Datos Actualizados Correctamente', 'success', 3, function(){  console.log(); });
 					location.reload(true);
 				}
 			},
@@ -183,11 +185,13 @@
 					}	
 				}
 				else{
-					alert('ah Ocurrido un error, los datos no se han actualizado Correctamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('ah Ocurrido un error, los datos no se han actualizado Correctamente', 'error', 8, function(){  console.log(); });
 					console.log(error.responseJSON);
 				}
 			}
 		});
+		$('#postDatosSub').html('<button type="button" id="postDatosSub" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 	}
  	function nuevoAdministrador(){
  		$('#errorRutNew').html('<div></div>');
@@ -210,7 +214,7 @@
  	}
 
  	function ajaxNew(rut,dv,razon_social,email,password,codigo){
-		console.log("lo que recibe ajax"+rut);
+		$('#okUsuario1').html('<div class="loader"</div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -231,7 +235,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Vendedor Creado');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Vendedor Registrado Correctamente', 'success', 4, function(){  console.log(); });
 					location.reload(true);
 				}
 			},
@@ -241,11 +246,13 @@
 					incrustarErroresNew(errores);	
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
 				
 			}
 		});
+		$('#okUsuario1').html('<button type="button" onclick="okUsuario1()" id="okUsuario" class="btn btn-primary">Guardar</button>');	
 	}
 
  	function incrustarErroresNew(errores){
@@ -372,8 +379,7 @@
 					"previous":"Anterior",
 					"first": "Primero",
 					"last" : "Ultimo"
-				},
-				
+				},				
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
 				"emptyTable":"No hay datos...",
@@ -411,6 +417,28 @@
 
 		
  </script>
+ <style>
+ 	.loader {
+	  border: 10px solid #f3f3f3;
+	  border-radius: 100%;
+	  border-top: 10px solid #3498db;
+	  border-bottom: 10px solid #3498db;
+	  width: 40px;
+	  height: 40px;
+	  -webkit-animation: spin 2s linear infinite;
+	  animation: spin 2s linear infinite;
+	}
+
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+ </style>
 
 
 @endsection

@@ -61,10 +61,10 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
 		@if($tipo_encuesta->id == 2)
-       		<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>
+       		<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary delete2">Si</button>
        	@endif
        	@if(($tipo_encuesta->id == 1) ||($tipo_encuesta->id == 3)) <!-- Existencia Precio-->
-       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>
+       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary delete13">Si</button>
        	@endif		
       </div>
     </div>
@@ -104,6 +104,7 @@
 		ajaxEliminarEP(id);
 	}
 	function ajaxEliminarEP(id){// este tipo de encuesta
+		$('delete13').html('<div class="loader"</div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/'+id,
@@ -123,8 +124,10 @@
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary delete13">Si</button>');
 	}
 	function ajaxEliminar(id){// este tipo de encuesta
+		$('delete2').html('<div class="loader"</div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/clientes/'+id,
@@ -144,6 +147,7 @@
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('.delete2').html('<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary delete2">Si</button>');
 	}
 </script>
 

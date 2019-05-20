@@ -190,7 +190,8 @@
 				$('#vendedoresList').html(opciones+'</select>');			
 			},
 			error(error){				
-				alert('vendedores no Encontrados');				
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Vendedores no encontrados', 'error', 3, function(){  console.log(); });  			
 			}
 		});
 
@@ -215,7 +216,8 @@
 				$('#comunasList').html(opciones+'</select>');		
 			},
 			error(error){				
-				alert('comunas no Encontrados');				
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Comunas no Encontradas', 'error', 3, function(){  console.log(); });  		
 			}
 		});
  	}
@@ -240,6 +242,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id){
+		$('#okEditar').html('<div class="loader"</div>');
 		var data = {
 			'codigo': codigo,
 			'rut' : rut,
@@ -260,9 +263,9 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Edicion Exitosa');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Edicion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
-
 				}
 			},
 			error(error){
@@ -271,11 +274,12 @@
 					incrustarErrores(errores);	
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
-				//alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
 			}
 		});
+		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarCliente()" class="btn btn-primary">Guardar</button>');
 	}
 
 
@@ -296,15 +300,13 @@
 				}
 			},
 			error(error){				
-				alert('Comuna no Encontrada');
 				$('#deleteModal').modal('hide');
-				
-				
 			}
 		});
 	}
 
 	function ajaxEliminar(id){
+		$('#okDelete').html('<div class="loader"</div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/clientes/'+ id,
@@ -315,15 +317,18 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Cliente Eliminado Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Cliente Eliminado Exitosamente', 'success', 3, function(){  console.log(); });  
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Cliente no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Cliente no puede ser Eliminada, constituye perdida de Datos', 'error', 3, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarCliente()" class="btn btn-primary">Si</button>');
 	}
 	function incrustarErrores(errores){
 		$('#errorRut').html('<div></div>');
@@ -368,7 +373,24 @@
 			);
 		}
 	}
-
-
-	
 </script>
+<style>
+.loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 100%;
+  border-top: 10px solid #3498db;
+  border-bottom: 10px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}  
+</style>

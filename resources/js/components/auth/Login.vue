@@ -16,6 +16,10 @@
                     <a class="nav-link" href="/clientes">Clientes <span class="sr-only">(current)</span>
                     </a>
                   </li> 
+                  <li class="nav-item-active">
+                    <a class="nav-link" href="/administradores">Administradores <span class="sr-only">(current)</span>
+                    </a>
+                  </li> 
                    <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Encuestas
@@ -35,10 +39,7 @@
                        <a class="dropdown-item" href="/regiones">Regiones <span class="sr-only">(current)</span>
                         </a>
                         <a class="dropdown-item" href="/comunas">Comunas <span class="sr-only">(current)</span>
-                        </a>
-                        <a class="dropdown-item" href="/clientes">Clientes <span class="sr-only">(current)</span>
-                        </a>
-
+                        </a>                       
                     </div>
                   </li>
                                
@@ -55,7 +56,7 @@
                
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
-           <a class="nav-link" href="#"  @click.stop='logout()'>Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
+           <a class="nav-link" href="#">Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
            </a>
          <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
           </a>
@@ -76,12 +77,16 @@
                  <label for="dropdown-login">Password</label>
                  <input type="password"  class="form-control" @keyup.enter='postLogin()' placeholder="Password" v-model="password">
                  <br>
+                
                  <div class="alert alert-danger" v-if="errorLogin.password"role="alert">
                     {{ errorLogin.password[0] }}
                   </div>                
               </div>
-              <div class="col text-center">
-                <button type="button" @click.stop='postLogin()'  class="btn btn-primary ">Aceptar</button>
+               <div class="col text-center " v-if="(loading == true)">                
+                <div class="loader"  style="margin: auto;"></div>
+              </div>
+              <div class="col text-center" v-else>
+                <button type="button" @click.stop='postLogin()'  class="btn btn-primary "> Aceptar </button>
               </div>
                           
             </form>                 
@@ -109,6 +114,7 @@ export default {
           errorLogin:{
             message:'',
           },
+          loading:false,
       }
   },
   
@@ -141,16 +147,20 @@ export default {
         })
     },  
     postLogin(){
+      this.loading = true;
        this.errorLogin = '';
       axios.post('/api/auth/login',{
           password : this.password,
           email : this.email,     
       }).then(response =>{
-        console.log(response.data);
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Inicio de Sesion Exitoso', 'success', 3, function(){  console.log(); });
+
         localStorage.access_token = response.data.access_token;
         localStorage.token_type = response.data.token_type; 
         location.reload();     
       }).catch(error =>{
+        this.loading = false;
           if((error.response.status == 401) && (error.response.data.message == 'Los Datos ingresados no son correctos' )){
               alertify.set('notifier','position', 'top-right');
              alertify.notify('Los Datos ingresados no son correctos', 'error', 3, function(){  console.log(); });  
@@ -161,11 +171,13 @@ export default {
       });
     },
     logout(){
-      axios.post('/api/auth/logout',{
-        
+      axios.post('/api/auth/logout',{        
       },this.config).then(response =>{
         localStorage.access_token = '';
         localStorage.token_type = '';
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('ok', 'success', 3, function(){  console.log(); });
+
         location.href="/";    
        
       }).catch(error =>{
@@ -176,3 +188,27 @@ export default {
   }
 }
 </script>
+<style>
+
+.loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 100%;
+  border-top: 10px solid #3498db;
+  border-bottom: 10px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  
+</style>

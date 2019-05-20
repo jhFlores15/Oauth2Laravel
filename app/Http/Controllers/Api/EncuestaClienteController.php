@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Encuesta as EncuestaResource;
 use App\Http\Resources\ECV as ECVResource;
 use App\Encuesta;
+use Illuminate\Support\Facades\DB;
 
 class EncuestaClienteController extends Controller
 {  
@@ -67,27 +68,39 @@ class EncuestaClienteController extends Controller
         $encuesta->clientes()->detach(); //Probar 
         if($request->hasFile('csv')){
             $csv = $request->file('csv');
-            $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
-                $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
-                    $fecha = null;$telefono=null;$email =null;
-                
-                    if($line['fecha_nacimiento']){
-                        $fecha = Carbon::parse($line['fecha_nacimiento'])->format('Y-m-d');
-                    }
-                    if($line['telefono']){
-                        $telefono = $line['telefono'];
-                    }
-                    if($line['email']){
-                        $email = $line['email'];
-                    }
-                    if($cliente){                       
-                        return $encuesta->clientes()->attach($cliente->id,[
-                            'fecha_nacimiento' => $fecha ,
-                            'telefono'  => $telefono,
-                            'email' => $email,
-                        ]);   
-                    } 
-            });
+
+            DB::beginTransaction();
+             
+            try {
+                $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
+                    $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
+                        $fecha = null;$telefono=null;$email =null;
+                    
+                        if($line['fecha_nacimiento']){
+                            $fecha = Carbon::parse($line['fecha_nacimiento'])->format('Y-m-d');
+                        }
+                        if($line['telefono']){
+                            $telefono = $line['telefono'];
+                        }
+                        if($line['email']){
+                            $email = $line['email'];
+                        }
+                        if($cliente){                       
+                            return $encuesta->clientes()->attach($cliente->id,[
+                                'fecha_nacimiento' => $fecha ,
+                                'telefono'  => $telefono,
+                                'email' => $email,
+                            ]);   
+                        } 
+                });
+                 DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            } catch (\Throwable $e) {
+                DB::rollback();
+                throw $e;
+            }
         }
         return response()->json('ok');
     }

@@ -3,7 +3,6 @@
 @section('dataTable')
 <div class="container-fluid" >
 	<br>
-
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuestas</h2>
 		<br>	

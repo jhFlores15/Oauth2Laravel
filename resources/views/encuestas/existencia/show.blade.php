@@ -279,7 +279,7 @@
 				{data:'vendedor.codigo'},
 				
 			
-			@for ($i = 0; $i < 9; $i++)
+			@for ($i = 0; $i < $encuesta->marcasCount; $i++)
 				 {data: 'valores.{{ $i }}.valor'},
 			@endfor	
 

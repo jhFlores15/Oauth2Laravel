@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TipoEncuestasTableSeeder::class,
             ComunasTableSeeder::class,
             TiposProductosTableSeeder::class,
+            PrimerAdminSeeder::class,
         ]);
 
     }

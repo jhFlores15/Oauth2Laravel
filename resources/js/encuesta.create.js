@@ -73,7 +73,12 @@ const appp = new Vue({
                 'categorias' : this.categorias,
         
             },this.config).then(response =>{
-                location.href='/encuestas/existencia/'+response.data.id;/////ir a ver encuesta           
+                if(this.select_tipo_encuesta == 1){
+                    location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
+                }
+                else if(this.select_tipo_encuesta == 3){
+                    location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
+                }
             }).catch(error =>{
                 if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;

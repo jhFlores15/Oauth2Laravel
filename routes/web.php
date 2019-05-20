@@ -35,7 +35,12 @@ Route::get('encuestas/clientes/{encuesta}','EncuestaClienteVendedorController@in
 Route::get('encuestas/E/P/{encuesta}','EncuestaExistenciaController@index');
 Route::get('encuestas/E/{encuesta}/{cliente_id}/create','EncuestaExistenciaController@create');
 Route::get('encuestas/E/{encuesta}/{cliente_id}/edit','EncuestaExistenciaController@edit');
-Route::get('encuestas/E/{encuesta}/','EncuestaExistenciaController@show');
+Route::get('encuestas/E/{encuesta}/','EncuestaExistenciaController@show'); //Admin
+
+
+Route::get('encuestas/P/{encuesta}/{cliente_id}/create','EncuestaPrecioController@create');
+Route::get('encuestas/P/{encuesta}/{cliente_id}/edit','EncuestaPrecioController@edit');
+Route::get('encuestas/P/{encuesta}/','EncuestaPrecioController@show'); //Admin
 
 Route::resource('encuesta/clientes','EncuestaClienteController');
 // Route::resource('encuestas/existencia','EncuestaExistenciaController');

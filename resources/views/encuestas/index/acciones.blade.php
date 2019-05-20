@@ -4,6 +4,9 @@
 @if($tipo_encuesta->id == 1)
 	<a type="button" href="/encuestas/E/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
 @endif
+@if($tipo_encuesta->id == 3)
+	<a type="button" href="/encuestas/P/{{ $id }}" class="btn btn-primary btn-sm">Ver</a>
+@endif
 
 
 @if ($estado === 'Inactivo' && $tipo_encuesta->id == 2)

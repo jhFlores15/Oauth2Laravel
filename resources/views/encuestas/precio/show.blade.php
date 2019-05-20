@@ -88,7 +88,7 @@
 		<div class="tab-content" id="nav-tabContent">
 		  	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 		 
-					{{-- <table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
+					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 						
 						  	<tr>
 						  		<th colspan="7">Datos Cliente</th>
@@ -112,7 +112,7 @@
 								@endforeach	
 							</tr>
 						</thead>							
-					</table>   --}}
+					</table>  
 			
 		  	</div>
 		  	<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -257,98 +257,98 @@
  			location.href = 'http://localhost:3000/';
  		}
  		var data = "";
-		// var table = $('#clientes').DataTable(
-		// 	{
-		// 	'paging': true,
-		// 	"serverSide": true,
-		// 	 ajax: {
-		//         url: '/api/encuestas/existencia/Admin/Y/{{ $encuesta->id }}',
-		//         headers : {
- 	// 				'Content-Type': 'application/json',
- 	// 				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
- 	// 			},
+		var table = $('#clientes').DataTable(
+			{
+			'paging': true,
+			"serverSide": true,
+			 ajax: {
+		        url: '/api/encuestas/existencia/Admin/Y/{{ $encuesta->id }}',
+		        headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 				},
  				
-		//     },		
-		// 	"columns":[
-		// 		{data: 'codigo'},
-		// 		{data: 'razon_social'},
-		// 		{data: 'rut'},
-		// 		{data: 'dv'},
-		// 		{data:'direccion'},
-		// 		{data:'comuna.nombre'},
-		// 		{data:'vendedor.codigo'},
+		    },		
+			"columns":[
+				{data: 'codigo'},
+				{data: 'razon_social'},
+				{data: 'rut'},
+				{data: 'dv'},
+				{data:'direccion'},
+				{data:'comuna.nombre'},
+				{data:'vendedor.codigo'},
 				
 			
-		// 	@for ($i = 0; $i < 9; $i++)
-		// 		 {data: 'valores.{{ $i }}.valor'},
-		// 	@endfor	
+			@for ($i = 0; $i < $encuesta->marcasCount; $i++)
+				 {data: 'valores.{{ $i }}.valor'},
+			@endfor	
 
-		// 		// {data: 'btn'},
-		// 	],
-		// 	dom: 'Bfrtip',
-		// 	lengthMenu: [
-	 //            [ 10, 25, 50, -1 ],
-	 //            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-	 //        ],
-	 //        buttons: [
-	 //            'copy',
-	 //            {
-	 //            	extend: 'excel',
-	 //            	title:'Clientes Encuestados',
-	 //            	exportOptions: {
-	 //                    columns: ':visible'
-	 //                },
-	 //                autoFilter: true,
-	 //            },
-	 //            {
-	 //            	extend: 'pdf',
-	 //            	title:'Clientes Encuestados',
-	 //            	exportOptions: {
-	 //                    columns: ':visible'
-	 //                },
-	 //                autoFilter: true,
-	 //            },
-	 //            {
-	 //            	extend: 'print',
-	 //            	title:'Clientes Encuestados',
-	 //            	exportOptions: {
-	 //                    columns: ':visible'
-	 //                },autoFilter: true,
-	 //            }, 
-	 //            {
-	 //            	extend: 'colvis',
-	 //            	text: 'Seleccionar Columnas',
-	 //            	collectionLayout: 'fixed two-column',
-	 //            },
-	 //            'pageLength',
-	 //        ],
-		// 	"language":{
-		// 		"info":"_TOTAL_ registros",
-		// 		"search": "Buscar",
-		// 		"paginate":{
-		// 			"next":"Siguiente",
-		// 			"previous":"Anterior",
-		// 			"first": "Primero",
-		// 			"last" : "Ultimo"
-		// 		},
+				// {data: 'btn'},
+			],
+			dom: 'Bfrtip',
+			lengthMenu: [
+	            [ 10, 25, 50, -1 ],
+	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	        ],
+	        buttons: [
+	            'copy',
+	            {
+	            	extend: 'excel',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'pdf',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },
+	                autoFilter: true,
+	            },
+	            {
+	            	extend: 'print',
+	            	title:'Clientes Encuestados',
+	            	exportOptions: {
+	                    columns: ':visible'
+	                },autoFilter: true,
+	            }, 
+	            {
+	            	extend: 'colvis',
+	            	text: 'Seleccionar Columnas',
+	            	collectionLayout: 'fixed two-column',
+	            },
+	            'pageLength',
+	        ],
+			"language":{
+				"info":"_TOTAL_ registros",
+				"search": "Buscar",
+				"paginate":{
+					"next":"Siguiente",
+					"previous":"Anterior",
+					"first": "Primero",
+					"last" : "Ultimo"
+				},
 				
-		// 		"loadingRecords": "Cargando...",
-		// 		"processing":"Procesando...",
-		// 		"emptyTable":"No hay datos...",
-		// 		"zeroRecords": "No hay coincidencias",
-		// 		"infoEmpty": "iz",
-		// 		"infoFiltered": "de",
-		// 		"buttons":{
-		// 			 copyTitle: 'Copiado al Portapapeles',
-		// 			 copySuccess: {
-	 //                    _: '%d lineas copiadas',
-	 //                    1: '1 linea copiada'
-	 //                }
-		// 		},
+				"loadingRecords": "Cargando...",
+				"processing":"Procesando...",
+				"emptyTable":"No hay datos...",
+				"zeroRecords": "No hay coincidencias",
+				"infoEmpty": "iz",
+				"infoFiltered": "de",
+				"buttons":{
+					 copyTitle: 'Copiado al Portapapeles',
+					 copySuccess: {
+	                    _: '%d lineas copiadas',
+	                    1: '1 linea copiada'
+	                }
+				},
 
-		// 	},
-		// 	"pagingType": "full_numbers",
-		// });	
+			},
+			"pagingType": "full_numbers",
+		});	
 		var table = $('#noEncuestados').DataTable(
 			{
 			'paging': true,

@@ -78,7 +78,8 @@ class EncuestaExistenciaController extends Controller
         }
         $encuesta->{"editableEliminable"}= $editable;
         //categorias y sus productos
-        $categorias = $marcas->groupBy('categoria_id');        
+        $categorias = $marcas->groupBy('categoria_id'); 
+        $encuesta->{"marcasCount"}= $encuesta->marcas->count();       
         return view('encuestas.existencia.show' , ['encuesta' => $encuesta , 'categorias' => $categorias]);
 
     }

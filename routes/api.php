@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     /////////////vendedor/////
     Route::resource('encuestas/existencia','Api\EncuestaExistenciaController');
+    Route::resource('encuestas/precio','Api\EncuestaPrecioController');
     Route::get('encuestas/existencia/N/{encuesta_id}','Api\EncuestaExistenciaController@index_no_encuestados');
     Route::get('encuestas/existencia/Y/{encuesta_id}','Api\EncuestaExistenciaController@index_encuestados');
      Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update');

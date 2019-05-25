@@ -135,6 +135,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,nombre,numero){
+		$('#okEditar').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : nombre,
             'numero' : numero,
@@ -150,7 +151,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Edicion Exitosa');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Edicion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 
 				}
@@ -161,12 +163,12 @@
 					incrustarErrores(errores);
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
-					
-				//alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
 			}
 		});
+		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>');
 	}
 
 
@@ -194,8 +196,8 @@
 			}
 		});
 	}
-
 	function ajaxEliminar(id){
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/regiones/'+ id,
@@ -206,20 +208,22 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Region Eliminada Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Region Eliminada', 'success', 3, function(){  console.log(); });  
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Region no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Esta Region no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>');
 	}
 	function incrustarErrores(errores){
 		$('#errorName').html('<div></div>');
-		$('#errorNum').html('<div></div>');
-		
+		$('#errorNum').html('<div></div>');		
 		if(errores.nombre){
 			$('#errorName').html(
 				'<div class="alert alert-danger" role="alert">'+

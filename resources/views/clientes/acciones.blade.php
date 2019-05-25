@@ -65,7 +65,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar Comuna</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -242,7 +242,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id){
-		$('#okEditar').html('<div class="loader"</div>');
+		$('#okEditar').html('<div class="loader"></div>');
 		var data = {
 			'codigo': codigo,
 			'rut' : rut,
@@ -306,7 +306,7 @@
 	}
 
 	function ajaxEliminar(id){
-		$('#okDelete').html('<div class="loader"</div>');
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/clientes/'+ id,

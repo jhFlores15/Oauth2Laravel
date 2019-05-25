@@ -89,7 +89,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	        <button type="button" onclick="okUsuario()" class="btn btn-primary">Guardar</button>
+	        <button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>
 	      </div>
 	    	</div>
 	  	</div>
@@ -117,7 +117,7 @@
  	}
 
  	function ajaxNew(rut,dv,razon_social,email,password){
-		console.log("lo que recibe ajax"+rut);
+		$('#okUsuarioGuardar').html('<div class="loader"></div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -137,7 +137,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Administrador Creado');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Administrador Creado', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 				}
 			},
@@ -147,21 +148,21 @@
 					incrustarErroresNew(errores);	
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
 			}
 		});
+		$('#okUsuarioGuardar').html('<button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>');
 	}
 
  	function incrustarErroresNew(errores){
- 		console.log("error");
 		$('#errorRutNew').html('<div></div>');
 		$('#errorDvNew').html('<div></div>');
 		$('#errorEmailNew').html('<div></div>');
 		$('#errorRazonNew').html('<div></div>');
 		$('#errorPassNew').html('<div></div>');
 		if(errores['rut']){
-			console.log("entrando");
 			$('#errorRutNew').html(
 				'<div class="alert alert-danger" role="alert">'+
 				errores.rut[0]+
@@ -225,14 +226,14 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [-1 ],
+	            [  'Show all' ]
 	        ],
 	        buttons: [
 	            'copy',
 	            {
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
+	            	title:'Administradores ',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -240,7 +241,7 @@
 	            },
 	            {
 	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
+	            	title:'Administradores',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -248,7 +249,7 @@
 	            },
 	            {
 	            	extend: 'print',
-	            	title:'Clientes Encuestados',
+	            	title:'Administradores',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },autoFilter: true,
@@ -313,4 +314,5 @@
  	}
  </style>
 @endsection
+
 

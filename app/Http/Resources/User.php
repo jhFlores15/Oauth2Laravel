@@ -23,7 +23,6 @@ class User extends JsonResource
             'rut' => $this->rut,
             'dv' => $this->dv,
             'email' => $this->email,
-            'rol' => \App\Rol::find($this->rol_id),
             'password_visible' => $this->password_visible,
         ];
     }

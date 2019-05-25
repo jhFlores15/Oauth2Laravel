@@ -9,13 +9,13 @@
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		<button type="button" class="btn btn-outline-danger"  id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>
 			  	</li>
 		  	@endif
 		 
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
 		  		<li class="nav-item">
-		  			<button type="button" onclick="iniciar()" class="btn btn-outline-success">
+		  			<button type="button"  id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">
 		  				Iniciar Encuesta
 		  			</button>
 		  		</li>		  		
@@ -185,6 +185,7 @@
 		$('#deleteModal').modal('show');
 	}
 	function eliminarEncuestaEP(){ // este tipo de encuesta
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/{{ $encuesta->id }}',
@@ -195,20 +196,24 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Encuesta Eliminada Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+	   				alertify.notify('Encuesta Eliminada', 'success', 3, function(){  console.log(); });
 					location.href="/encuestas";
 				}
 			},
 			error(error){
-				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+	   			alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
 	}
 	
  	$('#example').tooltip({ boundary: 'window' })
  
  	function iniciar(){
+ 		$('#buttonIniciar').html('<div class="loader"></div>');
  		$.ajax({
 			method:"PUT",
 			url:'/api/encuesta/clientes/iniciar/{{ $encuesta->id }}',
@@ -219,17 +224,20 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('ok');
+					alertify.set('notifier','position', 'top-right');
+	   				alertify.notify('Encuesta Iniciada', 'success', 3, function(){  console.log(); });
 					location.reload(true);
 				}
 			},
 			error(error){
-				alert('ah ocurrido un error');
+				alertify.set('notifier','position', 'top-right');
+	   			alertify.notify('Error', 'error', 3, function(){  console.log(); });
 			}
 		});
-
+		$('buttonIniciar').html('<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
  	}
  	function terminar(){
+ 		$('#buttonTerminar').html('<div class="loader"></div>');
 		$.ajax({
 			method:"PUT",
 			url:'/api/encuesta/clientes/terminar/{{ $encuesta->id }}',
@@ -240,14 +248,17 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('ok');
+					alertify.set('notifier','position', 'top-right');
+	   				alertify.notify('Encuesta Finalizada', 'success', 3, function(){  console.log(); });
 					location.reload(true);
 				}
 			},
 			error(error){
-				alert('ah ocurrido un error');
+				alertify.set('notifier','position', 'top-right');
+	   			alertify.notify('Error', 'error', 3, function(){  console.log(); });
 			}
 		});
+		$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>');
  	}
 
  	$(document).ready(function(){

@@ -24,8 +24,8 @@
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
-					  	  	<div class="input-group-prepend">
-					    		 <button type="button" id="#postDatos" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					  	  	<div class="input-group-prepend" id="postDatos">
+					    		 <button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
 					    	</div>					  
 						</div>
 						
@@ -51,14 +51,14 @@
 			<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 				<thead> 
 					<tr>
+						<th>ID(interno)</th>
 						<th>Codigo</th>
 						<th>Razon Social</th>
 						<th>Rut</th>
 						<th>dv</th>
 						<th>Vendedor</th>
 						<th>Direccion</th>
-						<th>Comuna</th>						
-						<th>Registro</th>
+						<th>Comuna</th>	
 						<th>&nbsp;</th>
 					</tr>
 				</thead>							
@@ -143,7 +143,7 @@
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
 	function postDatos(){
-		$('#postDatos').html('<div class="loader"</div>');
+		$('#postDatos').html('<div class="loader"></div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -160,6 +160,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#postDatos').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -168,6 +169,7 @@
 				}
 			},
 			error(error){
+				$('#postDatos').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorFile').html('<div></div>');
@@ -185,9 +187,12 @@
 					alertify.notify('ah Ocurrido un error, los datos no se han actualizado Correctamente', 'error', 8, function(){  console.log(); });  
 					console.log(error.responseJSON);
 				}
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify(error.responseJSON.message, 'error', 40, function(){  console.log(); }); 
+				alertify.notify(error.responseJSON.file, 'error', 40, function(){  console.log(); });   
 			}
 		});
-		$('#postDatos').html('<button type="button" id="#postDatos" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+		
 	}
 	
  	window.onload = function(){
@@ -260,7 +265,7 @@
  	}
 
  	function ajaxNew(codigo,rut,dv,razon_social,direccion,vendedor_id,comuna_id){
- 		$('#okUsuarioM').html('<div class="loader"</div>');
+ 		$('#okUsuarioM').html('<div class="loader"></div>');
 		var data = {
 			'codigo': codigo,
 			'rut' : rut,
@@ -339,14 +344,31 @@
 	}
  
  	$(document).ready(function(){
-
  		if(!localStorage.getItem('access_token'))
  		{
  			location.href = 'http://localhost:3000/';
  		}
+ 		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
+            if ( this.context.length ) {
+                var jsonResult = $.ajax({
+                    url: '/api/clientes?length=-1',
+                    headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 					},
+                    data: {search: $('#search').val()},
+                    success: function (result) {
+                        //Do nothing
+                    },
+                    async: false
+                });
+                return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
+            }
+        } );
 
 		var table = $('#clientes').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
@@ -357,46 +379,27 @@
  				},
 		    },		
 			"columns":[
+				{data: 'id'},
 				{data: 'codigo'},
 				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'vendedor.codigo'},
+				{data:'vendedor'},
 				{data:'direccion'},
-				{data:'comuna.nombre'},
-				{data:'created_at'},
+				{data:'comuna'},
 				{data: 'btn'},
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows','Show all' ]
 	        ],
 	        buttons: [
-	            'copy',
-	            {
+	         	{
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
+	            	title: 'Clientes',
+	            	collectionLayout: 'fixed two-column',
 	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
 	            {
 	            	extend: 'colvis',
 	            	text: 'Seleccionar Columnas',

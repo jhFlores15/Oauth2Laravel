@@ -32,14 +32,10 @@ class EncuestaClienteVendedorController extends Controller
                 }            
 
             }
-            //dd($encuesta_cli);
             $clientess = ECVResource::collection(collect($encuesta_cli));
             // dd($clientess);
 
         }
-        // else{ // listado de clientes del vendedro
-        //     $clientess = ClienteResource::collection(Cliente::all()->where('user_id','=',$vendedor->id)); //PARA LOS OTROS TIPOS 
-        // }
 
          return datatables()
             ->resource($clientess)

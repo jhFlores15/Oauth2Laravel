@@ -110,7 +110,6 @@ class ClienteController extends Controller
         $cliente->razon_social = $request->get('razon_social');
         $cliente->direccion = $request->get('direccion');
 
-
         if($cliente->comuna_id !== $request->get('comuna_id')){
             $cliente->comuna()->dissociate();
             $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
@@ -150,30 +149,32 @@ class ClienteController extends Controller
         if($request->hasFile('file')){
             $file = $request->file('file');
             $clientes = (new FastExcel)->import($file, function ($line) {
-                $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
+                $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
                 if($cliente){ //actualizar
-                    $cliente->rut = $line['rut'];
-                    $cliente->dv = $line['dv'];
+                    $cliente->rut = trim($line['rut']);
+                    $cliente->dv = trim($line['dv']);
                     $cliente->razon_social = $line['razon_social'];
                     $cliente->direccion = $line['direccion'];                    
-                    $comuna = \App\Comuna::all()->where('nombre','=',$line['comuna'])->first();
+                    $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
                     $cliente->comuna_id = $comuna->id;
-                    $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
+                    $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                     $cliente->user_id = $vendedor->id;
                     $cliente->save();
                 }
                 else{ //crear
+                     if($line['codigo'] != ''){
                         $cliente = new \App\Cliente();
-                        $cliente->codigo = $line['codigo'];
-                        $cliente->rut = $line['rut'];
-                        $cliente->dv = $line['dv'];
+                        $cliente->codigo = trim($line['codigo']);
+                        $cliente->rut = trim($line['rut']);
+                        $cliente->dv =trim($line['dv']);
                         $cliente->razon_social = $line['razon_social'];
                         $cliente->direccion = $line['direccion'];
-                        $comuna = \App\Comuna::all()->where('nombre','=',$line['comuna'])->first();
+                        $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
                         $cliente->comuna_id = $comuna->id;
-                        $vendedor = \App\User::all()->where('codigo','=',$line['cod_vendedor'])->first();
+                        $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                         $cliente->user_id = $vendedor->id;
                         $cliente->save();
+                    }
                 } 
                 return ;
             });

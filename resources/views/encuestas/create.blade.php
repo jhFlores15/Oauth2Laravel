@@ -18,7 +18,7 @@
 				  	</div>
 				    <div class="col-md-4 mb-3">
 					      <label for="validationCustom02">Tipo Encuesta</label>
-					     <select   class="form-control" v-model ="select_tipo_encuesta">
+					     <select   class="form-control" v-on:change="changeTipoEncuesta()" v-model ="select_tipo_encuesta">
 					     	<option v-for="tipo in tipos_encuesta" :value="tipo.id">@{{ tipo.nombre}}</option>
 					     </select>
 					     <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.tipos_encuesta" >@{{ erroresEncuesta.tipos_encuesta[0] }}</div>
@@ -50,7 +50,13 @@
 							      </tr>
 							    </thead>			    
 				  			</table>
-				  			<button class="btn btn-primary"  @click.stop='postEncuestaCliente()' type="button">Crear</button>
+				  			  <div class="col text-center " v-if="(loaderCliente == true)">                
+			                <div class="loader"  style="margin: auto;"></div>
+			              </div>	
+			              <div  v-else>
+			              	<button class="btn btn-primary"  @click.stop='postEncuestaCliente()' type="button">Crear</button>			              		
+			              	</div>	
+				  			
 					 	</div>
 					</div>
 				  	 <div v-if="(select_tipo_encuesta == 1) || (select_tipo_encuesta == 3)" class="row justify-content-center" >
@@ -92,10 +98,7 @@
 													     <div class="form-group col-md-5">
 													     	<div v-for="tipo in tipos_productos" v-if="producto.tipo == tipo.id">
 													     		<input type="text" readonly  class="form-control-plaintext"  id="inputPassword4" v-model="tipo.nombre" >
-													     	</div>												     
-													      {{-- <select  class="form-control" v-model ="producto.tipo">
-													     	<option v-for="tipo in tipos_productos" :value="tipo.id">@{{ tipo.nombre}}</option>
-													     </select> --}}
+													     	</div>	
 													    </div>
 													 </div>	
 												</form>
@@ -113,7 +116,6 @@
 							  		<div class="form-row">							  		
 							  			<div class="form-group col-md-4">
 							  				<label style="margin: auto;" for=""><b>@{{ categoriaT.nombre }}</b></label>
-									      {{-- <input type="text" readonly  class="form-control-plaintext" v-model ="categoriaT.nombre"> --}}
 									    </div>
 									    <div class="card card-body" style="margin:auto;" >
 									    	<div v-for="prod in categoriaT.productos">
@@ -136,20 +138,21 @@
 								</form>
 					  	 	</div>				  	 	
 					  	 </div>
-					  	 <button v-if="(select_tipo_encuesta !== 2) && (categorias.length > 0)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button>
-					  	{{--  <button v-if="(select_tipo_encuesta == 2)" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button> --}}
+					  	   <div class="col text-center " v-if="(loaderExistente == true)">                
+			                <div class="loader"  style="margin: auto;"></div>
+			              </div>			             
+					  	 <button v-if="(select_tipo_encuesta !== 2) && (categorias.length > 0 && (loaderExistente == false))" class="btn btn-primary"  @click.stop='postEncuestaExistente()' type="button">Crear</button>
 					 </div> 
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
 @endsection
-<style type="text/css" media="screen">
+<script>
+window.onload = function(){
+ 	alertify.set('notifier','position', 'top-right');
+    alertify.notify('Recuerde que antes de crear una encuesta se debe subir la data de clientes actualizada al sistema', 'error', 20, function(){  console.log(); });
+};	
+</script>
 
-	.custom-file-input:lang(en) ~ .custom-file-label::after {
-  		content: 'Examinar' !important;
-	}
-	
-</style>

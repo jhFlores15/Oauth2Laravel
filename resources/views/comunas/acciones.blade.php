@@ -160,6 +160,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,nombre,region_id){
+		$('#okEditar').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : nombre,
             'region_id' : region_id,
@@ -175,7 +176,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Edicion Exitosa');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Edicion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 
 				}
@@ -186,10 +188,12 @@
 					incrustarErrores(errores);	
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
 			}
 		});
+		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>');
 	}
 
 
@@ -219,6 +223,7 @@
 	}
 
 	function ajaxEliminar(id){
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/comunas/'+ id,
@@ -229,15 +234,18 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Comuna Eliminada Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Comuna Eliminada', 'success', 3, function(){  console.log(); });  
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Comuna no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Esta Comuna no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>');
 	}
 	function incrustarErrores(errores){
 		$('#errorComuna').html('<div></div>');

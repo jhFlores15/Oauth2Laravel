@@ -3,16 +3,15 @@
 @section('dataTable')
 <div class="container-fluid" >
 	<br>
-
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuesta Cliente</h2> <br><br>
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">
 			<li class="nav-item">
-		  		<button type="button" class="btn btn-outline-success" onclick="showModalDatos()" href="#">Subir Clientes Nuevamente</button>
+		  		<button type="button" class="btn btn-outline-success"  onclick="showModalDatos()" href="#">Subir Clientes Nuevamente</button>
 		  	</li>		  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>
 			  	</li>
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo")
@@ -27,19 +26,11 @@
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
 		  		<li class="nav-item">
-		  			<button type="button" onclick="iniciar()" class="btn btn-outline-success">
+		  			<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">
 		  				Iniciar Encuesta
 		  			</button>
 		  		</li>		  		
-		  	@endif
-		  	{{-- @if($encuesta->estado == "Finalizado")
-				<li class="nav-item">
-		  			<button type="button" id="example" class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Exportar a  Excel">
-		  				<img src="https://png.icons8.com/color/22/000000/ms-excel.png">
-		  			</button>
-	  			</li>
-		  	@endif --}}
-		  
+		  	@endif		  
 
 		</ul>
 		<div class="card card-body" style="width: 80%;  margin:auto;">
@@ -85,9 +76,7 @@
 				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>	
 				      	</div>						
 				     </div>
-			    @endif
-			     
-			   		   
+			    @endif 
 			  </div>
 			</form>
 		 </div>
@@ -106,8 +95,6 @@
 							<tr>
 								<th>Codigo</th>
 								<th>Razon Social</th>
-								{{-- <th>Rut</th>
-								<th>dv</th> --}}
 								<th>Vendedor</th>
 								<th>fecha_nacimiento</th>
 								<th>Telefono</th>
@@ -226,7 +213,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>
+        <button type="button" id="EditarE" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
@@ -285,6 +272,7 @@
 	}	
 	
 	function ajaxEliminar(){// este tipo de encuesta
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
@@ -304,6 +292,7 @@
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>');
 	}
  	$('#example').tooltip({ boundary: 'window' })
  	$(".custom-file-input").on("change", function() {
@@ -335,8 +324,6 @@
 			error(error){				
 				alert('Comuna no Encontrada');
 				$('#deleteModal').modal('hide');
-				
-				
 			}
 		});
 	}
@@ -346,6 +333,7 @@
 		ajaxEditar(descripcion,inicio);
  	}
  	function ajaxEditar(descripcion,inicio){
+ 		$('#EditarE').html('<div class="loader"></div>');
 		var data = {
 			'descripcion' : descripcion,
             'fecha_inicio' : inicio,
@@ -382,7 +370,7 @@
 							'<div class="alert alert-danger" role="alert">'+
 							errores.fecha_inicio[0]+
 							'</div>'
-							);
+						);
 					}		
 				}
 				else{
@@ -390,9 +378,12 @@
 				}
 			}
 		});
+
+		$('#EditarE').html('<button type="button" id="EditarE" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>');
 	}
 
 	function postDatos(){
+		$('#okEditar').html('<div class="loader"></div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -434,9 +425,11 @@
 				}
 			}
 		});
+		$('#okEditar').html(' <button type="button" id="okEditar" onclick="postDatos()" class="btn btn-primary">Guardar</button>');
 	}
 
  	function iniciar(){
+ 		$('#buttonIniciar').html('<div class="loader"></div>');
  		$.ajax({
 			method:"PUT",
 			url:'/api/encuesta/clientes/iniciar/{{ $encuesta->id }}',
@@ -455,9 +448,10 @@
 				alert('ah ocurrido un error');
 			}
 		});
-
+		$('#buttonIniciar').html('<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
  	}
  	function terminar(){
+ 		$('#buttonTerminar').html('<div class="loader"></div>');
 		$.ajax({
 			method:"PUT",
 			url:'/api/encuesta/clientes/terminar/{{ $encuesta->id }}',
@@ -476,6 +470,8 @@
 				alert('ah ocurrido un error');
 			}
 		});
+
+		$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>');
  	}
 
  	$(document).ready(function(){

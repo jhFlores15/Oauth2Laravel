@@ -19,7 +19,13 @@
 					 </b-form>
          		</div>
          	</div>
-         	<button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Terminar</button>
+          <div  class="text-center" v-if="loader == true">
+            <div class="loader"></div>
+          </div>
+          <div v-else>
+            <button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Terminar</button>
+          </div>
+         	
      	</div>
 	</div>
 	
@@ -46,6 +52,7 @@ export default {
           marca_producto:[],
           marca_cliente:'',
           marcas_se:[],
+          loader:false,
 
       }
   },
@@ -80,6 +87,7 @@ export default {
 
     },
   	terminar(){
+      this.loader = true;
   		axios.get('/api/encuestas/cli_marca/'+this.cliente_id+'/'+this.encuesta_id,this.config).
         then(response => { 
         	var marcs = response.data;
@@ -87,6 +95,7 @@ export default {
         }).catch(error => {
           console.log(error)
         })
+        this.loader = false;
   	},
   	postMarca(valor,marca_id){
   		var marca_cliente = {};

@@ -17,7 +17,7 @@ class CreateClientesTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->integer('codigo')->unique(); 
-            $table->integer('rut')->unique();
+            $table->integer('rut');
             $table->char('dv',1);           
             $table->string('razon_social');
             $table->string('direccion');

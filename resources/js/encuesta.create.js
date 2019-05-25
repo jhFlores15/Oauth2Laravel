@@ -13,7 +13,6 @@ Vue.use(BootstrapVue);
 const appp = new Vue({
     el: '#encuesta_create',
     mounted() {
-        console.log("montado");
         if (localStorage.access_token){        
 	      this.access_token = localStorage.access_token;
 	      this.token_type = localStorage.token_type;
@@ -57,35 +56,50 @@ const appp = new Vue({
             nombre:'',
             productos:[],
          },
-         // producto:{
-         //    nombre:'',
-         //    tipo:0,
-         // },
          nombre:'',
          tipo:0,
+         loaderCliente:false,
+         loaderExistente:false,
     },
     methods:{
-        postEncuestaExistente(){
-            axios.post('/api/encuestas/',{              
-                'descripcion' : this.descripcion,
-                'fecha_inicio' : this.fecha_inicio,
-                'tipo_encuesta' : this.select_tipo_encuesta,  
-                'categorias' : this.categorias,
-        
-            },this.config).then(response =>{
-                if(this.select_tipo_encuesta == 1){
-                    location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
-                }
-                else if(this.select_tipo_encuesta == 3){
-                    location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
-                }
-            }).catch(error =>{
-                if(error.response.status = 422){
-                    this.erroresEncuesta = error.response.data.error;
-                }
+        changeTipoEncuesta(){
+            if(this.select_tipo_encuesta == 2){
                 alertify.set('notifier','position', 'top-right');
-                alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
-            });
+                alertify.notify('Recuerde que luego de crear esta encuesta debe verificar que la cantidad de registros que tiene su archivo sea la misma que se ha subido', 'error', 20, function(){  console.log(); });
+            }
+
+        },
+        postEncuestaExistente(){
+            if((this.descripcion != '') && (this.fecha_inicio!= '') && (this.categorias.length > 0)){
+                this.loaderExistente = true;
+                axios.post('/api/encuestas',{              
+                    'descripcion' : this.descripcion,
+                    'fecha_inicio' : this.fecha_inicio,
+                    'tipo_encuesta' : this.select_tipo_encuesta,  
+                    'categorias' : this.categorias,
+            
+                },this.config).then(response =>{
+                    if(this.select_tipo_encuesta == 1){
+                        // location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
+                    }
+                    else if(this.select_tipo_encuesta == 3){
+                        // location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
+                    }
+                }).catch(error =>{
+                    if(error.response.status = 422){
+                        this.erroresEncuesta = error.response.data.error;
+                    }
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
+                });
+                 this.loaderExistente = false;
+
+            }
+            else{
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('Aun faltan datos para crear la encuesta', 'error', 10, function(){  console.log(); });   
+            }
+            
 
         },
         agregarProducto(){
@@ -122,12 +136,6 @@ const appp = new Vue({
     	selectedFile(event) {
   	      this.file = event.target.files[0];
   	    },
-	    // handleFileUpload(){
-	    // 	 this.formData = new FormData();
-    	// 	this.formData.append('name', this.fileName);
-    	// 	this.formData.append('file', this.$refs.file.files[0]);
-    	// 	console.log(this.formData);
-	    // },
     	getTiposEncuesta(){
     		axios.get('/api/tipos_encuesta/',this.config).
 		        then(response => {
@@ -147,6 +155,7 @@ const appp = new Vue({
                 })
         },
     	postFileCliente(encuesta){
+             this.loaderCliente = true;
     		let formData = new FormData();            
             formData.append('csv', this.file);
 
@@ -156,11 +165,10 @@ const appp = new Vue({
 		    }).catch(error =>{
 		    	if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
-                }
-               
+                }               
                 this.eliminarEncuesta(encuesta.id);
-
 		    });
+            this.loaderCliente = false;
     		
     	},
     	postEncuestaCliente(){    		

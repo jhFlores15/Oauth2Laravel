@@ -16,7 +16,8 @@
 			   	 	<label for="inputPassword2" class="sr-only">Nombre Region</label>
 			    	<input type="text" class="form-control"  id="nombreNew" placeholder="Region">
 			  	</div>
-			  	<button type="button" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>
+			  		<button type="button" id="saveRegion" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>
+			  	
 			</form>			
 		</div>	
 		<div class="row" style="padding-left: 100px;">
@@ -48,6 +49,7 @@
  	}
 
  	function ajaxNew(nombre,numero){
+ 		$('#saveRegion').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : nombre,
 			'numero' : numero,
@@ -63,7 +65,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Region Creada');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Region Creada', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 				}
 			},
@@ -73,11 +76,13 @@
 					incrustarErroresNew(errores);
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
 					
 			}
 		});
+		$('#saveRegion').html('<button type="button" id="saveRegion" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>');
 	}
 
  	function incrustarErroresNew(errores){
@@ -187,10 +192,6 @@
 			},
 			"pagingType": "full_numbers",
 			});	
-		//table.buttons().container().appendTo($('.col-sm-sm-6:eq(0)',table.table().container()));
-
-	
-		
 	});
 
 		
@@ -198,7 +199,7 @@
  <style>
  	td.highlight{
  		background-color: whitesmoke !important;
- 	}
+ 	} 	
  </style>
 @endsection
 

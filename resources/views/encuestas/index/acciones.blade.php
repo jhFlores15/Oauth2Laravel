@@ -104,7 +104,7 @@
 		ajaxEliminarEP(id);
 	}
 	function ajaxEliminarEP(id){// este tipo de encuesta
-		$('delete13').html('<div class="loader"</div>');
+		$('.delete13').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/'+id,
@@ -115,19 +115,21 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Encuesta Eliminada Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Encuesta Eliminada Exitosamente', 'success', 3, function(){  console.log(); }); 
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); }); 
 				$('#deleteModal').modal('hide');
 			}
 		});
 		$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary delete13">Si</button>');
 	}
 	function ajaxEliminar(id){// este tipo de encuesta
-		$('delete2').html('<div class="loader"</div>');
+		$('.delete2').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/clientes/'+id,
@@ -138,12 +140,14 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Encuesta Eliminada Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					lertify.notify('Encuesta Eliminada', 'success', 3, function(){  console.log(); }); 
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); }); 
 				$('#deleteModal').modal('hide');
 			}
 		});

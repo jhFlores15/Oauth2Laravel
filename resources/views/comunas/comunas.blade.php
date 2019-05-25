@@ -16,7 +16,7 @@
 			   	 	<div id="combobox">
 		  			</div>	
 			  	</div>
-			  	<button type="button" onclick="guardarComuna()" class="btn btn-primary mb-2">Guardar</button>
+			  	<button type="button" onclick="guardarComuna()" id="saveRegion" class="btn btn-primary mb-2">Guardar</button>
 			</form>			
 		</div>	
 		<div class="row" style="padding-left: 100px;">
@@ -49,6 +49,7 @@
  	}
 
  	function ajaxNew(comuna,region_id){
+ 		$('#saveRegion').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : comuna,
 			'region_id' : region_id,
@@ -64,7 +65,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Comuna Creada');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Comuna Creada', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 				}
 			},
@@ -74,10 +76,12 @@
 					incrustarErroresNew(errores);
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
 			}
 		});
+		$('#saveRegion').html('<button type="button" onclick="guardarComuna()" id="saveRegion" class="btn btn-primary mb-2">Guardar</button>');
 	}
 
  	function incrustarErroresNew(errores){

@@ -111,9 +111,7 @@ export default {
           email: '',
           password: '',
           config:{},
-          errorLogin:{
-            message:'',
-          },
+          errorLogin:'',
           loading:false,
       }
   },
@@ -165,7 +163,7 @@ export default {
               alertify.set('notifier','position', 'top-right');
              alertify.notify('Los Datos ingresados no son correctos', 'error', 3, function(){  console.log(); });  
           } 
-          if(error.response.status = 422){
+          if(error.response.status == 422){
               this.errorLogin = error.response.data.error;
           }        
       });
@@ -188,27 +186,3 @@ export default {
   }
 }
 </script>
-<style>
-
-.loader {
-  border: 10px solid #f3f3f3;
-  border-radius: 100%;
-  border-top: 10px solid #3498db;
-  border-bottom: 10px solid #3498db;
-  width: 40px;
-  height: 40px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-  
-</style>

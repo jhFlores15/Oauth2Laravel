@@ -24,28 +24,32 @@
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
-					  	  	<div class="input-group-prepend">
-					    		 <button type="button" id="postDatosSub" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					  	  	<div class="input-group-prepend" id="postDatosSub">
+					    		 <button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
 					    	</div>					  
 						</div>
 						
 					</div>
 				</form>
-				<div class="col-md-7">
-					<table class="table table-bordered table-sm">
-				    <thead>
-				      <tr>
-				        <th>codigo</th>
-				        <th>rut</th>
-				        <th>dv</th>
-				        <th>nombre</th>
-				        <th>email</th>
-				        <th>password</th>
-				      </tr>
-				    </thead>			    
-				  </table>
+				<div class="row">
+					<div class="col-md-7">
+						<table class="table table-bordered table-sm">
+					    <thead>
+					      <tr>
+					        <th>codigo</th>
+					        <th>rut</th>
+					        <th>dv</th>
+					        <th>nombre</th>
+					        <th>email</th>
+					        <th>password</th>
+					      </tr>
+					    </thead>			    
+					  </table>
+					</div>
+					<div class="col-md-5">
+						 <label><b>Rut sin puntos , y sin espacios para todos los campos menos para nombre</b></label>
+					</div>					
 				</div>
-			
 			</div>		
 			</div>			
 
@@ -147,7 +151,7 @@
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
 	function postDatos(){
-		$('#postDatosSub').html('<div class="loader"</div>');
+		$('#postDatosSub').html('<div class="loader"></div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -169,9 +173,11 @@
 					alertify.set('notifier','position', 'top-right');
 					alertify.notify('Datos Actualizados Correctamente', 'success', 3, function(){  console.log(); });
 					location.reload(true);
+					$('#postDatosSub').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				}
 			},
 			error(error){
+				$('#postDatosSub').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorFile').html('<div></div>');
@@ -191,7 +197,7 @@
 				}
 			}
 		});
-		$('#postDatosSub').html('<button type="button" id="postDatosSub" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+		
 	}
  	function nuevoAdministrador(){
  		$('#errorRutNew').html('<div></div>');
@@ -214,7 +220,7 @@
  	}
 
  	function ajaxNew(rut,dv,razon_social,email,password,codigo){
-		$('#okUsuario1').html('<div class="loader"</div>');
+		$('#okUsuario1').html('<div class="loader"></div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -336,14 +342,14 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [  -1 ],
+	            ['Show all' ]
 	        ],
 	        buttons: [
 	            'copy',
 	            {
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
+	            	title:'Vendedores',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -351,7 +357,7 @@
 	            },
 	            {
 	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
+	            	title:'Vendedores',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -359,7 +365,7 @@
 	            },
 	            {
 	            	extend: 'print',
-	            	title:'Clientes Encuestados',
+	            	title:'Vendedores',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },autoFilter: true,

@@ -184,7 +184,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,rut,dv,razon_social,email,password){
-		console.log("lo que recibe ajax"+rut);
+		$('#okEditar').html('<div class="loader"></div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -203,7 +203,8 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Edicion Exitosa');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Edicion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload(true);
 
 				}
@@ -214,11 +215,12 @@
 					incrustarErrores(errores);	
 				}
 				else{
-					alert("error");
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Error', 'error', 3, function(){  console.log(); });  
 				}
-				//alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
 			}
 		});
+		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
 	}
 
 
@@ -245,9 +247,11 @@
 				
 			}
 		});
+
 	}
 
 	function ajaxEliminar(id){
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/usuarios/'+ id,
@@ -258,15 +262,18 @@
 			success:function(resp){	
 				console.log(resp);
 				if(resp == 'ok'){
-					alert('Eliminado Exitosamente');
+					alertify.set('notifier','position', 'top-right');
+					alertify.notify('Eliminacion Exitosa', 'success', 3, function(){  console.log(); });  
 					location.reload();
 				}
 			},
 			error(error){
-				alert('Usuario no puede ser Eliminado, constituye perdida de Datos');
+				alertify.set('notifier','position', 'top-right');
+				alertify.notify('Administrador no puede ser Eliminado, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
+		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');
 	}
 	function incrustarErrores(errores){
 		$('#errorRut').html('<div></div>');
@@ -324,3 +331,23 @@
 	}
 	togglePassword.addEventListener('change',showOrHidePassword);
 </script>
+<style>
+.loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 100%;
+  border-top: 10px solid #3498db;
+  border-bottom: 10px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}  
+</style>

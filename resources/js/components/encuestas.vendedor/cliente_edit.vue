@@ -25,8 +25,13 @@
           </div>  
           <div class="alert alert-danger" role="alert" v-if="erroresEncuesta.email" >
              {{ erroresEncuesta.email[0] }}
-            </div>        
-          <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Guardar</button>
+            </div>  
+            <div  class="text-center" v-if="loader == true">
+            <div class="loader"></div>
+          </div>
+          <div v-else >     
+           <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Guardar</button>
+         </div>
         </form>
   
 
@@ -57,6 +62,7 @@ export default {
             email:'',
             telefono:'',
           },
+          loader:false,
       }
   },
   
@@ -109,6 +115,7 @@ export default {
           })
       },
       putGuardar(){
+        this.loader = true;
         this.erroresEncuesta = [];
         axios.put('/api/encuestas/clientes/'+this.encuesta_id+'/'+this.cliente_id,{          
           'fecha_nacimiento' : this.encuesta_cliente.fecha_nacimiento,
@@ -124,6 +131,7 @@ export default {
                 var notification = alertify.notify('Error', 'error', 3, function(){  console.log('Error'); });
           
         });
+        this.loader = false;
       }
 
 

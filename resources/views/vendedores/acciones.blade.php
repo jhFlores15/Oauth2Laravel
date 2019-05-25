@@ -198,7 +198,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,rut,dv,razon_social,email,password,codigo){		
- 		$('#okEditar').html('<div class="loader"</div>');
+ 		$('#okEditar').html('<div class="loader"></div>');
 		console.log("lo que recibe ajax"+rut);
 		var data = {
 			'razon_social' : razon_social,
@@ -265,7 +265,7 @@
 	}
 
 	function ajaxEliminar(id){
-		$('#okDelete').html('<div class="loader"</div>');
+		$('#okDelete').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/usuarios/'+ id,

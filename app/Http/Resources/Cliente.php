@@ -18,15 +18,13 @@ class Cliente extends JsonResource
         //return parent::toArray($request);
          return[
             'id' => $this->id,
-            'razon_social' => $this->razon_social,
             'codigo' => $this->codigo,
+            'razon_social' => $this->razon_social,            
             'rut' => $this->rut,
             'dv' => $this->dv,
-            'direccion' => $this->direccion,
-            'comuna' => \App\Comuna::find($this->comuna_id),
-            'vendedor' => \App\User::find($this->user_id),
-            'created_at' => ($this->created_at)->format('d-m-Y'),
-            'updated_at' => ($this->updated_at)->format('d-m-Y'),
+            'vendedor' => \App\User::find($this->user_id)->codigo,
+            'comuna' => \App\Comuna::find($this->comuna_id)->nombre,
+            'direccion' => $this->direccion, 
         ];
     }
 }

@@ -16,7 +16,9 @@
 			   	 	<div id="combobox">
 		  			</div>	
 			  	</div>
-			  	<button type="button" onclick="guardarComuna()" id="saveRegion" class="btn btn-primary mb-2">Guardar</button>
+			  	<div id="saveRegion">
+			  		<button type="button" onclick="guardarComuna()"  class="btn btn-primary mb-2">Guardar</button>	
+			  	</div>			  	
 			</form>			
 		</div>	
 		<div class="row" style="padding-left: 100px;">
@@ -63,6 +65,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#saveRegion').html('<button type="button" onclick="guardarComuna()" class="btn btn-primary mb-2">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -71,6 +74,7 @@
 				}
 			},
 			error(error){	
+				$('#saveRegion').html('<button type="button" onclick="guardarComuna()" class="btn btn-primary mb-2">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErroresNew(errores);
@@ -81,7 +85,7 @@
 				}
 			}
 		});
-		$('#saveRegion').html('<button type="button" onclick="guardarComuna()" id="saveRegion" class="btn btn-primary mb-2">Guardar</button>');
+		
 	}
 
  	function incrustarErroresNew(errores){

@@ -41,7 +41,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>
+        <div id="okDeleteLoader" >
+        	 <button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>
+        </div>       
       </div>
     </div>
   </div>
@@ -83,8 +85,10 @@
       	</div>        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>        
+        <div id="okEditarLoader">
+        	<button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -135,7 +139,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,nombre,numero){
-		$('#okEditar').html('<div class="loader"></div>');
+		$('#okEditarLoader').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : nombre,
             'numero' : numero,
@@ -148,7 +152,8 @@
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
-			success:function(resp){	
+			success:function(resp){
+			$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>');	
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -158,6 +163,7 @@
 				}
 			},
 			error(error){
+				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErrores(errores);
@@ -168,7 +174,7 @@
 				}
 			}
 		});
-		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarRegion()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
 
@@ -197,7 +203,7 @@
 		});
 	}
 	function ajaxEliminar(id){
-		$('#okDelete').html('<div class="loader"></div>');
+		$('#okDeleteLoader').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/regiones/'+ id,
@@ -206,6 +212,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -214,12 +221,13 @@
 				}
 			},
 			error(error){
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 				alertify.notify('Esta Region no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarRegion()" class="btn btn-primary">Si</button>');
+		
 	}
 	function incrustarErrores(errores){
 		$('#errorName').html('<div></div>');

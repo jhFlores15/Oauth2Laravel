@@ -61,10 +61,15 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
 		@if($tipo_encuesta->id == 2)
-       		<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary delete2">Si</button>
+		<div class="delete2">
+			<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>
+		</div>       		
        	@endif
        	@if(($tipo_encuesta->id == 1) ||($tipo_encuesta->id == 3)) <!-- Existencia Precio-->
-       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary delete13">Si</button>
+       	<div class="delete13">
+       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>
+       	</div>
+       		
        	@endif		
       </div>
     </div>
@@ -113,6 +118,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -121,12 +127,13 @@
 				}
 			},
 			error(error){
+				$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 				alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); }); 
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary delete13">Si</button>');
+		
 	}
 	function ajaxEliminar(id){// este tipo de encuesta
 		$('.delete2').html('<div class="loader"></div>');
@@ -138,6 +145,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('.delete2').html('<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -146,12 +154,13 @@
 				}
 			},
 			error(error){
+				$('.delete2').html('<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 				alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); }); 
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('.delete2').html('<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary delete2">Si</button>');
+		
 	}
 </script>
 

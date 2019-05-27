@@ -24,9 +24,12 @@
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
-					  	  	<div class="input-group-prepend" id="postDatos">
-					    		 <button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
-					    	</div>					  
+						  	<div id="postDatosLoader">
+						  		<div class="input-group-prepend" >
+					    		 	<button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+					    		</div>							  		
+						  	</div>
+					  	  					  
 						</div>
 						
 					</div>
@@ -143,7 +146,7 @@
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
 	function postDatos(){
-		$('#postDatos').html('<div class="loader"></div>');
+		$('#postDatosLoader').html('<div class="loader"></div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -160,7 +163,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
-				$('#postDatos').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+				$('#postDatosLoader').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -169,7 +172,7 @@
 				}
 			},
 			error(error){
-				$('#postDatos').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+				$('#postDatosLoader').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorFile').html('<div></div>');
@@ -399,12 +402,7 @@
 	            	extend: 'excel',
 	            	title: 'Clientes',
 	            	collectionLayout: 'fixed two-column',
-	            },
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
-	            	collectionLayout: 'fixed two-column',
-	            },
+	            },	          
 	            'pageLength',
 	        ],
 			"language":{

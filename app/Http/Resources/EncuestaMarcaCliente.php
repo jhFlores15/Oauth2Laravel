@@ -25,6 +25,7 @@ class EncuestaMarcaCliente extends JsonResource
                 foreach ($this as $value) {
                      foreach ($value as $val) {
                          if($prod->id == $val->marca_id){
+                            $val->categoria = $categoria;
                             $array [] = $val;
                         }
                     }

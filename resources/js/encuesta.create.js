@@ -79,20 +79,22 @@ const appp = new Vue({
                     'categorias' : this.categorias,
             
                 },this.config).then(response =>{
+                    this.loaderExistente = false;
                     if(this.select_tipo_encuesta == 1){
-                        // location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
+                        location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
                     }
                     else if(this.select_tipo_encuesta == 3){
-                        // location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
+                        location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
                     }
                 }).catch(error =>{
+                    this.loaderExistente = false;
                     if(error.response.status = 422){
                         this.erroresEncuesta = error.response.data.error;
                     }
                     alertify.set('notifier','position', 'top-right');
                     alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
                 });
-                 this.loaderExistente = false;
+                 
 
             }
             else{
@@ -161,14 +163,16 @@ const appp = new Vue({
 
             axios.post('/api/encuestas/clientes/'+encuesta.id,formData,this.configCliente)    			
 		    .then(response =>{
+                this.loaderCliente = false;
 		       location.href='/encuesta/clientes/'+encuesta.id;	       
 		    }).catch(error =>{
+                this.loaderCliente = false;
 		    	if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
                 }               
                 this.eliminarEncuesta(encuesta.id);
 		    });
-            this.loaderCliente = false;
+            
     		
     	},
     	postEncuestaCliente(){    		

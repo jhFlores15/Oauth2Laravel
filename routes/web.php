@@ -36,6 +36,7 @@ Route::get('encuestas/E/P/{encuesta}','EncuestaExistenciaController@index');
 Route::get('encuestas/E/{encuesta}/{cliente_id}/create','EncuestaExistenciaController@create');
 Route::get('encuestas/E/{encuesta}/{cliente_id}/edit','EncuestaExistenciaController@edit');
 Route::get('encuestas/E/{encuesta}/','EncuestaExistenciaController@show'); //Admin
+Route::get('excel/down','EncuestaExistenciaController@excelDownload'); //Admin
 
 
 Route::get('encuestas/P/{encuesta}/{cliente_id}/create','EncuestaPrecioController@create');

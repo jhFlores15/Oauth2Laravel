@@ -11,7 +11,9 @@
 		  	</li>		  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		<div id="buttonTerminar">
+			  			<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>			  			
+			  		</div>			  		
 			  	</li>
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo")
@@ -26,9 +28,12 @@
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
 		  		<li class="nav-item">
-		  			<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">
+		  			<div id="buttonIniciar">
+		  				<button type="button"  onclick="iniciar()" class="btn btn-outline-success">
 		  				Iniciar Encuesta
 		  			</button>
+		  			</div>
+		  			
 		  		</li>		  		
 		  	@endif		  
 
@@ -172,7 +177,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="okEditar" onclick="postDatos()" class="btn btn-primary">Guardar</button>
+        <div id="okEditarLoader">
+        	<button type="button" onclick="postDatos()" class="btn btn-primary">Guardar</button>
+        </div>        
       </div>
     </div>
   </div>
@@ -213,7 +220,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="EditarE" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>
+        <div id="EditarE" >
+        	<button type="button" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>	
+        </div>        
       </div>
     </div>
   </div>
@@ -253,7 +262,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>
+        <div id="okDeleteLoader">
+        	<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>
+        </div>        
       </div>
     </div>
   </div>
@@ -272,7 +283,7 @@
 	}	
 	
 	function ajaxEliminar(){// este tipo de encuesta
-		$('#okDelete').html('<div class="loader"></div>');
+		$('#okDeleteLoader').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
@@ -281,6 +292,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alert('Encuesta Eliminada Exitosamente');
@@ -288,11 +300,12 @@
 				}
 			},
 			error(error){
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>');
 				alert('Encuesta no puede ser Eliminada, constituye perdida de Datos');
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('#okDelete').html('<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>');
+		
 	}
  	$('#example').tooltip({ boundary: 'window' })
  	$(".custom-file-input").on("change", function() {
@@ -347,6 +360,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#EditarE').html('<button type="button"  onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alert('Edicion Exitosa');
@@ -354,6 +368,7 @@
 				}
 			},
 			error(error){
+				$('#EditarE').html('<button type="button"  onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorDescripcion').html('<div></div>');
@@ -379,11 +394,11 @@
 			}
 		});
 
-		$('#EditarE').html('<button type="button" id="EditarE" onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
 	function postDatos(){
-		$('#okEditar').html('<div class="loader"></div>');
+		$('#okEditarLoader').html('<div class="loader"></div>');
 		var file = $('#file')[0].files[0];
 		console.log(file);
 		let formData = new FormData();            
@@ -400,6 +415,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okEditarLoader').html(' <button type="button" onclick="postDatos()" class="btn btn-primary">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alert('Datos Actualizados correctamente');
@@ -407,6 +423,7 @@
 				}
 			},
 			error(error){
+				$('#okEditarLoader').html(' <button type="button" onclick="postDatos()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorFile').html('<div></div>');
@@ -425,7 +442,7 @@
 				}
 			}
 		});
-		$('#okEditar').html(' <button type="button" id="okEditar" onclick="postDatos()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
  	function iniciar(){
@@ -438,6 +455,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alert('ok');
@@ -445,10 +463,11 @@
 				}
 			},
 			error(error){
+				$('#buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
 				alert('ah ocurrido un error');
 			}
 		});
-		$('#buttonIniciar').html('<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
+		
  	}
  	function terminar(){
  		$('#buttonTerminar').html('<div class="loader"></div>');
@@ -471,7 +490,7 @@
 			}
 		});
 
-		$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>');
+		$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger"  onclick="terminar()" href="#">Finalizar Encuesta</button>');
  	}
 
  	$(document).ready(function(){

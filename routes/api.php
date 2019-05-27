@@ -58,6 +58,9 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados');
     Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados');
+     Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia');
+
+
 
 
     /////////////vendedor/////

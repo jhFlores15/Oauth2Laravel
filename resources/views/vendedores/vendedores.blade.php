@@ -24,9 +24,12 @@
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
-					  	  	<div class="input-group-prepend" id="postDatosSub">
-					    		 <button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
-					    	</div>					  
+						  	<div id="postDatosSub">
+						  		<div class="input-group-prepend" >
+						    		 <button type="button"  onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+						    	</div>								  		
+						  	</div>
+					  	  				  
 						</div>
 						
 					</div>
@@ -139,7 +142,10 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	        <button type="button" onclick="okUsuario()" id="okUsuario1" class="btn btn-primary">Guardar</button>
+	        <div id="okUsuario1" >
+	        	<button type="button" onclick="okUsuario()" class="btn btn-primary">Guardar</button>
+	        </div>
+	        
 	      </div>
 	    	</div>
 	  	</div>
@@ -168,12 +174,13 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#postDatosSub').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
 					alertify.notify('Datos Actualizados Correctamente', 'success', 3, function(){  console.log(); });
 					location.reload(true);
-					$('#postDatosSub').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+					
 				}
 			},
 			error(error){
@@ -239,6 +246,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okUsuario1').html('<button type="button" onclick="okUsuario1()" class="btn btn-primary">Guardar</button>');	
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -247,6 +255,7 @@
 				}
 			},
 			error(error){
+				$('#okUsuario1').html('<button type="button" onclick="okUsuario1()" class="btn btn-primary">Guardar</button>');	
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErroresNew(errores);	
@@ -258,7 +267,7 @@
 				
 			}
 		});
-		$('#okUsuario1').html('<button type="button" onclick="okUsuario1()" id="okUsuario" class="btn btn-primary">Guardar</button>');	
+		
 	}
 
  	function incrustarErroresNew(errores){

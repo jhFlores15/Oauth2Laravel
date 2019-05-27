@@ -83,4 +83,7 @@ class EncuestaExistenciaController extends Controller
         return view('encuestas.existencia.show' , ['encuesta' => $encuesta , 'categorias' => $categorias]);
 
     }
+     public function excelDownload(){
+        return response()->download(storage_path('file.xls'))->deleteFileAfterSend(true);
+    }
 }

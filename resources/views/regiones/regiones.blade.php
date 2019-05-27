@@ -16,7 +16,10 @@
 			   	 	<label for="inputPassword2" class="sr-only">Nombre Region</label>
 			    	<input type="text" class="form-control"  id="nombreNew" placeholder="Region">
 			  	</div>
-			  		<button type="button" id="saveRegion" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>
+			  	<div id="saveRegion">
+			  		<button type="button" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>
+			  	</div>
+			  		
 			  	
 			</form>			
 		</div>	
@@ -63,6 +66,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#saveRegion').html('<button type="button" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -71,6 +75,7 @@
 				}
 			},
 			error(error){
+				$('#saveRegion').html('<button type="button" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErroresNew(errores);
@@ -82,7 +87,7 @@
 					
 			}
 		});
-		$('#saveRegion').html('<button type="button" id="saveRegion" onclick="guardarRegion()" class="btn btn-primary mb-2">Guardar</button>');
+		
 	}
 
  	function incrustarErroresNew(errores){

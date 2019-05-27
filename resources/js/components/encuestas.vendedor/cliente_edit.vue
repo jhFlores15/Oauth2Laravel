@@ -122,16 +122,18 @@ export default {
           'email' : this.encuesta_cliente.email,
           'telefono' : this.encuesta_cliente.telefono,          
         },this.config).then(response =>{
+          this.loader = false;
           var notification = alertify.notify('Guardado', 'success', 3, function(){  console.log('Guardado Exitoso'); });
            
         }).catch(error =>{
+          this.loader = false;
                 if(error.response.status = 422){
                     this.erroresEncuesta = error.response.data.error;
                 }
                 var notification = alertify.notify('Error', 'error', 3, function(){  console.log('Error'); });
           
         });
-        this.loader = false;
+        
       }
 
 

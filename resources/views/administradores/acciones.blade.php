@@ -53,7 +53,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>
+        <div id="okDeleteLoader">
+        	<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>
+        </div>
       </div>
     </div>
   </div>
@@ -123,7 +125,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>
+        <div id="okEditarLoader">
+        	<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -184,7 +189,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,rut,dv,razon_social,email,password){
-		$('#okEditar').html('<div class="loader"></div>');
+		$('#okEditarLoader').html('<div class="loader"></div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -201,6 +206,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -210,6 +216,7 @@
 				}
 			},
 			error(error){
+				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErrores(errores);	
@@ -220,7 +227,7 @@
 				}
 			}
 		});
-		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
 
@@ -251,7 +258,7 @@
 	}
 
 	function ajaxEliminar(id){
-		$('#okDelete').html('<div class="loader"></div>');
+		$('#okDeleteLoader').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/usuarios/'+ id,
@@ -260,6 +267,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -268,12 +276,13 @@
 				}
 			},
 			error(error){
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 				alertify.notify('Administrador no puede ser Eliminado, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');
+		
 	}
 	function incrustarErrores(errores){
 		$('#errorRut').html('<div></div>');

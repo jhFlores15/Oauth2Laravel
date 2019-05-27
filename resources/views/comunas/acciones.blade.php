@@ -41,7 +41,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>
+        <div id="okDeleteLoader">
+        	<button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>	
+        </div>
+        
       </div>
     </div>
   </div>
@@ -84,7 +87,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>
+        <div id="okEditarLoader">
+        	<button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>	
+        </div>        
       </div>
     </div>
   </div>
@@ -160,7 +165,7 @@
 
 	//////////////funciones ajax//////////////
 	function ajaxEditar(id,nombre,region_id){
-		$('#okEditar').html('<div class="loader"></div>');
+		$('#okEditarLoader').html('<div class="loader"></div>');
 		var data = {
 			'nombre' : nombre,
             'region_id' : region_id,
@@ -174,6 +179,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -183,6 +189,7 @@
 				}
 			},
 			error(error){
+				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErrores(errores);	
@@ -193,7 +200,7 @@
 				}
 			}
 		});
-		$('#okEditar').html('<button type="button" id="okEditar" onclick="editarComuna()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
 
@@ -223,7 +230,7 @@
 	}
 
 	function ajaxEliminar(id){
-		$('#okDelete').html('<div class="loader"></div>');
+		$('#okDeleteLoader').html('<div class="loader"></div>');
 		$.ajax({
 			method:"DELETE",
 			url:'/api/comunas/'+ id,
@@ -231,7 +238,8 @@
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
-			success:function(resp){	
+			success:function(resp){
+			$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>');	
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -240,12 +248,13 @@
 				}
 			},
 			error(error){
+				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 				alertify.notify('Esta Comuna no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });  
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarComuna()" class="btn btn-primary">Si</button>');
+		
 	}
 	function incrustarErrores(errores){
 		$('#errorComuna').html('<div></div>');

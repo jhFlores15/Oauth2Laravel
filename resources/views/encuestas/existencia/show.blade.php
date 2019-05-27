@@ -3,21 +3,25 @@
 @section('dataTable')
 <div class="container-fluid" >
 	<br>
-
+	<button type="button" class="btn btn-danger" onclick="exportExcel()">Export</button>
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuesta Existencia</h2> <br><br>
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
-			  		<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		<div id="buttonTerminar" >
+			  			<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>
+			  		</div>			  		
 			  	</li>
 		  	@endif
 		 
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
 		  		<li class="nav-item">
-		  			<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">
+		  			<div id="buttonIniciar">
+		  				<button type="button"  onclick="iniciar()" class="btn btn-outline-success">
 		  				Iniciar Encuesta
 		  			</button>
+		  			</div>		  			
 		  		</li>		  		
 		  	@endif	
 		  	@if($encuesta->editableEliminable)
@@ -91,7 +95,7 @@
 					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 						
 						  	<tr>
-						  		<th colspan="7">Datos Cliente</th>
+						  		<th colspan="5">Datos Cliente</th>
 							  	@foreach ($categorias as $categoria)
 							  		 <th colspan="{{ $categoria->count() }}">{{ $categoria[0]->categoria->nombre }}</th>
 							  	@endforeach	
@@ -99,10 +103,8 @@
 			            	</tr>
 							<tr>
 								<th>Codigo</th>
-								<th>Razon Social</th>
 								<th>Rut</th>
 								<th>dv</th>
-								<th>Direccion</th>
 								<th>Comuna</th>
 								<th>Vendedor</th>	
 								@foreach ($categorias as $categoria)
@@ -169,7 +171,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-       		<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>	
+        <div id="okDelete">
+        	<button type="button"  onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>	
+        </div>       		
       </div>
     </div>
   </div>
@@ -181,6 +185,24 @@
 	   		alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
 		}		
 	};
+	function exportExcel(){
+		$.ajax({
+			method:"GET",
+			url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
+			headers : {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+			},
+			success:function(resp){
+				if(resp == 'ok'){
+					window.open('/excel/down');	
+				}
+			},
+			error(error){				
+				alert('vendedores no Encontrados');				
+			}
+		});
+	}
 	function modalEliminar(){
 		$('#deleteModal').modal('show');
 	}
@@ -193,7 +215,8 @@
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
-			success:function(resp){	
+			success:function(resp){
+			$('#okDelete').html('<button type="button" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');	
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -202,12 +225,13 @@
 				}
 			},
 			error(error){
+				$('#okDelete').html('<button type="button" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
 				alertify.set('notifier','position', 'top-right');
 	   			alertify.notify('Encuesta no puede ser Eliminada, constituye perdida de Datos', 'error', 6, function(){  console.log(); });
 				$('#deleteModal').modal('hide');
 			}
 		});
-		$('#okDelete').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
+		
 	}
 	
  	$('#example').tooltip({ boundary: 'window' })
@@ -222,6 +246,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -230,11 +255,12 @@
 				}
 			},
 			error(error){
+				$('buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
 				alertify.set('notifier','position', 'top-right');
 	   			alertify.notify('Error', 'error', 3, function(){  console.log(); });
 			}
 		});
-		$('buttonIniciar').html('<button type="button" id="buttonIniciar" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
+		
 
  	}
  	function terminar(){
@@ -247,6 +273,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -255,11 +282,12 @@
 				}
 			},
 			error(error){
+				$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>');
 				alertify.set('notifier','position', 'top-right');
 	   			alertify.notify('Error', 'error', 3, function(){  console.log(); });
 			}
 		});
-		$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" id="buttonTerminar" onclick="terminar()" href="#">Finalizar Encuesta</button>');
+		
  	}
 
  	$(document).ready(function(){
@@ -282,55 +310,22 @@
 		    },		
 			"columns":[
 				{data: 'codigo'},
-				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'direccion'},
-				{data:'nombre'},
-				{data:'codigo'},
+				{data:'comuna.nombre'},
+				{data:'vendedor.codigo'},
 				
 			
 			@for ($i = 0; $i < $encuesta->marcasCount; $i++)
 				 {data: 'valores.{{ $i }}.valor'},
 			@endfor	
-
-				// {data: 'btn'},
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
+	            [ 10, -1 ],
 	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
 	        ],
-	        buttons: [
-	            'copy',
-	            {
-	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
-	            	collectionLayout: 'fixed two-column',
-	            },
+	        buttons: [	                 
 	            'pageLength',
 	        ],
 			"language":{
@@ -360,6 +355,46 @@
 			},
 			"pagingType": "full_numbers",
 		});	
+		table.button().add( 0, {
+				action: function ( e, dt, button, config ) {
+					$.ajax({
+						method:"GET",
+						url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
+						headers : {
+							'Content-Type': 'application/json',
+							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+						},
+						success:function(resp){
+							if(resp == 'ok'){
+								window.open('/excel/down');	
+							}
+						},
+						error(error){				
+							alert('vendedores no Encontrados');				
+						}
+					});
+				},
+				text: 'Excel'
+			} );	
+
+		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
+            if ( this.context.length ) {
+                var jsonResult = $.ajax({
+                    url: '/api/clientes?length=-1',
+                    headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 					},
+                    data: {search: $('#search').val()},
+                    success: function (result) {
+                        //Do nothing
+                    },
+                    async: false
+                });
+                return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
+            }
+        } );
+        
 		var table = $('#noEncuestados').DataTable(
 			{
 			'paging': true,
@@ -376,46 +411,21 @@
 				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'codigo'},
+				{data:'vendedor'},
 				{data:'direccion'},
-				{data:'nombre'},
-				// {data: 'btn'},			
+				{data:'comuna'},			
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
 	            [ 10, 25, 50, -1 ],
 	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
 	        ],
-	        buttons: [
-	            'copy',
-	            {
+	         buttons: [
+	         	{
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
+	            	title: 'Clientes',
 	            	collectionLayout: 'fixed two-column',
-	            },
+	            },	          
 	            'pageLength',
 	        ],
 			"language":{
@@ -444,9 +454,12 @@
 
 			},
 			"pagingType": "full_numbers",
-			});	
+			});
+			
 		
-	});		
+	});	
+
+
  </script>
  <style>
  	td.highlight{

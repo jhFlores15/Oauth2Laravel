@@ -89,7 +89,10 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	        <button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>
+	        <div id="okUsuarioGuardarLoader">
+	        	<button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>
+	        </div>
+	        
 	      </div>
 	    	</div>
 	  	</div>
@@ -117,7 +120,7 @@
  	}
 
  	function ajaxNew(rut,dv,razon_social,email,password){
-		$('#okUsuarioGuardar').html('<div class="loader"></div>');
+		$('#okUsuarioGuardarLoader').html('<div class="loader"></div>');
 		var data = {
 			'razon_social' : razon_social,
             'email' : email,
@@ -135,6 +138,7 @@
 				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
+				$('#okUsuarioGuardarLoader').html('<button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>');
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
@@ -143,6 +147,7 @@
 				}
 			},
 			error(error){
+				$('#okUsuarioGuardarLoader').html('<button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>');
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					incrustarErroresNew(errores);	
@@ -153,7 +158,7 @@
 				}
 			}
 		});
-		$('#okUsuarioGuardar').html('<button type="button" id="okUsuarioGuardar"onclick="okUsuario()" class="btn btn-primary">Guardar</button>');
+		
 	}
 
  	function incrustarErroresNew(errores){

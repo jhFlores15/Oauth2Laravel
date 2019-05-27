@@ -151,6 +151,7 @@ export default {
           password : this.password,
           email : this.email,     
       }).then(response =>{
+        this.loading = false;
         alertify.set('notifier','position', 'top-right');
         alertify.notify('Inicio de Sesion Exitoso', 'success', 3, function(){  console.log(); });
 

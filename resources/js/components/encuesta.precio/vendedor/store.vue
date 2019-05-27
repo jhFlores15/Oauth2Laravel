@@ -78,12 +78,14 @@ export default {
       this.loader = true;
   		axios.get('/api/encuestas/cli_marca/'+this.cliente_id+'/'+this.encuesta_id,this.config).
         then(response => { 
+          this.loader = false;
         	var marcs = response.data;
           this.verifi(marcs,  this.marcas_se);
         }).catch(error => {
+          this.loader = false;
           console.log(error)
         })
-        this.loader = false;
+        
   	},
   	postMarca(valor,marca_id){
       console.log(isNaN(valor));

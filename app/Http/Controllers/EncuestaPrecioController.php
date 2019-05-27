@@ -31,6 +31,34 @@ class EncuestaPrecioController extends Controller
     }
     public function show($encuesta_id){
         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+          ////////Rellenar dartos faltantes
+
+        $valores = $encuesta->marca_cliente->groupBy('cliente_id');
+          $editable = true;
+        
+        $marcas = $encuesta->marcas;
+        foreach ($marcas as $marca) {
+            if(count($marca->clientes) > 0){
+                $editable = false;
+                break;
+            }           
+        }
+
+         foreach ($valores as $value) {   
+             foreach ($value as $val) {   
+                             
+                $cliente_id = $val->cliente_id;
+                $marcasC = $encuesta->marca_cliente->where('cliente_id',$cliente_id);
+                 if(count($marcas) != count($marcasC)){
+                    foreach ($marcas as $marca) {
+                        $m = $encuesta->marca_cliente->where('cliente_id',$cliente_id)->where('marca_id','=', $marca->id);
+                        if(count($m) == 0){
+                            $marca->clientes()->attach($cliente_id,['valor' => 0 ]);  
+                        }
+                    }
+                 } 
+            }                
+        } 
         $encuesta->tipo_encuesta;
          $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
         $termino="";$m="";$n="";
@@ -62,19 +90,14 @@ class EncuestaPrecioController extends Controller
          $total = \App\Cliente::all()->count();
         $encuesta->{"total"}= $total;
 
-        $editable = true;
-        
-        $marcas = $encuesta->marcas;
-        foreach ($marcas as $marca) {
-            if(count($marca->clientes) > 0){
-                $editable = false;
-                break;
-            }           
-        }
+      
         $encuesta->{"editableEliminable"}= $editable;
         $encuesta->{"marcasCount"}= $encuesta->marcas->count();
         //categorias y sus productos
-        $categorias = $marcas->groupBy('categoria_id');        
+        $categorias = $marcas->groupBy('categoria_id');  
+
+
+
         return view('encuestas.precio.show' , ['encuesta' => $encuesta , 'categorias' => $categorias]);
 
     }

@@ -3,7 +3,6 @@
 @section('dataTable')
 <div class="container-fluid" >
 	<br>
-	<button type="button" class="btn btn-danger" onclick="exportExcel()">Export</button>
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuesta Existencia</h2> <br><br>
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
@@ -185,24 +184,7 @@
 	   		alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
 		}		
 	};
-	function exportExcel(){
-		$.ajax({
-			method:"GET",
-			url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
-			headers : {
-				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
-			},
-			success:function(resp){
-				if(resp == 'ok'){
-					window.open('/excel/down');	
-				}
-			},
-			error(error){				
-				alert('vendedores no Encontrados');				
-			}
-		});
-	}
+
 	function modalEliminar(){
 		$('#deleteModal').modal('show');
 	}
@@ -323,7 +305,7 @@
 			dom: 'Bfrtip',
 			lengthMenu: [
 	            [ 10, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ '10 rows', 'Show all' ]
 	        ],
 	        buttons: [	                 
 	            'pageLength',
@@ -368,9 +350,12 @@
 							if(resp == 'ok'){
 								window.open('/excel/down');	
 							}
+							else if(resp == 'fail'){
+								alertify.set('notifier','position', 'top-right');
+	   							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
+							}
 						},
-						error(error){				
-							alert('vendedores no Encontrados');				
+						error(error){						
 						}
 					});
 				},
@@ -417,8 +402,8 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
 	        ],
 	         buttons: [
 	         	{

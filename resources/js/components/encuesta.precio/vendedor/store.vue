@@ -10,7 +10,10 @@
          		<div class="card card-body" style="margin:auto;" >
          			<b-form inline v-for="marc in marca" :key="marc.id">
 					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>
-               <input type="number" class="form-control" v-model="marc.tipo_producto.created_at"  v-on:input="postMarca(marc.tipo_producto.created_at,marc.id)">		    
+              
+               <b-form @submit.prevent >
+                 <input type="number" class="form-control" v-model="marc.tipo_producto.created_at"  v-on:change.stop="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                	</b-form>    
 					 </b-form>
          		</div>
          	</div>
@@ -65,6 +68,8 @@ export default {
   },
   methods:{
     verifi(c,marcs){
+      console.log(Object.keys(c).length);
+      console.log(marcs.length);
       if(Object.keys(c).length == marcs.length){
             location.href = '/encuestas/E/P/'+this.encuesta_id;
       }

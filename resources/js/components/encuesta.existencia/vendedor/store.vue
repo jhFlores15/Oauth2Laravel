@@ -108,6 +108,8 @@ export default {
 	        	axios.put('/api/encuestas/existencia/'+marca_cliente.id,{
 		            'valor' : valor,
 		        },this.config).then(response =>{
+               alertify.set('notifier','position', 'top-right');
+                alertify.notify('Ok', 'success', 2, function(){  console.log(); });
 		        	
 		        }).catch(error =>{
 		            alertify.set('notifier','position', 'top-right');
@@ -121,7 +123,8 @@ export default {
 		            'encuesta_id' : this.encuesta_id,
 		            'valor' : valor,
 		        },this.config).then(response =>{
-		        
+		           alertify.set('notifier','position', 'top-right');
+              alertify.notify('Ok', 'success', 2, function(){  console.log(); });
 		        }).catch(error =>{	           
 		            alertify.set('notifier','position', 'top-right');
 		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                

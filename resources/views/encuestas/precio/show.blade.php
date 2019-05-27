@@ -5,7 +5,7 @@
 	<br>
 
 	<div class="justify-content-center text-center">
-		<h2 class="text-center">Encuesta Existencia</h2> <br><br>
+		<h2 class="text-center">Encuesta Precio</h2> <br><br>
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
@@ -30,8 +30,7 @@
 		  		</li>
 		  		 <button type="button" onclick="modalEliminar()" class="btn btn-outline-danger">
 					Eliminar
-				</button>	
-			    	
+				</button>
 			 @endif	  
 
 		</ul>
@@ -95,7 +94,7 @@
 					<table id="clientes" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 						
 						  	<tr>
-						  		<th colspan="7">Datos Cliente</th>
+						  		<th colspan="5">Datos Cliente</th>
 							  	@foreach ($categorias as $categoria)
 							  		 <th colspan="{{ $categoria->count() }}">{{ $categoria[0]->categoria->nombre }}</th>
 							  	@endforeach	
@@ -103,10 +102,8 @@
 			            	</tr>
 							<tr>
 								<th>Codigo</th>
-								<th>Razon Social</th>
 								<th>Rut</th>
 								<th>dv</th>
-								<th>Direccion</th>
 								<th>Comuna</th>
 								<th>Vendedor</th>	
 								@foreach ($categorias as $categoria)
@@ -294,13 +291,10 @@
 		    },		
 			"columns":[
 				{data: 'codigo'},
-				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'direccion'},
 				{data:'comuna.nombre'},
-				{data:'vendedor.codigo'},
-				
+				{data:'vendedor.codigo'},				
 			
 			@for ($i = 0; $i < $encuesta->marcasCount; $i++)
 				 {data: 'valores.{{ $i }}.valor'},
@@ -310,39 +304,15 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
 	        ],
-	        buttons: [
-	            'copy',
-	            {
-	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
-	            	collectionLayout: 'fixed two-column',
-	            },
+	       dom: 'Bfrtip',
+			lengthMenu: [
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
+	        ],
+	        buttons: [	                 
 	            'pageLength',
 	        ],
 			"language":{
@@ -372,6 +342,30 @@
 			},
 			"pagingType": "full_numbers",
 		});	
+		table.button().add( 0, {
+				action: function ( e, dt, button, config ) {
+					$.ajax({
+						method:"GET",
+						url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
+						headers : {
+							'Content-Type': 'application/json',
+							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+						},
+						success:function(resp){
+							if(resp == 'ok'){
+								window.open('/excel/down');	
+							}
+							else if(resp == 'fail'){
+								alertify.set('notifier','position', 'top-right');
+	   							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
+							}
+						},
+						error(error){						
+						}
+					});
+				},
+				text: 'Excel'
+			} );	
 
 		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
             if ( this.context.length ) {
@@ -390,7 +384,7 @@
                 return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
             }
         } );
-
+        
 		var table = $('#noEncuestados').DataTable(
 			{
 			'paging': true,
@@ -407,20 +401,19 @@
 				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'vendedor.codigo'},
+				{data:'vendedor'},
 				{data:'direccion'},
-				{data:'comuna'},
-				// {data: 'btn'},			
+				{data:'comuna'},	
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
 	        ],
 	         buttons: [
 	         	{
 	            	extend: 'excel',
-	            	title: 'Clientes No Encuestados',
+	            	title: 'Clientes',
 	            	collectionLayout: 'fixed two-column',
 	            },	          
 	            'pageLength',

@@ -11,6 +11,8 @@ use DateTime;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Encuesta as EncuestaResource;
 use App\Http\Resources\ECV as ECVResource;
+use App\Http\Resources\ECVExport as ECVExportResource;
+
 use App\Encuesta;
 use Illuminate\Support\Facades\DB;
 
@@ -132,25 +134,19 @@ class EncuestaClienteController extends Controller
        
 
     }
-     public function clientesNo($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
-        //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
-        //$encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
-        // $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->dateEq()->get();
-        // $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->get();
-        // $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->emailN()->get();
-        // $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
+     public function clientesNo($encuesta_id){
 
         $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->emailN()->fecha_nacimientoN()->get();
 
-        $clientess = ECVResource::collection(collect($encuesta_clientes));
+        $clientess = ECVExportResource::collection(collect($encuesta_clientes));
 
         // return response()->json($clientess);
 
-       return datatables()
+        return datatables()
             ->resource($clientess)
-            ->addColumn('btn','encuestas.clientes.show.acciones')
+             ->addColumn('btn','encuestas.clientes.show.acciones')
             ->rawColumns(['btn'])
-            ->toJson();    
+            ->toJson();     
        
 
     }
@@ -234,6 +230,42 @@ class EncuestaClienteController extends Controller
         $encuesta->termino = Carbon::today();
         $encuesta->save();
         return response()->json('ok');
+    }
+
+     public function exportEncuestaCliente($encuesta_id) {
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+
+        $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
+        $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
+        $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->email()->get();
+        $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
+
+        $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
+
+        if($encuesta_clientes->count() > 0){
+
+            (new FastExcel($encuesta_clientes))->export(storage_path('file.xls'), function ($cliente)  {
+                    $clienteC = \App\Cliente::find($cliente['cliente_id']);
+                    $return['Codigo'] = $clienteC->codigo;
+                    $return['Razon Social']= $clienteC->razon_social;
+                    $return['Rut'] = $clienteC->rut;
+                    $return['Dv'] = $clienteC->dv;
+                    $return['Direccion'] = $clienteC->codigo;
+                    $return['Comuna'] = $clienteC->comuna->nombre;
+                    $return['fecha_nacimiento'] = $cliente->fecha_nacimiento;
+                    $return['Telefono'] = $cliente->telefono;
+                    $return['Email'] = $cliente->email;
+               return $return;
+            });
+            return response()->json('ok');
+        }
+        else{
+            return response()->json('fail');
+        }
+
+       
+
+        
     }
 
 }

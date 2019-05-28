@@ -8,6 +8,7 @@ use App\Cliente;
 use App\Http\Resources\Cliente as ClienteResource;
 use Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
@@ -146,16 +147,28 @@ class ClienteController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
+
         if($request->hasFile('file')){
+
+            //   DB::beginTransaction();
+             
+            // try {
+
             $file = $request->file('file');
             $clientes = (new FastExcel)->import($file, function ($line) {
                 $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
                 if($cliente){ //actualizar
-                    $cliente->rut = trim($line['rut']);
+                    $cliente->rut = trim(str_replace ( ".", "", $line['rut']));
                     $cliente->dv = trim($line['dv']);
                     $cliente->razon_social = $line['razon_social'];
-                    $cliente->direccion = $line['direccion'];                    
-                    $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
+                    $cliente->direccion = $line['direccion'];  
+                    if($line['comuna'] != ''){
+                        $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
+                    }  
+                    else{
+                        $comuna = \App\Comuna::all()->where('numero',0)->first();
+                    }              
+                    
                     $cliente->comuna_id = $comuna->id;
                     $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                     $cliente->user_id = $vendedor->id;
@@ -165,12 +178,19 @@ class ClienteController extends Controller
                      if($line['codigo'] != ''){
                         $cliente = new \App\Cliente();
                         $cliente->codigo = trim($line['codigo']);
-                        $cliente->rut = trim($line['rut']);
+                        $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
                         $cliente->dv =trim($line['dv']);
                         $cliente->razon_social = $line['razon_social'];
                         $cliente->direccion = $line['direccion'];
-                        $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
-                        $cliente->comuna_id = $comuna->id;
+                        if($line['comuna'] != ''){
+                            $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
+                            $cliente->comuna_id = $comuna->id;
+                        }  
+                        else{
+                            $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
+                            $cliente->comuna_id = $comuna->id;
+                        }
+                        
                         $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                         $cliente->user_id = $vendedor->id;
                         $cliente->save();
@@ -178,13 +198,27 @@ class ClienteController extends Controller
                 } 
                 return ;
             });
+
             $clientes_eliminar = \App\Cliente::updatedd()->orderBy('codigo')->get();
 
             $arrays = ($clientes_eliminar->modelKeys());
              \App\Cliente::destroy($arrays);
+
+
+            // DB::commit();
+            // } catch (\Exception $e) {
+            //     DB::rollback();
+            //     throw $e;
+            // }
+            // catch (\Throwable $e) {
+            //     DB::rollback();
+            //     throw $e;
+            // }
+           
         }
         return response()->json('ok');
         
 
     }
+
 }

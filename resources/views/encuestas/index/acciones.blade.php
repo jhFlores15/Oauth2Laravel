@@ -9,7 +9,7 @@
 @endif
 
 
-@if ($estado === 'Inactivo' && $tipo_encuesta->id == 2)
+@if ($tipo_encuesta->id == 2)
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
 		Eliminar
 	</button>

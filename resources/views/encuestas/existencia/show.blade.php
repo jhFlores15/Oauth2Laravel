@@ -362,6 +362,8 @@
 				text: 'Excel'
 			} );	
 
+		
+
 		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
             if ( this.context.length ) {
                 var jsonResult = $.ajax({

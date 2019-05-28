@@ -9,6 +9,12 @@ class EncuestaCliente extends Pivot
     public $incrementing = true;
     protected $table = 'encuesta_cliente';
 
+    public function cliente(){
+
+        return $this->belongsto('App\Cliente');
+
+    }
+
     public function scopeEncuesta($query,$encuesta_id){
 
     	return $query->where('encuesta_id', '=', $encuesta_id);

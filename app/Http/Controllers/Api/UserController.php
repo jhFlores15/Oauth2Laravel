@@ -49,7 +49,7 @@ class UserController extends Controller
                     $users = (new FastExcel)->import($file, function ($line) use ($i){
                         $vendedor = \App\User::all()->where('rol_id',2)->where('codigo',trim($line['codigo']))->first();
                         if($vendedor){ //actualizar
-                            $vendedor->rut = trim($line['rut']);
+                            $vendedor->rut = trim(str_replace ( ".", "", $line['rut']));
                             $vendedor->dv = trim($line['dv']);
                             $vendedor->razon_social = $line['nombre'];
                             $vendedor->email = trim($line['email']);
@@ -61,7 +61,7 @@ class UserController extends Controller
                             if($line['codigo'] != ''){
                                 $vendedor = new \App\User();
                                 $vendedor->codigo = trim($line['codigo']);
-                                $vendedor->rut = trim($line['rut']);
+                                $vendedor->rut = trim(str_replace ( ".", "", $line['rut']));
                                 $vendedor->dv = trim($line['dv']);
                                 $vendedor->razon_social = $line['nombre'];
                                 $vendedor->email = trim($line['email']);
@@ -83,9 +83,6 @@ class UserController extends Controller
                 }
                 DB::commit();
             } catch (\Exception $e) {
-                DB::rollback();
-                throw $e;
-            } catch (\Throwable $e) {
                 DB::rollback();
                 throw $e;
             }

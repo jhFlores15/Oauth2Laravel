@@ -12,6 +12,13 @@ class ComunasTableSeeder extends Seeder
      */
     public function run()
     {
+        $region = \App\Region::all()->where('numero',0)->first();
+        DB::table('comunas')->insert([
+            'nombre' => 'No Tiene',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     	$region = \App\Region::all()->where('numero',9)->first();
         DB::table('comunas')->insert([
         	'nombre' => 'ANGOL',
@@ -36,6 +43,12 @@ class ComunasTableSeeder extends Seeder
         	'region_id' => $region->id,
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
+        ]);
+        DB::table('comunas')->insert([
+            'nombre' => 'CHOLCHOL',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
         DB::table('comunas')->insert([
         	'nombre' => 'COLLIPULLI',
@@ -193,8 +206,14 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-                 DB::table('comunas')->insert([
+        DB::table('comunas')->insert([
             'nombre' => 'LOS SAUCES',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('comunas')->insert([
+            'nombre' => 'LOS SAUCE',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -314,6 +333,12 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+         DB::table('comunas')->insert([
+            'nombre' => 'PUERTO SAAVEDRA',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'PUERTO DOMINGUEZ',
             'region_id' => $region->id,
@@ -334,6 +359,12 @@ class ComunasTableSeeder extends Seeder
         ]);
         DB::table('comunas')->insert([
             'nombre' => 'SAN RAMON (TEM)',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('comunas')->insert([
+            'nombre' => 'SAN RAMON',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -630,6 +661,12 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+         DB::table('comunas')->insert([
+            'nombre' => 'MUERMOS',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'MAULLIN',
             'region_id' => $region->id,
@@ -650,6 +687,12 @@ class ComunasTableSeeder extends Seeder
         ]);
         DB::table('comunas')->insert([
             'nombre' => 'OSORNO',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('comunas')->insert([
+            'nombre' => 'LA PASADA',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -691,6 +734,12 @@ class ComunasTableSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         DB::table('comunas')->insert([
+            'nombre' => 'PTO MONTT',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+          DB::table('comunas')->insert([
             'nombre' => 'PUERTO MONTT',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
@@ -726,8 +775,20 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+         DB::table('comunas')->insert([
+            'nombre' => 'PTO OCTAY',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'PUERTO VARAS',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('comunas')->insert([
+            'nombre' => 'PTO VARAS',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -976,7 +1037,12 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-
+        DB::table('comunas')->insert([
+            'nombre' => 'COIHAIQUE',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'BALMACEDA',
             'region_id' => $region->id,
@@ -1131,6 +1197,12 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+         DB::table('comunas')->insert([
+            'nombre' => 'SAN JOSE',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'AMARGOS',
             'region_id' => $region->id,
@@ -1161,7 +1233,12 @@ class ComunasTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-
+        DB::table('comunas')->insert([
+            'nombre' => 'LIQUINE',
+            'region_id' => $region->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         DB::table('comunas')->insert([
             'nombre' => 'LOS MOLINOS',
             'region_id' => $region->id,

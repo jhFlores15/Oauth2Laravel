@@ -50,7 +50,7 @@
 							      </tr>
 							    </thead>			    
 				  			</table>
-				  			  <div class="col text-center " v-if="(loaderCliente == true)">                
+				  			  <div class="col text-center " v-if="loaderCliente">                
 			                <div class="loader"  style="margin: auto;"></div>
 			              </div>	
 			              <div  v-else>

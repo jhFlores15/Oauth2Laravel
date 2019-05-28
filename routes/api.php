@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('encuesta/clientes/No/{encuesta}','Api\EncuestaClienteController@clientesNo');
     Route::put('encuesta/clientes/iniciar/{encuesta}','Api\EncuestaClienteController@iniciar');
     Route::put('encuesta/clientes/terminar/{encuesta}','Api\EncuestaClienteController@terminar');
+
+    ///////////////////////////////////////
+    Route::get('encuesta/cliente/export/{encuesta_id}','Api\EncuestaClienteController@exportEncuestaCliente');
+    /////////////////////////////////////////
    
     Route::get('tipos_productos', 'Api\TipoProductoController@index');
     Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');
@@ -59,6 +63,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados');
     Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados');
      Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia');
+
+
 
 
 

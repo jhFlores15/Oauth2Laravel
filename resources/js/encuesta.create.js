@@ -72,6 +72,7 @@ const appp = new Vue({
         postEncuestaExistente(){
             if((this.descripcion != '') && (this.fecha_inicio!= '') && (this.categorias.length > 0)){
                 this.loaderExistente = true;
+                this.erroresEncuesta = "";
                 axios.post('/api/encuestas',{              
                     'descripcion' : this.descripcion,
                     'fecha_inicio' : this.fecha_inicio,
@@ -157,6 +158,10 @@ const appp = new Vue({
                 })
         },
     	postFileCliente(encuesta){
+           this.erroresEncuesta.descripcion ='';
+         this.erroresEncuesta.tipos_encuesta ='';
+         this.erroresEncuesta.fecha_inicio ='';
+         this.erroresEncuesta.csv ='';  
              this.loaderCliente = true;
     		let formData = new FormData();            
             formData.append('csv', this.file);
@@ -166,26 +171,40 @@ const appp = new Vue({
                 this.loaderCliente = false;
 		       location.href='/encuesta/clientes/'+encuesta.id;	       
 		    }).catch(error =>{
+                console.log('error');
                 this.loaderCliente = false;
-		    	if(error.response.status = 422){
+		    	if(error.response.status == 422){
                     this.erroresEncuesta = error.response.data.error;
-                }               
+                }  
+                else if(error.response.status == 500)
+                {
+                    console.log(error.response)
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify(error.response.data.message, 'error', 10, function(){  console.log(); });
+                }             
                 this.eliminarEncuesta(encuesta.id);
 		    });
             
     		
     	},
-    	postEncuestaCliente(){    		
+    	postEncuestaCliente(){  
+         this.erroresEncuesta.descripcion ='';
+         this.erroresEncuesta.tipos_encuesta ='';
+         this.erroresEncuesta.fecha_inicio ='';
+         this.erroresEncuesta.csv ='';		
+         this.loaderCliente = true;
     		axios.post('/api/encuestas/clientes',{    			
     			'descripcion' : this.descripcion,
     			'fecha_inicio' : this.fecha_inicio,
     			'tipo_encuesta' : this.select_tipo_encuesta,  
         
 		    },this.config).then(response =>{
+                this.loaderCliente = false;
 		       this.postFileCliente(response.data);
 		       
 		    }).catch(error =>{
                 if(error.response.status = 422){
+                    this.loaderCliente = false;
                     this.erroresEncuesta = error.response.data.error;
                 }
 		    	

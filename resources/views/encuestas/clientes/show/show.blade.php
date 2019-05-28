@@ -16,14 +16,14 @@
 			  		</div>			  		
 			  	</li>
 		  	@endif
-		  	@if($encuesta->estado == "Inactivo")
-		  		<li class="nav-item">
-			  		<a type="button" class=" btn btn-outline-primary " onclick="showModalEditar()"  href="#">Editar Encuesta</a>
-			  	</li>
-			  	<li class="nav-item">
+		  	<li class="nav-item">
 			  		 <button type="button" onclick="modalEliminar({{ $encuesta->id}})" class="btn btn-outline-danger">
 						Eliminar
 					</button>
+			  	</li>
+		  	@if($encuesta->estado == "Inactivo")
+		  		<li class="nav-item">
+			  		<a type="button" class=" btn btn-outline-primary " onclick="showModalEditar()"  href="#">Editar Encuesta</a>
 			  	</li>
 		  	@endif
 		  	@if($encuesta->estado == "Inactivo" || $encuesta->estado == "Finalizado")
@@ -105,7 +105,6 @@
 								<th>Telefono</th>
 								<th>Email</th>
 								<th>Comuna</th>
-								<th>&nbsp;</th>
 							</tr>
 						</thead>							
 					</table>  
@@ -123,7 +122,6 @@
 								<th>Vendedor</th>
 								<th>Direccion</th>
 								<th>Comuna</th>
-								<th>&nbsp;</th>
 							</tr>
 						</thead>							
 					</table>  
@@ -156,9 +154,7 @@
 						    	<input type="file" id="file" ref="file" class="custom-file-input" name="csv" v-on:change="handleFileUpload()"  required accept=".csv,.xlsx" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 						    	<label class="custom-file-label" data-browse="Examinar" for="inputGroupFile01" >Archivo XLSX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						  	</div>
-					  	  	<div class="input-group-prepend">
-					    		 <button type="button" class="btn btn-outline-success mb-2">Subir Datos</button>
-					    	</div>					  
+					  	  					  
 						</div>
 						
 					</div>
@@ -406,7 +402,7 @@
 		console.log(formData);
 		$.ajax({
 			method:"POST",
-			url:'/api//encuestas/clientes/{{ $encuesta->id }}',
+			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
 			data: formData,
 			processData: false,
 			contentType: false,
@@ -522,43 +518,13 @@
 				{data:'email'},
 				// {data:'direccion'},
 				{data:'comuna.nombre'},
-				{data: 'btn'},
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
 	        ],
-	        buttons: [
-	            'copy',
-	            {
-	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
-	            	collectionLayout: 'fixed two-column',
-	            },
+	        buttons: [	                 
 	            'pageLength',
 	        ],
 			"language":{
@@ -587,7 +553,49 @@
 
 			},
 			"pagingType": "full_numbers",
-		});	
+		});
+		table.button().add( 0, {
+			action: function ( e, dt, button, config ) {
+				$.ajax({
+					method:"GET",
+					url:'/api/encuesta/cliente/export/{{ $encuesta->id }}',
+					headers : {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					},
+					success:function(resp){
+						if(resp == 'ok'){
+							window.open('/excel/down');	
+						}
+						else if(resp == 'fail'){
+							alertify.set('notifier','position', 'top-right');
+   							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
+						}
+					},
+					error(error){						
+					}
+				});
+			},
+			text: 'Excel'
+		} );	
+
+		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
+            if ( this.context.length ) {
+                var jsonResult = $.ajax({
+                    url: '/api/encuesta/clientes/No/{{ $encuesta->id }}?length=-1',
+                    headers : {
+ 					'Content-Type': 'application/json',
+ 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 					},
+                    data: {search: $('#search').val()},
+                    success: function (result) {
+                        //Do nothing
+                    },
+                    async: false
+                });
+                return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientess thead tr th").map(function() { return this.innerHTML; }).get()};
+            }
+        } );	
 		var table = $('#clientess').DataTable(
 			{
 			'paging': true,
@@ -599,52 +607,27 @@
  					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
  				},
 		    },		
-			"columns":[
+			"columns":[				
 				{data: 'codigo'},
 				{data: 'razon_social'},
 				{data: 'rut'},
 				{data: 'dv'},
-				{data:'vendedor.codigo'},
+				{data:'vendedor'},
 				{data:'direccion'},
-				{data:'comuna.nombre'},
-				{data: 'btn'},
+				{data:'comuna'},			
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ 10, -1 ],
+	            [ '10 rows', 'Show all' ]
 	        ],
-	        buttons: [
-	            'copy',
-	            {
+	         buttons: [
+	         	{
 	            	extend: 'excel',
-	            	title:'Clientes No Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'pdf',
-	            	title:'Clientes No Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },
-	                autoFilter: true,
-	            },
-	            {
-	            	extend: 'print',
-	            	title:'Clientes No Encuestados',
-	            	exportOptions: {
-	                    columns: ':visible'
-	                },autoFilter: true,
-	            }, 
-	            {
-	            	extend: 'colvis',
-	            	text: 'Seleccionar Columnas',
+	            	title: 'Clientes No Encuestados',
 	            	collectionLayout: 'fixed two-column',
-	            },	
-	            'pageLength',             
+	            },	          
+	            'pageLength',
 	        ],
 			"language":{
 				"info":"_TOTAL_ registros",

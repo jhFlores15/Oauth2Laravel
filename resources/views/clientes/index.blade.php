@@ -167,12 +167,13 @@
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
-					alertify.notify('Datos Actualizados Correctamente', 'success', 5, function(){  console.log(); });  
-					location.reload(true);
+					alertify.notify('Datos Actualizados Correctamente', 'success', 15, function(){  console.log(); });  
+					// location.reload(true);
 				}
 			},
 			error(error){
 				$('#postDatosLoader').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
+				console.log(error);
 				if(error.status == 422){
 					var errores = error.responseJSON.error;
 					$('#errorFile').html('<div></div>');

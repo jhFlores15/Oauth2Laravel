@@ -12,7 +12,12 @@ class RegionesTableSeeder extends Seeder
      */
     public function run()
     {
-     
+         DB::table('regiones')->insert([
+            'nombre' => 'No Tiene',
+            'numero' => '0',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);     
         DB::table('regiones')->insert([
         	'nombre' => 'Araucania',
         	'numero' => '9',

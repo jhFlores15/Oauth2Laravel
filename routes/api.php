@@ -21,8 +21,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Api\AuthController@login');  
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', 'Api\AuthController@logout');
-        Route::post('signup', 'Api\AuthController@signup');
-        Route::put('update/{id}', 'Api\AuthController@update');
+        Route::post('signup', 'Api\AuthController@signup')->middleware('isAdmin');
+        Route::put('update/{id}', 'Api\AuthController@update')->middleware('isAdmin');
 
     });
 });

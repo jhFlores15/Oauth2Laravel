@@ -52,6 +52,10 @@ class EncuestaClienteVendedorController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
+        $cliente = \App\Cliente::findOrFail($cliente_id);
+        if(auth()->user()->id != $cliente->user_id){ //solo actualiza el vendedor que tenga ese cliente
+            abort(401);
+        }
 
         $encuesta_cl = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
         $encuesta_cl = \App\EncuestaCliente::find($encuesta_cl[0]['id']);
@@ -67,6 +71,10 @@ class EncuestaClienteVendedorController extends Controller
 
     public function show($encuesta_id,$cliente_id) // ver encuesta cliente en especifico
     {
+        $cliente = \App\Cliente::findOrFail($cliente_id);
+        if(auth()->user()->id != $cliente->user_id){ 
+            abort(401);
+        }
         $encuesta_cli = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
         return response()->json($encuesta_cli);
     }

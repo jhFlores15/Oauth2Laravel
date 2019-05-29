@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $clientes = ClienteResource::collection(Cliente::all());
@@ -27,13 +23,7 @@ class ClienteController extends Controller
             ->rawColumns(['btn'])
             ->toJson();    
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -68,12 +58,6 @@ class ClienteController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
          $cliente = cliente::findOrFail($id);
@@ -82,13 +66,7 @@ class ClienteController extends Controller
          return response()->json($cliente);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -127,12 +105,7 @@ class ClienteController extends Controller
         return response()->json('ok');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $cliente = \App\Cliente::findOrFail($id);
@@ -156,26 +129,14 @@ class ClienteController extends Controller
 
             $file = $request->file('file');
             $clientes = (new FastExcel)->import($file, function ($line) {
-                $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
-                if($cliente){ //actualizar
-                    $cliente->rut = trim(str_replace ( ".", "", $line['rut']));
-                    $cliente->dv = trim($line['dv']);
-                    $cliente->razon_social = $line['razon_social'];
-                    $cliente->direccion = $line['direccion'];  
-                    if($line['comuna'] != ''){
-                        $comuna = \App\Comuna::all()->where('nombre','=',str_replace("  "," ",trim($line['comuna'])))->first();
-                    }  
-                    else{
-                        $comuna = \App\Comuna::all()->where('numero',0)->first();
-                    }              
-                    
-                    $cliente->comuna_id = $comuna->id;
-                    $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
-                    $cliente->user_id = $vendedor->id;
-                    $cliente->save();
-                }
-                else{ //crear
-                     if($line['codigo'] != ''){
+                if($line['codigo'] != ''){
+                    $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
+                    if($cliente){ //actualizar
+                        $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+                        $cliente->user_id = $vendedor->id;
+                        $cliente->save();
+                    }
+                    else{ 
                         $cliente = new \App\Cliente();
                         $cliente->codigo = trim($line['codigo']);
                         $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
@@ -190,12 +151,11 @@ class ClienteController extends Controller
                             $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
                             $cliente->comuna_id = $comuna->id;
                         }
-                        
                         $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                         $cliente->user_id = $vendedor->id;
                         $cliente->save();
-                    }
-                } 
+                    } 
+                }
                 return ;
             });
 
@@ -217,8 +177,6 @@ class ClienteController extends Controller
            
         }
         return response()->json('ok');
-        
-
     }
 
 }

@@ -24,6 +24,10 @@ class EncuestaPrecioController extends Controller
         $marca_id = $request->get('marca_id');
         $valor = $request->get('valor');
         $cliente_id = $request->get('cliente_id');
+         $cliente = \App\Cliente::findOrFail($cliente_id);
+        if(auth()->user()->id != $cliente->user_id){ 
+            abort(401);
+        }
         $marca = \App\Marca::findOrFail($marca_id);
         $marca->clientes()->attach($cliente_id,['valor' => $valor ]);  
 
@@ -42,7 +46,10 @@ class EncuestaPrecioController extends Controller
         $valor = $request->get('valor');
 
         $cliente_marca = \App\ClienteMarca::findOrFail($id);
-
+        $cliente = \App\Cliente::findOrFail($cliente_marca->cliente_id);
+        if(auth()->user()->id != $cliente->user_id){ 
+            abort(401);
+        }
         $cliente_marca->valor = $valor;
         $cliente_marca->save();        
 

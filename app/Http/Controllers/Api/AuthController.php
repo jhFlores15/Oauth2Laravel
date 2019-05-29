@@ -47,9 +47,7 @@ class AuthController extends Controller
         else{
             $rol = \App\Rol::all()->where('nombre','!=','Administrador')->first();
         }
-        //$rol = Rol::findOrFail($request->get('rol_id'));
         $user->rol()->associate($rol);
-
 	    $user->save();
 	    
 	    return response()->json('ok');

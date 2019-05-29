@@ -10,11 +10,7 @@ use App\Comuna;
 
 class ComunaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $comunas = ComunaResource::collection(Comuna::all());
@@ -27,12 +23,6 @@ class ComunaController extends Controller
             ->toJson();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -53,12 +43,6 @@ class ComunaController extends Controller
         return response()->json('ok');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
          $comuna = Comuna::findOrFail($id);
@@ -66,13 +50,6 @@ class ComunaController extends Controller
          return response()->json($comuna);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -97,12 +74,6 @@ class ComunaController extends Controller
        return response()->json('ok');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $comuna = \App\Comuna::findOrFail($id);

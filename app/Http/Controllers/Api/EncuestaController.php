@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class EncuestaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $encuestas = EncuestaResource::collection(Encuesta::all()); //Listado de encuestas Para el  Administrador
@@ -44,12 +40,7 @@ class EncuestaController extends Controller
             ->toJson();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request) /// para existencia y precio
     {
           $validator = Validator::make($request->all(), [
@@ -66,7 +57,6 @@ class EncuestaController extends Controller
         $encuesta->inicio = $request->get('fecha_inicio');
         $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
         $encuesta->tipo_encuesta()->associate($tipo_encuesta);
-        //$encuesta->save();
     
         DB::beginTransaction();
          
@@ -96,25 +86,13 @@ class EncuestaController extends Controller
         return response()->json($encuesta);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show($id)
     {
         $encuesta = \App\Encuesta::findOrFail($id);
         return response()->json($encuesta);        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
          $validator = Validator::make($request->all(), [
@@ -133,12 +111,7 @@ class EncuestaController extends Controller
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function destroy($id) //Existencia -Precio
     {
         $encuesta = \App\Encuesta::findOrFail($id);

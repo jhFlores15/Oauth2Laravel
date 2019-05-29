@@ -50,6 +50,7 @@ export default {
           config:{},
           cliente:{
             razon_social:'',
+            user_id:'',
           },
           encuesta:{},
           encuesta_cliente:{
@@ -87,14 +88,14 @@ export default {
      
   },
   methods:{
-    getUserApi(){     
+    getUserApi(){  
+      this.getCliente();   
       axios.get('/api/user/',this.config).
         then(response => {
           var user = response.data;
-          if(user.rol_id != 2){
+          if(user.rol_id != 2 || user.id != this.cliente.user_id){
             location.href = '/';
           } 
-          this.getCliente();
           this.getEncuesta();   
           this.getEncuestaCliente();     
         }).catch(error => {

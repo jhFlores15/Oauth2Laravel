@@ -67,13 +67,13 @@ export default {
   },
   methods:{
      getUserApi(){     
+       this.getCliente();   
       axios.get('/api/user/',this.config).
         then(response => {
           var user = response.data;
-          if(user.rol_id != 2){
+          if(user.rol_id != 2 || user.id != this.cliente.user_id){
             location.href = '/';
           } 
-          this.getCliente();
           this.getEncuesta();   
           this.getEncuestaE(); 
           this.getMarcas();    

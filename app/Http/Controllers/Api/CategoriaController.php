@@ -55,8 +55,18 @@ class CategoriaController extends Controller
     public function destroy($id)
     { 
         $categoria = \App\Categoria::findOrFail($id);  
-        $categoria->marcas()->delete();
-        $categoria->delete();
+         DB::beginTransaction();         
+        try {   
+            $categoria->marcas()->delete();
+            $categoria->delete();
+         DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }       
         return response()->json('ok');
     }
 }

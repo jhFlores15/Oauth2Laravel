@@ -24,8 +24,6 @@ class EncuestaExistenciaAdminController extends Controller
          $clientes = ClienteResource::collection(collect(Cliente::all()->whereNotIn('id', $idsss)));     
          return datatables()
             ->resource($clientes)
-            // ->addColumn('btn','encuestas.existencia.acciones')
-            // ->rawColumns(['btn'])
             ->toJson();    
     }
     public function index_encuestados($encuesta_id) 
@@ -34,13 +32,9 @@ class EncuestaExistenciaAdminController extends Controller
         $clientes = $encuesta->marca_cliente->groupBy('cliente_id');        
              
         $clientes = EncuestaMarcaClienteResource::collection(collect($clientes));
-         
-        //return response()->json($clientes);
 
         return datatables()
             ->resource($clientes)
-            //  ->addColumn('btn','encuestas.existencia.acciones')
-            // ->rawColumns(['btn'])
             ->toJson();    
     }
     public function exportEncuestaExistencia($encuesta_id) {

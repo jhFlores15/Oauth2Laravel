@@ -68,14 +68,28 @@ export default {
         },
       }; 
       this.config = config; 
-      this.getCliente();
-      this.getEncuesta();   
-      this.getEncuestaE(); 
-      this.getMarcas();      
+      this.getUserApi();
     }
-     
+    else{
+      location.href = '/';
+    }
   },
   methods:{
+    getUserApi(){     
+      axios.get('/api/user/',this.config).
+        then(response => {
+          var user = response.data;
+          if(user.rol_id != 2){
+            location.href = '/';
+          } 
+          this.getCliente();
+          this.getEncuesta();   
+          this.getEncuestaE(); 
+          this.getMarcas();      
+        }).catch(error => {
+         
+        })
+    },  
     verifi(c,marcs){
       if(Object.keys(c).length == marcs.length){
             location.href = '/encuestas/E/P/'+this.encuesta_id;
@@ -134,10 +148,6 @@ export default {
         }).catch(error => {
           console.log(error)
         })
-      
-
-  		
-
   	},
     getCliente(){
         axios.get('/api/clientes/'+this.cliente_id,this.config).

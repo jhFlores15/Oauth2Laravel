@@ -87,8 +87,6 @@ class UserController extends Controller
                 throw $e;
             }
         return response()->json('ok');
-        
-
     }
      public function user($id)
     {

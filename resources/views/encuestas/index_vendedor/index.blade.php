@@ -1,6 +1,7 @@
 @extends('master')
 
 @section('dataTable')
+
 <div class="container-fluid" >
 	<br>
 
@@ -21,12 +22,36 @@
 	</div>
 </div>
  <script >	
- 	$(document).ready(function(){
-
+ 	window.onload = function() {
  		if(!localStorage.getItem('access_token'))
  		{
  			location.href = '/';
  		}
+ 		else{
+ 			isAdmin();
+	 	}
+	};
+ 	function isAdmin(){
+ 		$.ajax({
+				method:"GET",
+				url:'/api/user/',
+				headers : {
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				},
+				success:function(resp){
+					console.log(resp);
+					console.log(resp.rol_id);
+					if(resp.rol_id != 2){
+						location.href = '/';
+					}			
+				},
+				error(error){							
+				}
+	 		});
+ 	}
+ 	$(document).ready(function(){
+		 	
 
 		var table = $('#comunas').DataTable(
 			{

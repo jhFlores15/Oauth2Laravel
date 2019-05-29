@@ -98,13 +98,7 @@ class EncuestaExistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) //Ver Admin
-    {
 
-        
-        
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -138,10 +132,7 @@ class EncuestaExistenciaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+
     public function edit($id){
         $encuesta = Encuesta::findOrFail($id);
         $encuesta = EncuestaExistenciaResource::collection(Encuesta::all()->where('id',$id)); 

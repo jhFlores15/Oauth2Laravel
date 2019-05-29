@@ -30,7 +30,7 @@
             <div class="loader"></div>
           </div>
           <div v-else >     
-           <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Guardar</button>
+           <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Terminar</button>
          </div>
         </form>
   
@@ -79,17 +79,28 @@ export default {
         },
       }; 
       this.config = config; 
-      this.getCliente();
-      this.getEncuesta();   
-      this.getEncuestaCliente();        
+      this.getUserApi();
+    }
+     else{
+      location.href = '/';
     }
      
   },
-  created:function(){
-  
-  
-  },
   methods:{
+    getUserApi(){     
+      axios.get('/api/user/',this.config).
+        then(response => {
+          var user = response.data;
+          if(user.rol_id != 2){
+            location.href = '/';
+          } 
+          this.getCliente();
+          this.getEncuesta();   
+          this.getEncuestaCliente();     
+        }).catch(error => {
+         
+        })
+    },  
     getCliente(){
         axios.get('/api/clientes/'+this.cliente_id,this.config).
             then(response => {
@@ -124,13 +135,13 @@ export default {
         },this.config).then(response =>{
           this.loader = false;
           var notification = alertify.notify('Guardado', 'success', 3, function(){  console.log('Guardado Exitoso'); });
-           
+          location.href='/encuestas/clientes/'+this.encuesta_id;
         }).catch(error =>{
           this.loader = false;
-                if(error.response.status = 422){
-                    this.erroresEncuesta = error.response.data.error;
-                }
-                var notification = alertify.notify('Error', 'error', 3, function(){  console.log('Error'); });
+          if(error.response.status == 422){
+              this.erroresEncuesta = error.response.data.error;
+          }
+          var notification = alertify.notify('Error', 'error', 3, function(){  console.log('Error'); });
           
         });
         

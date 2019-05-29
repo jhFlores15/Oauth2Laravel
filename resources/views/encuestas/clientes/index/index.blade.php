@@ -26,10 +26,34 @@
  	
  	$(document).ready(function(){
 
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = 'http://localhost:3000/';
- 		}
+ 		window.onload = function() {
+	 		if(!localStorage.getItem('access_token'))
+	 		{
+	 			location.href = '/';
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
+		};
+	 	function isAdmin(){
+	 		$.ajax({
+				method:"GET",
+				url:'/api/user/',
+				headers : {
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				},
+				success:function(resp){
+					console.log(resp);
+					console.log(resp.rol_id);
+					if(resp.rol_id != 2){
+						location.href = '/';
+					}			
+				},
+				error(error){							
+				}
+	 		});
+	 	}
 
 		var table = $('#clientes').DataTable(
 			{
@@ -66,7 +90,7 @@
 								'</select> registros',
 				"loadingRecords": "Cargando...",
 				"processing":"Procesando...",
-				"emptyTable":"No hay Encuestas que realizar por el momento...",
+				"emptyTable":"No Hay Datos...",
 				"zeroRecords": "No hay coincidencias",
 				"infoEmpty": "iz",
 				"infoFiltered": "de",

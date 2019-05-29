@@ -89,7 +89,7 @@ const appp = new Vue({
                     }
                 }).catch(error =>{
                     this.loaderExistente = false;
-                    if(error.response.status = 422){
+                    if(error.response.status == 422){
                         this.erroresEncuesta = error.response.data.error;
                     }
                     alertify.set('notifier','position', 'top-right');
@@ -119,17 +119,24 @@ const appp = new Vue({
         },
         agregarCategoria(){
             if(this.categoria.nombre !== ''){
-                if(this.categoria.productos.length !== 0){
-                    this.categorias.push(this.categoria);
-                     this.categoria={
-                        nombre:'',
-                        productos:[],
-                     }
-                }
-                else{
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
-                }                
+              alertify.confirm('¿Olvido Producto?', 'Se encontro un producto en la casilla de texto sin agregar a la categoria, /////////////////', 
+                function(){ alertify.success('Ok') }
+                , function(){ 
+                    if(this.categoria.productos.length !== 0){
+                        this.categorias.push(this.categoria);
+                         this.categoria={
+                            nombre:'',
+                            productos:[],
+                         }
+                    }
+                    else{
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
+                    }   
+                });
+
+
+                             
             }
              else{
                 alertify.set('notifier','position', 'top-right');
@@ -203,7 +210,7 @@ const appp = new Vue({
 		       this.postFileCliente(response.data);
 		       
 		    }).catch(error =>{
-                if(error.response.status = 422){
+                if(error.response.status == 422){
                     this.loaderCliente = false;
                     this.erroresEncuesta = error.response.data.error;
                 }

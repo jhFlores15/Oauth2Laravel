@@ -229,7 +229,7 @@ export default {
 		        	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
 		        	location.reload(true);
 		        }).catch(error =>{
-		            if(error.response.status = 422){
+		            if(error.response.status == 422){
 		                this.erroresCategoria = error.response.data.error;
 		            }
 		            alertify.set('notifier','position', 'top-right');
@@ -303,7 +303,7 @@ export default {
 	        },this.config).then(response =>{
 	        	location.reload(true);
 	        }).catch(error =>{
-	            if(error.response.status = 422){
+	            if(error.response.status == 422){
 	                this.erroresCategoria = error.response.data.error;
 	            }
 	            alertify.set('notifier','position', 'top-right');
@@ -321,7 +321,7 @@ export default {
         	alertify.set('notifier','position', 'top-right');
         	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
         }).catch(error =>{
-            if(error.response.status = 422){
+            if(error.response.status == 422){
                 this.erroresCategoria = error.response.data.error;
             }
             alertify.set('notifier','position', 'top-right');
@@ -336,7 +336,7 @@ export default {
         	alertify.set('notifier','position', 'top-right');
         	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
         }).catch(error =>{
-            if(error.response.status = 422){
+            if(error.response.status == 422){
                 this.erroresCategoria = error.response.data.error;
             }
             alertify.set('notifier','position', 'top-right');
@@ -351,7 +351,7 @@ export default {
         	alertify.set('notifier','position', 'top-right');
         	alertify.notify('Guardado', 'success', 3, function(){  console.log(); });
         }).catch(error =>{
-            if(error.response.status = 422){
+            if(error.response.status == 422){
                 this.erroresEncuesta = error.response.data.error;
             }
             alertify.set('notifier','position', 'top-right');

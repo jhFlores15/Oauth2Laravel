@@ -9,7 +9,7 @@
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
          		<div class="card card-body" style="margin:auto;" >
          			<b-form inline v-for="marc in marca" :key="marc.id">
-					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} - {{ marc.id }} &nbsp&nbsp&nbsp</label>
+					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>
 					    <b-form-radio-group v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)"
 					    	v-on:input="postMarca(mc.valor,mc.id)"
 					        v-model="mc.valor"
@@ -62,14 +62,29 @@ export default {
         },
       }; 
       this.config = config; 
-      this.getCliente();
-      this.getEncuesta();   
-      this.getEncuestaE(); 
-      this.getMarcas();      
+      this.getUserApi();   
+    }
+     else{
+      location.href = '/';
     }
      
   },
   methods:{
+    getUserApi(){     
+      axios.get('/api/user/',this.config).
+        then(response => {
+          var user = response.data;
+          if(user.rol_id != 2){
+            location.href = '/';
+          } 
+          this.getCliente();
+        this.getEncuesta();   
+        this.getEncuestaE(); 
+        this.getMarcas();     
+        }).catch(error => {
+         
+        })
+    },  
   	terminar(){  		
         location.href = '/encuestas/E/P/'+this.encuesta_id;
   	},

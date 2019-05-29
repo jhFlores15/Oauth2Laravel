@@ -18,12 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', 'Api\AuthController@login');
-    
-  
+    Route::post('login', 'Api\AuthController@login');  
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', 'Api\AuthController@logout');
-        // Route::get('profile', 'Api\AuthController@profile');
         Route::post('signup', 'Api\AuthController@signup');
         Route::put('update/{id}', 'Api\AuthController@update');
 
@@ -31,55 +28,57 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::resource('regiones','Api\RegionController');
-    Route::resource('comunas','Api\ComunaController');
-    Route::resource('categorias','Api\CategoriaController');
-    Route::resource('marcas','Api\MarcaController');
-
-    //Route::resource('familia','Api\FamiliaCarozziController');
-    Route::resource('clientes','Api\ClienteController');
-    Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file');
-    Route::resource('encuestas','Api\EncuestaController');
-    Route::get('encuesta/vendedor','Api\EncuestaController@index_vendedor');
-    Route::resource('encuestas/clientes','Api\EncuestaClienteController');
-    Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file');
-    Route::get('encuesta/clientes/{encuesta}','Api\EncuestaClienteController@clientes');
-    Route::get('encuesta/clientes/No/{encuesta}','Api\EncuestaClienteController@clientesNo');
-    Route::put('encuesta/clientes/iniciar/{encuesta}','Api\EncuestaClienteController@iniciar');
-    Route::put('encuesta/clientes/terminar/{encuesta}','Api\EncuestaClienteController@terminar');
-
-    ///////////////////////////////////////
-    Route::get('encuesta/cliente/export/{encuesta_id}','Api\EncuestaClienteController@exportEncuestaCliente');
-    /////////////////////////////////////////
-   
-    Route::get('tipos_productos', 'Api\TipoProductoController@index');
-    Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index');
-    Route::get('administradores','Api\UserController@administradores');
-    Route::get('vendedores','Api\UserController@vendedores');
-    Route::get('usuarios/{user}','Api\UserController@user');
-    Route::post('usuarios','Api\UserController@file')->name('usuarios.file');
-    Route::delete('usuarios/{user}','Api\UserController@destroy');
-
-    Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados');
-    Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados');
-     Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia');
 
 
+    //////////TODOS
+    Route::resource('encuestas/existencia','Api\EncuestaExistenciaController')->only(['edit']);
+    Route::resource('clientes','Api\ClienteController')->only(['show']);
+    Route::resource('encuestas','Api\EncuestaController')->only(['show']);
+    Route::resource('marcas','Api\MarcaController')->only(['show']);
+
+    ////////////ADMIN
+    Route::resource('clientes','Api\ClienteController')->only(['index','store','update','destroy'])->middleware('isAdmin');
+    Route::resource('encuestas','Api\EncuestaController')->only(['index','store','update','destroy'])->middleware('isAdmin');
+    Route::resource('marcas','Api\MarcaController')->only(['store','update','destroy'])->middleware('isAdmin');
+    Route::resource('regiones','Api\RegionController')->only(['index','store','show','update','destroy'])->middleware('isAdmin');
+    Route::resource('comunas','Api\ComunaController')->only(['index','store','show','update','destroy'])->middleware('isAdmin');
+    Route::resource('categorias','Api\CategoriaController')->only(['store','update','destroy'])->middleware('isAdmin');
+    Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file')->middleware('isAdmin');
+    Route::resource('encuestas/clientes','Api\EncuestaClienteController')->only(['store','show','update','destroy'])->middleware('isAdmin');   
+    Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file')->middleware('isAdmin');     
+    Route::get('encuesta/clientes/{encuesta}','Api\EncuestaClienteController@clientes')->middleware('isAdmin'); 
+    Route::get('encuesta/clientes/No/{encuesta}','Api\EncuestaClienteController@clientesNo')->middleware('isAdmin');
+    Route::put('encuesta/clientes/iniciar/{encuesta}','Api\EncuestaClienteController@iniciar')->middleware('isAdmin');
+    Route::put('encuesta/clientes/terminar/{encuesta}','Api\EncuestaClienteController@terminar')->middleware('isAdmin');
+    Route::get('encuesta/cliente/export/{encuesta_id}','Api\EncuestaClienteController@exportEncuestaCliente')->middleware('isAdmin');
+    Route::get('tipos_productos', 'Api\TipoProductoController@index')->middleware('isAdmin');
+    Route::get('tipos_encuesta', 'Api\TipoEncuestaController@index')->middleware('isAdmin');
+    Route::get('administradores','Api\UserController@administradores')->middleware('isAdmin');
+    Route::get('vendedores','Api\UserController@vendedores')->middleware('isAdmin');
+    Route::post('usuarios','Api\UserController@file')->name('usuarios.file')->middleware('isAdmin');
+    Route::get('usuarios/{user}','Api\UserController@user')->middleware('isAdmin');
+    Route::delete('usuarios/{user}','Api\UserController@destroy')->middleware('isAdmin');
+    Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados')->middleware('isAdmin');
+    Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados')->middleware('isAdmin');
+    Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia')->middleware('isAdmin');
 
 
+    /////////////VENDEDOR
+     Route::get('encuesta/vendedor','Api\EncuestaController@index_vendedor')->middleware('isVendedor');
+     Route::get('encuestas/existencia/N/{encuesta_id}','Api\EncuestaExistenciaController@index_no_encuestados')->middleware('isVendedor');
+     Route::get('encuestas/existencia/Y/{encuesta_id}','Api\EncuestaExistenciaController@index_encuestados')->middleware('isVendedor');
+      Route::get('encuestas/cli_marca/{cliente_id}/{encuesta_id}','Api\ClienteMarcaController@index')->middleware('isVendedor');
+     Route::get('encuestas/cli_marca_s/{cliente_id}/{marca_id}','Api\ClienteMarcaController@show')->middleware('isVendedor');
+    Route::resource('encuestas/existencia','Api\EncuestaExistenciaController')->only(['store', 'update'])->middleware('isVendedor');
+     Route::get('encuestas/clientess/{encuesta}/','Api\EncuestaClienteVendedorController@index')->middleware('isVendedor');
+    Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update')->middleware('isVendedor');
+    Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show')->middleware('isVendedor');
+    Route::resource('encuestas/precio','Api\EncuestaPrecioController')->only(['store','update'])->middleware('isVendedor');
+    
 
+    
 
-    /////////////vendedor/////
-    Route::resource('encuestas/existencia','Api\EncuestaExistenciaController');
-    Route::resource('encuestas/precio','Api\EncuestaPrecioController');
-    Route::get('encuestas/existencia/N/{encuesta_id}','Api\EncuestaExistenciaController@index_no_encuestados');
-    Route::get('encuestas/existencia/Y/{encuesta_id}','Api\EncuestaExistenciaController@index_encuestados');
-     Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update');
-     Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show');
-     Route::get('encuestas/clientess/{encuesta}/','Api\EncuestaClienteVendedorController@index');
-
-     Route::get('encuestas/cli_marca/{cliente_id}/{encuesta_id}','Api\ClienteMarcaController@index');
-     Route::get('encuestas/cli_marca_s/{cliente_id}/{marca_id}','Api\ClienteMarcaController@show');
+    
 
 
 

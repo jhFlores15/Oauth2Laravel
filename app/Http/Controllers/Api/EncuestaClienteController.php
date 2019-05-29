@@ -18,27 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 class EncuestaClienteController extends Controller
 {  
-    //////////////DEL LADO DEL ADMINISTRADOR
-
-    //generar reporte- eliminarla- iniciarla y terminarla-verla-editarla con respecto a Encuesta Cliente
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() //clientes que han sido encuestados
-    {
-
-
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
          $validator = Validator::make($request->all(), [
@@ -58,6 +38,54 @@ class EncuestaClienteController extends Controller
         $encuesta->save();
         
         return response()->json($encuesta);
+    }
+    public function show($encuesta_id) //Ver Encuesta - reporte
+    {
+        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        //$encuesta_completa = EncuestaResource::collection($encuesta); 
+        return response()->json($encuesta);       
+    }
+ 
+    public function update(Request $request, $id)
+    {
+         $validator = Validator::make($request->all(), [
+            'descripcion'=>'required|max:255|string',  
+            'fecha_inicio' => 'required|date',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
+        $encuesta = \App\Encuesta::findOrFail($id);
+        if($encuesta){
+            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
+            //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
+            if($empezo == '-'){ // es porque esta Inactivo, por lo que puede ser editado y eliminado                
+                $encuesta->descripcion = $request->get('descripcion');
+                $encuesta->inicio = $request->get('fecha_inicio');               
+                $encuesta->save();
+                return response()->json('ok');
+            }
+            else{
+                return response()->json('fail');
+            }
+        }
+    }
+        public function destroy($id)
+    {
+        $encuesta = \App\Encuesta::findOrFail($id);
+        $count = \App\EncuestaCliente::encuesta($id)->date()->count();
+        if($encuesta){
+            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
+            //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
+            if($count <= 0){ // es porque esta Inactivo, por lo que puede ser editado y eliminado
+                 $encuesta->delete();
+                 return response()->json('ok');
+            }
+            else{
+                return response()->json('fail');
+            }
+        }
     }
     public function file (Request $request, $encuesta_id){
         $validator = Validator::make($request->all(), [
@@ -107,13 +135,6 @@ class EncuestaClienteController extends Controller
         return response()->json('ok');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
     public function clientes($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
         //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
         $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
@@ -149,70 +170,6 @@ class EncuestaClienteController extends Controller
             ->toJson();     
        
 
-    }
-
-
-    public function show($encuesta_id) //Ver Encuesta - reporte
-    {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        //$encuesta_completa = EncuestaResource::collection($encuesta); 
-        return response()->json($encuesta);       
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-         $validator = Validator::make($request->all(), [
-            'descripcion'=>'required|max:255|string',  
-            'fecha_inicio' => 'required|date',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 422);
-        }
-
-        $encuesta = \App\Encuesta::findOrFail($id);
-        if($encuesta){
-            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
-            //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
-            if($empezo == '-'){ // es porque esta Inactivo, por lo que puede ser editado y eliminado                
-                $encuesta->descripcion = $request->get('descripcion');
-                $encuesta->inicio = $request->get('fecha_inicio');               
-                $encuesta->save();
-                return response()->json('ok');
-            }
-            else{
-                return response()->json('fail');
-            }
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $encuesta = \App\Encuesta::findOrFail($id);
-        $count = \App\EncuestaCliente::encuesta($id)->date()->count();
-        if($encuesta){
-            $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
-            //$termino = (new DateTime($this->termino))->diff(new DateTime())->format('%R');
-            if($count <= 0){ // es porque esta Inactivo, por lo que puede ser editado y eliminado
-                 $encuesta->delete();
-                 return response()->json('ok');
-            }
-            else{
-                return response()->json('fail');
-            }
-        }
     }
     public function iniciar($id){
         $encuesta = \App\Encuesta::findOrFail($id);

@@ -36,11 +36,7 @@ class CategoriaController extends Controller
         }       
         return response()->json('ok');
     }
-    public function show($encuesta_id){
-        // $encuesta = \App\Encuesta::findOrFail($encuesta_id);
-        // $categorias = $encuesta->marcas->groupBy('categoria_id');
-        // return response()->json($categorias);
-    }
+   
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

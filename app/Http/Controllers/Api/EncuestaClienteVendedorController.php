@@ -12,12 +12,7 @@ use App\Cliente;
 
 class EncuestaClienteVendedorController extends Controller
 { ///////////DEL LADO DEL VENDEDOR
-    //encuestar - editar encuesta 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index($encuesta_id) 
     {
         $vendedor = Auth::user();
@@ -45,12 +40,7 @@ class EncuestaClienteVendedorController extends Controller
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
    public function update(Request $request,$encuesta_id,$cliente_id)
    {
         $validator = Validator::make($request->all(), [
@@ -75,38 +65,10 @@ class EncuestaClienteVendedorController extends Controller
         return response()->json('ok');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($encuesta_id,$cliente_id) // ver encuesta cliente en especifico
     {
         $encuesta_cli = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
         return response()->json($encuesta_cli);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -325,10 +325,10 @@
  
  	$(document).ready(function(){
 
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = 'http://localhost:3000/';
- 		}
+ 		// if(!localStorage.getItem('access_token'))
+ 		// {
+ 		// 	location.href = '/';
+ 		// }
 
 		var table = $('#administradores').DataTable(
 			{

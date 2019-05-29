@@ -150,9 +150,43 @@
 </div>
 @endsection
 <script>
+
 window.onload = function(){
- 	alertify.set('notifier','position', 'top-right');
-    alertify.notify('Recuerde que antes de crear una encuesta se debe subir la data de clientes actualizada al sistema', 'error', 20, function(){  console.log(); });
-};	
+	if(!localStorage.getItem('access_token'))
+ 		{
+ 			location.href = '/';
+ 		}
+ 		else{
+ 			isAdmin();
+
+	 	}
+	};
+ 	function isAdmin(){
+ 		$.ajax({
+				method:"GET",
+				url:'/api/user/',
+				headers : {
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				},
+				success:function(resp){
+					console.log(resp);
+					console.log(resp.rol_id);
+					if(resp.rol_id != 1){
+						location.href = '/';
+					}
+					else{
+						alertify.set('notifier','position', 'top-right');
+						alertify.notify('Recuerde que antes de crear una encuesta se debe subir la data de clientes actualizada al sistema', 'error', 20, function(){  console.log(); });
+					}			
+				},
+				error(error){							
+				}
+	 		});
+ 	}
+
+
+ 	
+	
 </script>
 

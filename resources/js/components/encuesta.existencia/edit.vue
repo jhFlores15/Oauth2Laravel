@@ -193,7 +193,6 @@ export default {
           tipoM:0,
       }
   },
-  
   mounted() {   
     if (localStorage.access_token){        
       this.access_token = localStorage.access_token;
@@ -204,19 +203,31 @@ export default {
          'Authorization':this.token_type + " " + this.access_token,
         },
       }; 
-      this.config = config; 
-      this.getTiposEncuesta();
-      this.getEncuesta(); 
-      this.getTiposProductos(); 
-      this.getEncuestaE();    
+      this.config = config;
+      this.getUserApi();    
+      
+    }
+    else{
+      location.href = '/';
     }
      
   },
-  created:function(){
-  
-  
-  },
   methods:{
+  	getUserApi(){     
+      axios.get('/api/user/',this.config).
+        then(response => {
+          var user = response.data;
+          if(user.rol_id != 1){
+            location.href = '/';
+          } 
+          this.getTiposEncuesta();
+	      this.getEncuesta(); 
+	      this.getTiposProductos(); 
+	      this.getEncuestaE();   
+        }).catch(error => {
+         
+        })
+    },  
   	postCategoria(){
   		if(this.nombreC !== ''){
             if(this.productos.length !== 0){

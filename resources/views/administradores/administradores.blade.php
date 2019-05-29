@@ -101,6 +101,34 @@
 {{-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script> --}}
  <script type="text/javascript"  >
+ 	window.onload = function() {
+	 		if(!localStorage.getItem('access_token'))
+	 		{
+	 			location.href = '/';
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
+		};
+	 	function isAdmin(){
+	 		$.ajax({
+					method:"GET",
+					url:'/api/user/',
+					headers : {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					},
+					success:function(resp){
+						console.log(resp);
+						console.log(resp.rol_id);
+						if(resp.rol_id != 1){
+							location.href = '/';
+						}			
+					},
+					error(error){							
+					}
+		 		});
+	 	}
  	function nuevoAdministrador(){
  		$('#errorRutNew').html('<div></div>');
 		$('#errorDvNew').html('<div></div>');

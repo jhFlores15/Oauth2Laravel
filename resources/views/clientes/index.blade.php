@@ -141,6 +141,34 @@
 	</div>
 </div>
  <script >
+ 	window.onload = function() {
+	 		if(!localStorage.getItem('access_token'))
+	 		{
+	 			location.href = '/';
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
+		};
+	 	function isAdmin(){
+	 		$.ajax({
+					method:"GET",
+					url:'/api/user/',
+					headers : {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					},
+					success:function(resp){
+						console.log(resp);
+						console.log(resp.rol_id);
+						if(resp.rol_id != 1){
+							location.href = '/';
+						}			
+					},
+					error(error){							
+					}
+		 		});
+	 	}
  	$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);

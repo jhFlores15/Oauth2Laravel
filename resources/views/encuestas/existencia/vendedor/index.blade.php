@@ -54,13 +54,13 @@
  	$(document).ready(function(){
 
  		window.onload = function() {
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = '/';
- 		}
- 		else{
- 			isAdmin();
-	 	}
+	 		if(!localStorage.getItem('access_token'))
+	 		{
+	 			location.href = '/';
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
 		};
 	 	function isAdmin(){
 	 		$.ajax({

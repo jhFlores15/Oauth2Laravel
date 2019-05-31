@@ -12,50 +12,65 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
-   
-    public function index()
-    {
-        $clientes = ClienteResource::collection(Cliente::all());
-
-         return datatables()
-            ->resource($clientes)
-            ->addColumn('btn','clientes.acciones')
-            ->rawColumns(['btn'])
-            ->toJson();    
-    }
-  
-    public function store(Request $request)
-    {
+    public function activos(Request $request){ //data completa para actualizar y crear nuevos clientes POST
         $validator = Validator::make($request->all(), [
-            'codigo' => 'required|numeric|unique:clientes',
-            'rut' => 'required|numeric|unique:clientes',
-            'dv' => 'required',
-            'razon_social' => 'required|string',
-            'direccion'=>'required|max:255|string|unique:clientes',            
-            'comuna_id' =>'exists:comunas,id',                       
-            'user_id'=>'required|exists:users,id',
+            'archivo_activos' => 'required|file'
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-
-        $cliente = new Cliente();
-        $cliente->codigo = $request->get('codigo');
-        $cliente->rut = $request->get('rut');
-        $cliente->dv = $request->get('dv');
-        $cliente->razon_social = $request->get('razon_social');
-        $cliente->direccion = $request->get('direccion');
-
-        $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
-        $cliente->comuna()->associate($comuna);
-
-        $user = \App\User::findOrFail($request->get('user_id'));
-        $cliente->user()->associate($user);
-
-        $cliente->save();
-
+         DB::beginTransaction();             
+            try {
+                if($request->hasFile('archivo_activos')){
+                    $file = $request->file('archivo_activos');
+                    (new FastExcel)->import($file, function ($line) use ($i){
+                         if($line['codigo'] != ''){
+                            $cliente = new \App\Cliente();
+                            $cliente->codigo = trim($line['codigo']);
+                            $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
+                            $cliente->dv =trim($line['dv']);
+                            $cliente->razon_social = $line['razon_social'];
+                            $cliente->direccion = $line['direccion'];
+                            $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
+                            if($comuna){
+                                $cliente->comuna_id = $comuna->id;
+                            }
+                            else{
+                                $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
+                                $cliente->comuna_id = $comuna->id;
+                            }
+                            $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+                            $cliente->user_id = $vendedor->id;
+                            $cliente->save();
+                        } 
+                        return ;
+                    });
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            }
         return response()->json('ok');
+    }
 
+
+    public function exportActivos(){
+        $clientes = \App\Cliente::all()->count();      
+        if($clientes == 0){
+            return response()->json('fail');
+        }    
+           (new FastExcel((\App\Cliente::all())))->export(storage_path('file.xls'), function ($cliente) {
+                $return['Codigo'] = $cliente->codigo;
+                $return['Razon Social']= $cliente->razon_social;
+                $return['Rut'] = $cliente->rut;
+                $return['Dv'] = $cliente->dv;
+                $return['Direccion'] = $cliente->codigo;
+                $return['Comuna'] = $cliente->comuna->nombre;
+                $return['Vendedor'] = $cliente->user->codigo;
+            return $return;
+        });
+        return response()->json('ok');
     }
 
     public function show($id)
@@ -65,118 +80,102 @@ class ClienteController extends Controller
          $cliente->user;
          return response()->json($cliente);
     }
-
-
-    public function update(Request $request, $id)
+        public function destroy($id)
     {
-        $validator = Validator::make($request->all(), [
-            'codigo' => 'required|numeric|unique:clientes,codigo,'.$id,
-            'rut' => 'required|numeric|unique:clientes,rut,'.$id,
-            'dv' => 'required',
-            'razon_social' => 'required|string',
-            'direccion'=>'required|max:255|string|unique:clientes,direccion,'.$id,           
-            'comuna_id' =>'exists:comunas,id',                       
-            'user_id'=>'required|exists:users,id',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 422);
-        }
-
-        $cliente = \App\Cliente::findOrFail($id);
-        $cliente->codigo = $request->get('codigo');
-        $cliente->rut = $request->get('rut');
-        $cliente->dv = $request->get('dv');
-        $cliente->razon_social = $request->get('razon_social');
-        $cliente->direccion = $request->get('direccion');
-
-        if($cliente->comuna_id !== $request->get('comuna_id')){
-            $cliente->comuna()->dissociate();
-            $comuna = \App\Comuna::findOrFail($request->get('comuna_id'));
-            $cliente->comuna()->associate($comuna);
-        }
-        if($cliente->user_id !== $request->get('user_id')){
-            $cliente->user()->dissociate();
-            $user = \App\User::findOrFail($request->get('user_id'));
-            $cliente->user()->associate($user);
-        }
-        
-        $cliente->save();
+        \App\ClienteMarca::truncate();
+        \App\Marca::truncate();
+        \App\EncuestaCliente::truncate();
+        \App\Categoria::truncate();
+        \App\Cliente::truncate();
+        \App\Encuesta::truncate();
 
         return response()->json('ok');
     }
+   
+   
+    // public function index()
+    // {
+    //     $clientes = ClienteResource::collection(Cliente::all());
+
+    //      return datatables()
+    //         ->resource($clientes)
+    //         ->addColumn('btn','clientes.acciones')
+    //         ->rawColumns(['btn'])
+    //         ->toJson();    
+    // }
+  
+ 
 
 
-    public function destroy($id)
-    {
-        $cliente = \App\Cliente::findOrFail($id);
-        $cliente->delete();
-        return 'ok';
-    }
 
-    public function file(Request $request){
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file'
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 422);
-        }
 
-        if($request->hasFile('file')){
 
-            //   DB::beginTransaction();
+
+
+    // public function file(Request $request){
+    //     $validator = Validator::make($request->all(), [
+    //         'file' => 'required|file'
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(['error'=>$validator->errors()], 422);
+    //     }
+
+    //     if($request->hasFile('file')){
+
+    //         //   DB::beginTransaction();
              
-            // try {
+    //         // try {
 
-            $file = $request->file('file');
-            $clientes = (new FastExcel)->import($file, function ($line) {
-                if($line['codigo'] != ''){
-                    $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
-                    if($cliente){ //actualizar
-                        $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
-                        $cliente->user_id = $vendedor->id;
-                        $cliente->save();
-                    }
-                    else{ 
-                        $cliente = new \App\Cliente();
-                        $cliente->codigo = trim($line['codigo']);
-                        $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
-                        $cliente->dv =trim($line['dv']);
-                        $cliente->razon_social = $line['razon_social'];
-                        $cliente->direccion = $line['direccion'];
-                        if($line['comuna'] != ''){
-                            $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
-                            $cliente->comuna_id = $comuna->id;
-                        }  
-                        else{
-                            $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
-                            $cliente->comuna_id = $comuna->id;
-                        }
-                        $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
-                        $cliente->user_id = $vendedor->id;
-                        $cliente->save();
-                    } 
-                }
-                return ;
-            });
+    //         $file = $request->file('file');
+    //         $clientes = (new FastExcel)->import($file, function ($line) {
+    //             if($line['codigo'] != ''){
+    //                 $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
+    //                 if($cliente){ //actualizar
+    //                     $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+    //                     $cliente->user_id = $vendedor->id;
+    //                     $cliente->save();
+    //                 }
+    //                 else{ 
+    //                     $cliente = new \App\Cliente();
+    //                     $cliente->codigo = trim($line['codigo']);
+    //                     $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
+    //                     $cliente->dv =trim($line['dv']);
+    //                     $cliente->razon_social = $line['razon_social'];
+    //                     $cliente->direccion = $line['direccion'];
+    //                     if($line['comuna'] != ''){
+    //                         $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
+    //                         $cliente->comuna_id = $comuna->id;
+    //                     }  
+    //                     else{
+    //                         $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
+    //                         $cliente->comuna_id = $comuna->id;
+    //                     }
+    //                     $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+    //                     $cliente->user_id = $vendedor->id;
+    //                     $cliente->save();
+    //                 } 
+    //             }
+    //             return ;
+    //         });
 
-            $clientes_eliminar = \App\Cliente::updatedd()->orderBy('codigo')->get();
+    //         $clientes_eliminar = \App\Cliente::updatedd()->orderBy('codigo')->get();
 
-            $arrays = ($clientes_eliminar->modelKeys());
-             \App\Cliente::destroy($arrays);
+    //         $arrays = ($clientes_eliminar->modelKeys());
+    //          \App\Cliente::destroy($arrays);
 
 
-            // DB::commit();
-            // } catch (\Exception $e) {
-            //     DB::rollback();
-            //     throw $e;
-            // }
-            // catch (\Throwable $e) {
-            //     DB::rollback();
-            //     throw $e;
-            // }
+    //         // DB::commit();
+    //         // } catch (\Exception $e) {
+    //         //     DB::rollback();
+    //         //     throw $e;
+    //         // }
+    //         // catch (\Throwable $e) {
+    //         //     DB::rollback();
+    //         //     throw $e;
+    //         // }
            
-        }
-        return response()->json('ok');
-    }
+    //     }
+    //     return response()->json('ok');
+    // }
 
 }

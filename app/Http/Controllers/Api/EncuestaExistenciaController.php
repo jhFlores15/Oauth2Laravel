@@ -79,6 +79,10 @@ class EncuestaExistenciaController extends Controller
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }
+         $existe = \App\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
+        if($existe > 0){ 
+            abort(401);
+        }
         $marca = \App\Marca::findOrFail($marca_id);
         $marca->clientes()->attach($cliente_id,['valor' => $valor ]);  
 

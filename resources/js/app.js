@@ -58,6 +58,7 @@ Vue.component('encuesta-existencia-vendedor-store-component', require('./compone
 Vue.component('encuesta-existencia-vendedor-edit-component', require('./components/encuesta.existencia/vendedor/edit.vue').default);
 Vue.component('encuesta-precio-vendedor-store-component', require('./components/encuesta.precio/vendedor/store.vue').default);
 Vue.component('encuesta-precio-vendedor-edit-component', require('./components/encuesta.precio/vendedor/edit.vue').default);
+Vue.component('cliente-index-component', require('./components/cliente/index.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

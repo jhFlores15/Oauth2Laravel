@@ -119,24 +119,32 @@ const appp = new Vue({
         },
         agregarCategoria(){
             if(this.categoria.nombre !== ''){
-              alertify.confirm('¿Olvido Producto?', 'Se encontro un producto en la casilla de texto sin agregar a la categoria, /////////////////', 
-                function(){ alertify.success('Ok') }
-                , function(){ 
-                    if(this.categoria.productos.length !== 0){
+                if (this.categoria.productos.length !== 0){
+                    // if((this.nombre !== '') && (this.tipo !== 0 && this.tipo !== '')){
+                    //     alertify.confirm('¿Olvido Producto?', '¿UPS! ah olvidado agregar un producto a esta categoria?', 
+                    //         function(){ }
+                    //         , function() use( this.categorias, this.categoria){
+                    //             this.categorias.push(this.categoria);
+                    //              this.categoria={
+                    //                 nombre:'',
+                    //                 productos:[],
+                    //              }
+                                  
+                    //         }).set('labels', {ok:'Si!', cancel:'No!'});
+                    // }
+                    // else{
                         this.categorias.push(this.categoria);
                          this.categoria={
                             nombre:'',
                             productos:[],
                          }
-                    }
-                    else{
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
-                    }   
-                });
-
-
-                             
+                    // }    
+                }
+                else{
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.notify('Ingrese Productos a esta categoria', 'error', 10, function(){  console.log(); });
+                }
+                
             }
              else{
                 alertify.set('notifier','position', 'top-right');

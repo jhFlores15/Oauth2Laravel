@@ -10,7 +10,7 @@
          		<div class="card card-body" style="margin:auto;" >
          			<b-form inline v-for="marc in marca" :key="marc.id">
 					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }}  &nbsp&nbsp&nbsp</label>
-               <input type="number" class="form-control"v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" v-on:input="postMarca(mc.valor,mc.id)"
+               <input type="number"   @keypress="onlyNumber"  class="form-control"v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" v-on:input="postMarca(mc.valor,mc.id)"
                   v-model="mc.valor"> 
 					 </b-form>
          		</div>
@@ -66,6 +66,12 @@ export default {
      
   },
   methods:{
+     onlyNumber ($event) {
+       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+       if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+          $event.preventDefault();
+       }
+    },
      getUserApi(){     
        this.getCliente();   
       axios.get('/api/user/',this.config).

@@ -4,15 +4,16 @@
         	<br>
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
          	<br>
+
          	<h6 class="text-center">¿A que precio el producto esta siendo vendido en el local?</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
          		<div class="card card-body" style="margin:auto;" >
          			<b-form inline v-for="marc in marca" :key="marc.id">
-					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>
-              
+					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>  
+                 
                <b-form @submit.prevent >
-                 <input type="number" class="form-control" v-model="marc.tipo_producto.created_at"  v-on:change.stop="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                 <input type="number"  @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:change.stop="postMarca(marc.tipo_producto.created_at,marc.id)">  
                 	</b-form>    
 					 </b-form>
          		</div>
@@ -68,7 +69,13 @@ export default {
      
   },
   methods:{
-     getUserApi(){     
+    onlyNumber ($event) {
+       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+       if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+          $event.preventDefault();
+       }
+    },
+         getUserApi(){     
       this.getCliente();   
       axios.get('/api/user/',this.config).
         then(response => {
@@ -109,6 +116,7 @@ export default {
         
   	},
   	postMarca(valor,marca_id){
+       console.log('meme');
       console.log(isNaN(valor));
       if((isNaN(valor) == false) && (valor != '')){
          if(valor > 0){

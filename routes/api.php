@@ -32,18 +32,24 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     //////////TODOS
     Route::resource('encuestas/existencia','Api\EncuestaExistenciaController')->only(['edit']);
-    Route::resource('clientes','Api\ClienteController')->only(['show']);
+    Route::resource('clientes','Api\ClienteController')->only(['show']); // ver cliente
     Route::resource('encuestas','Api\EncuestaController')->only(['show']);
     Route::resource('marcas','Api\MarcaController')->only(['show']);
 
     ////////////ADMIN
-    Route::resource('clientes','Api\ClienteController')->only(['index','store','update','destroy'])->middleware('isAdmin');
+    //Route::resource('clientes','Api\ClienteController')->only(['index','store','update','destroy'])->middleware('isAdmin');
+     Route::delete('clientes','Api\ClienteController@destroy')->middleware('isAdmin'); 
+
+    Route::post('clientes/activos','Api\ClienteController@activos')->middleware('isAdmin');
+    Route::get('clientes/activos/export','Api\ClienteController@exportActivos')->middleware('isAdmin');
+
+
     Route::resource('encuestas','Api\EncuestaController')->only(['index','store','update','destroy'])->middleware('isAdmin');
     Route::resource('marcas','Api\MarcaController')->only(['store','update','destroy'])->middleware('isAdmin');
     Route::resource('regiones','Api\RegionController')->only(['index','store','show','update','destroy'])->middleware('isAdmin');
     Route::resource('comunas','Api\ComunaController')->only(['index','store','show','update','destroy'])->middleware('isAdmin');
     Route::resource('categorias','Api\CategoriaController')->only(['store','update','destroy'])->middleware('isAdmin');
-    Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file')->middleware('isAdmin');
+    //Route::post('clientes/file','Api\ClienteController@file')->name('clientes.file')->middleware('isAdmin');
     Route::resource('encuestas/clientes','Api\EncuestaClienteController')->only(['store','show','update','destroy'])->middleware('isAdmin');   
     Route::post('encuestas/clientes/{encuesta}','Api\EncuestaClienteController@file')->middleware('isAdmin');     
     Route::get('encuesta/clientes/{encuesta}','Api\EncuestaClienteController@clientes')->middleware('isAdmin'); 
@@ -74,12 +80,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update')->middleware('isVendedor');
     Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show')->middleware('isVendedor');
     Route::resource('encuestas/precio','Api\EncuestaPrecioController')->only(['store','update'])->middleware('isVendedor');
-    
-
-    
-
-    
-
 
 
 });

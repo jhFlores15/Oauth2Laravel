@@ -367,23 +367,23 @@
 				text: 'Excel'
 			} );	
 
-		jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
-            if ( this.context.length ) {
-                var jsonResult = $.ajax({
-                    url: '/api/clientes?length=-1',
-                    headers : {
- 					'Content-Type': 'application/json',
- 					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
- 					},
-                    data: {search: $('#search').val()},
-                    success: function (result) {
-                        //Do nothing
-                    },
-                    async: false
-                });
-                return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
-            }
-        } );
+		// jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
+  //           if ( this.context.length ) {
+  //               var jsonResult = $.ajax({
+  //                   url: '/api/clientes?length=-1',
+  //                   headers : {
+ 	// 				'Content-Type': 'application/json',
+ 	// 				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
+ 	// 				},
+  //                   data: {search: $('#search').val()},
+  //                   success: function (result) {
+  //                       //Do nothing
+  //                   },
+  //                   async: false
+  //               });
+  //               return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
+  //           }
+  //       } );
         
 		var table = $('#noEncuestados').DataTable(
 			{

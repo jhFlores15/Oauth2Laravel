@@ -40,8 +40,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-         DB::beginTransaction();
-             
+         DB::beginTransaction();             
             try {
                 if($request->hasFile('file')){
                     $file = $request->file('file');
@@ -73,13 +72,6 @@ class UserController extends Controller
                         } 
                         return ;
                     });
-                    //eliminar no actualizados
-                    $vendedores_eliminar = \App\User::role()->updated()->orderBy('codigo')->get();
-                    if($vendedores_eliminar){
-                        foreach ($vendedores_eliminar as $vendedor) {
-                             $vendedor->delete();
-                        }
-                    }
                 }
                 DB::commit();
             } catch (\Exception $e) {

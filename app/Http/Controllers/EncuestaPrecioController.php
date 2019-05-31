@@ -22,7 +22,7 @@ class EncuestaPrecioController extends Controller
             foreach ($marcasT as $marca) {
                 $m = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id)->where('marca_id','=', $marca->id);
                 if(count($m) == 0){
-                    $marca->clientes()->attach($cliente_id,['valor' => 0 ]);  
+                    $marca->clientes()->attach($cliente_id,['valor' => -1 ]);  
                 }
             }
          }
@@ -53,7 +53,7 @@ class EncuestaPrecioController extends Controller
                     foreach ($marcas as $marca) {
                         $m = $encuesta->marca_cliente->where('cliente_id',$cliente_id)->where('marca_id','=', $marca->id);
                         if(count($m) == 0){
-                            $marca->clientes()->attach($cliente_id,['valor' => 0 ]);  
+                            $marca->clientes()->attach($cliente_id,['valor' => -1 ]);  
                         }
                     }
                  } 

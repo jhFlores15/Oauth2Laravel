@@ -83,8 +83,9 @@
 												    </div>
 												    <div class="form-group col-md-2">
 												    	<b-button v-b-tooltip.hover class="btn btn-light" title="Agregar Producto" @click.stop="agregarProducto()">
-												    		Agregar
+												    		<img src="https://img.icons8.com/color/30/000000/plus.png">
 												    	</b-button>
+												    	
 												    </div>
 												 </div>	
 											</form>		
@@ -107,7 +108,7 @@
 							    	</div>	
 								</form>
 								<b-button v-b-tooltip.hover class="btn btn-light" title="Agregar Categoria" @click.stop="agregarCategoria()">
-						    		Agregar Categoria
+						    		<img src="https://img.icons8.com/color/30/000000/plus.png">
 						    	</b-button>
 					  	 	</div>
 					  	 	<br><br>
@@ -147,6 +148,16 @@
 			</div>
 		</div>
 	</div>
+	 <b-modal ref="modalProducto" id="modalProducto" cancel-title="No, continuar" ok-title="Si"  @cancel='olvidadoP'>
+      <p><img src="https://img.icons8.com/color/48/000000/warning-shield.png"><b>¿Olvido Producto?</b></p>
+      ¿UPS! ah olvidado agregar un producto a esta categoria?
+      <!--  <label visible:=false value=""></label>   -->
+    </b-modal>
+     <b-modal ref="modalCategoria" id="modalCategoria" cancel-title="No, Continuar con la creacion" ok-title="Si"  @cancel='olvidadoC'>
+      <p><img src="https://img.icons8.com/color/48/000000/warning-shield.png"><b>¿Olvido Categoria?</b></p>
+      ¿UPS! ah olvidado agregar una Categoria a esta encuesta?
+      <!--  <label visible:=false value=""></label>   -->
+    </b-modal>
 </div>
 @endsection
 <meta http-equiv="Expires" content="0" />

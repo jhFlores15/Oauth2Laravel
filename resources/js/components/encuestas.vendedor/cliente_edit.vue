@@ -14,7 +14,7 @@
           </div>
           <div class="form-group">
             <label >Telefono(s)</label>
-            <input type="text" class="form-control" v-model="encuesta_cliente.telefono" placeholder="">
+            <input type="text"  @keypress="onlyNumber"  class="form-control" v-model="encuesta_cliente.telefono" placeholder="">
           </div>
           <div class="alert alert-danger"  v-if="erroresEncuesta.telefono" role="alert">
                {{ erroresEncuesta.telefono[0] }}
@@ -87,7 +87,13 @@ export default {
     }
      
   },
-  methods:{
+  methods:{    
+     onlyNumber ($event) {
+       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+       if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+          $event.preventDefault();
+       }
+    },
     getUserApi(){  
       this.getCliente();   
       axios.get('/api/user/',this.config).

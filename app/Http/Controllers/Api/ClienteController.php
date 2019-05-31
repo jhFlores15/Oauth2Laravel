@@ -23,7 +23,7 @@ class ClienteController extends Controller
             try {
                 if($request->hasFile('archivo_activos')){
                     $file = $request->file('archivo_activos');
-                    (new FastExcel)->import($file, function ($line) use ($i){
+                    (new FastExcel)->import($file, function ($line){
                          if($line['codigo'] != ''){
                             $cliente = new \App\Cliente();
                             $cliente->codigo = trim($line['codigo']);
@@ -80,14 +80,14 @@ class ClienteController extends Controller
          $cliente->user;
          return response()->json($cliente);
     }
-        public function destroy($id)
+        public function destroy()
     {
-        \App\ClienteMarca::truncate();
-        \App\Marca::truncate();
-        \App\EncuestaCliente::truncate();
-        \App\Categoria::truncate();
-        \App\Cliente::truncate();
-        \App\Encuesta::truncate();
+        \App\ClienteMarca::whereNotNull('id')->delete();
+        \App\Marca::whereNotNull('id')->delete();
+        \App\EncuestaCliente::whereNotNull('id')->delete();
+        \App\Categoria::whereNotNull('id')->delete();
+        \App\Cliente::whereNotNull('id')->delete();
+        \App\Encuesta::whereNotNull('id')->delete();
 
         return response()->json('ok');
     }

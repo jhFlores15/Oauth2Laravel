@@ -17,7 +17,11 @@
                                     <div class="input-group-prepend">
                                         <img src="https://img.icons8.com/color/40/000000/ms-excel.png"></div>
                                     <b-form-file require accept=".csv,.xlsx"  type="file" id="file" ref="file"  v-on:change="selectedFileActivos($event)" placeholder="Escoge un archivo..." v-model="subirActivosfile"></b-form-file>
-                                    <button type="button"  @click.stop="postActivos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+                                    <div v-if="loaderActivos == false">
+                                         <button type="button"  @click.stop="postActivos()" class="btn btn-outline-success mb-2">Subir Datos</button>
+                                    </div>
+                                    <div v-else class="loader"></div>   
+                                    
                                     </div>
                                     <table class="table table-bordered table-sm text-center">
                                         <thead>
@@ -56,12 +60,12 @@
                       <div class="card-header"> Eliminar Datos </div>
                       <div class="card-body">
                              <form>
-                              <label>Se eliminaran todos los clientes y las encuestas creadas</label>
+                              <label>Recuerde que debe eliminar toda la informacion si desea actualizar los clientes del sistema. (Se eliminaran todos los clientes y las encuestas con su informacion)</label>
                               <div class="form-group row text-center">
-                                <label for="inputPassword" class="col-sm-2 col-form-label ">Eliminar</label>
+                                <label for="inputPassword" class="col-sm-2 col-form-label ">&nbsp;</label>
                                 <div class="col-sm-4">
                                     <div v-if="loaderDelete == false">
-                                         <button type="button" @click.stop="deleteAll()" class="btn btn-link">
+                                         <button type="button" @click.stop="showModalDelete()" class="btn btn-link">
                                            <img src="https://img.icons8.com/flat_round/40/000000/delete-sign.png">
                                         </button>
                                     </div>
@@ -75,6 +79,11 @@
             </div>
            
      	</div>
+       <b-modal ref="modalDelete" id="modalDelete" @ok="deleteAll">
+          <p><img src="https://img.icons8.com/color/48/000000/warning-shield.png"><b>Eliminacion</b></p>
+          ¿Esta Seguro de Eliminar a Todos los Clientes y Todas las Encuestas y su Informacion?
+          <!--  <label visible:=false value=""></label>   -->
+        </b-modal>
 	</div>
 	
 </template>
@@ -89,7 +98,6 @@ export default {
           access_token: 0,
           token_type: '',
           subirActivosfile:'',
-          subirInactivosfile:'',
           loaderActivos:false,
           loaderDelete:false,
           loaderDescargar:false,
@@ -113,8 +121,11 @@ export default {
     }     
   },
   methods:{
+    showModalDelete(button){
+      this.$root.$emit('bv::show::modal', 'modalDelete', button);
+    },
     deleteAll(){
-      this.loaderDelete = true;
+        this.loaderDelete = true;
         axios.delete('/api/clientes',this.config).
             then(resp => {
               this.loaderDelete = false;
@@ -127,6 +138,8 @@ export default {
                 alertify.set('notifier','position', 'top-right');
                 alertify.notify('Error', 'error', 3, function(){  console.log(); });
             })
+   
+      
     },
    getUserApi(){       
       axios.get('/api/user/',this.config).
@@ -151,9 +164,12 @@ export default {
             let formData = new FormData();            
             formData.append('archivo_activos', this.subirActivosfile);
             axios.post('/api/clientes/activos',formData,this.config)              
-            .then(response =>{
+            .then(resp =>{
                 this.loaderActivos = false;
-               //location.reload(true);
+                if(resp.data == 'ok'){
+                  alertify.set('notifier','position', 'top-right');
+                  alertify.notify('Clientes Registrados Exitosamente', 'success', 3, function(){  console.log(); });
+                }    
             }).catch(error =>{
                 this.loaderActivos = false;
                 alertify.set('notifier','position', 'top-right');

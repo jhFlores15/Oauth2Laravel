@@ -20,7 +20,6 @@
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-		  		<div class="card card-body" style="width: 90%;  margin:auto;">
 				<table id="noEncuestados" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 
 							<tr>
@@ -31,10 +30,10 @@
 							</tr>
 						</thead>							
 					</table>  
-				</div>
+			
 		  	</div>		
 			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				<div class="card card-body" style="width: 90%;  margin:auto;">
+			
 					<table id="encuestados" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 						<thead> 
 							<tr>
@@ -45,7 +44,7 @@
 							</tr>
 						</thead>							
 					</table>  
-				</div>
+			
 			</div>		    	
 		</div>
 	</div>

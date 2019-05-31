@@ -71,7 +71,43 @@ const appp = new Vue({
         },
         postEncuestaExistente(){
             if((this.descripcion != '') && (this.fecha_inicio!= '') && (this.categorias.length > 0)){
-                this.loaderExistente = true;
+                if((this.categoria.nombre != '') || (this.categoria.productos.length > 0 )|| (this.nombre && this.tipo)){
+                     this.$root.$emit('bv::show::modal', 'modalCategoria');
+                }
+                else{
+                     this.loaderExistente = true;
+                    this.erroresEncuesta = "";
+                    axios.post('/api/encuestas',{              
+                        'descripcion' : this.descripcion,
+                        'fecha_inicio' : this.fecha_inicio,
+                        'tipo_encuesta' : this.select_tipo_encuesta,  
+                        'categorias' : this.categorias,
+                
+                    },this.config).then(response =>{
+                        this.loaderExistente = false;
+                        if(this.select_tipo_encuesta == 1){
+                            location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
+                        }
+                        else if(this.select_tipo_encuesta == 3){
+                            location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
+                        }
+                    }).catch(error =>{
+                        this.loaderExistente = false;
+                        if(error.response.status == 422){
+                            this.erroresEncuesta = error.response.data.error;
+                        }
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
+                    });
+                }
+            }
+            else{
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('Aun faltan datos para crear la encuesta', 'error', 10, function(){  console.log(); });   
+            }
+        },
+        olvidadoC(){
+             this.loaderExistente = true;
                 this.erroresEncuesta = "";
                 axios.post('/api/encuestas',{              
                     'descripcion' : this.descripcion,
@@ -95,15 +131,6 @@ const appp = new Vue({
                     alertify.set('notifier','position', 'top-right');
                     alertify.notify('No se han guardado los cambios', 'error', 10, function(){  console.log(); });                
                 });
-                 
-
-            }
-            else{
-                alertify.set('notifier','position', 'top-right');
-                alertify.notify('Aun faltan datos para crear la encuesta', 'error', 10, function(){  console.log(); });   
-            }
-            
-
         },
         agregarProducto(){
             if((this.nombre !== '') && (this.tipo !== 0 && this.tipo !== '')){
@@ -117,28 +144,26 @@ const appp = new Vue({
             }
            
         },
+        olvidadoP(){
+             this.categorias.push(this.categoria);
+             this.categoria={
+                nombre:'',
+                productos:[],
+             }
+        },
         agregarCategoria(){
             if(this.categoria.nombre !== ''){
                 if (this.categoria.productos.length !== 0){
-                    // if((this.nombre !== '') && (this.tipo !== 0 && this.tipo !== '')){
-                    //     alertify.confirm('¿Olvido Producto?', '¿UPS! ah olvidado agregar un producto a esta categoria?', 
-                    //         function(){ }
-                    //         , function() use( this.categorias, this.categoria){
-                    //             this.categorias.push(this.categoria);
-                    //              this.categoria={
-                    //                 nombre:'',
-                    //                 productos:[],
-                    //              }
-                                  
-                    //         }).set('labels', {ok:'Si!', cancel:'No!'});
-                    // }
-                    // else{
+                    if((this.nombre !== '') && (this.tipo !== 0 && this.tipo !== '')){
+                        this.$root.$emit('bv::show::modal', 'modalProducto');  
+                    }
+                    else{
                         this.categorias.push(this.categoria);
                          this.categoria={
                             nombre:'',
                             productos:[],
                          }
-                    // }    
+                    }    
                 }
                 else{
                     alertify.set('notifier','position', 'top-right');

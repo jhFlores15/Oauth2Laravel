@@ -158,7 +158,7 @@ export default {
         localStorage.access_token = response.data.access_token;
         localStorage.token_type = response.data.token_type; 
         if(response.data.rol_id == 2){
-          location.href = '/encuestas';
+          location.href = '/encuestas/vendedor';
         }
         else{
           location.href = '/clientes'; 

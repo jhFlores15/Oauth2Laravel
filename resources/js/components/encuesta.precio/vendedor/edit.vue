@@ -92,7 +92,7 @@ export default {
   	},
   	postMarca(valor,id){
       if((isNaN(valor) == false) && (valor != '')){
-        if(valor > 0){
+        if(valor > 0 && valor <= 100000){
       		axios.put('/api/encuestas/precio/'+id,{
                 'valor' : valor,
             },this.config).then(response =>{

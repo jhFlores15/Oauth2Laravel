@@ -69,27 +69,27 @@ export default {
      
   },
   methods:{
-    onlyNumber ($event) {
-       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-       if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
-          $event.preventDefault();
-       }
-    },
-         getUserApi(){     
-      this.getCliente();   
-      axios.get('/api/user/',this.config).
-        then(response => {
-          var user = response.data;
-          if(user.rol_id != 2 || user.id != this.cliente.user_id){
-            location.href = '/';
-          } 
-          this.getEncuesta();   
-          this.getEncuestaE(); 
-          this.getMarcas(); 
-        }).catch(error => {
-         
-        })
-    },  
+      onlyNumber ($event) {
+         let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+         if ((keyCode < 48 || keyCode > 57)) {
+            $event.preventDefault();
+         }
+      },
+      getUserApi(){     
+        this.getCliente();   
+        axios.get('/api/user/',this.config).
+          then(response => {
+            var user = response.data;
+            if(user.rol_id != 2 || user.id != this.cliente.user_id){
+              location.href = '/';
+            } 
+            this.getEncuesta();   
+            this.getEncuestaE(); 
+            this.getMarcas(); 
+          }).catch(error => {
+           
+          })
+      },  
     verifi(c,marcs){
       console.log(Object.keys(c).length);
       console.log(marcs.length);
@@ -100,7 +100,6 @@ export default {
         alertify.set('notifier','position', 'top-right');
           alertify.notify('Faltan productos por encuestar', 'error', 10, function(){  console.log(); });
         }
-
     },
   	terminar(){
       this.loader = true;
@@ -112,14 +111,13 @@ export default {
         }).catch(error => {
           this.loader = false;
           console.log(error)
-        })
-        
+        })        
   	},
   	postMarca(valor,marca_id){
        console.log('meme');
       console.log(isNaN(valor));
       if((isNaN(valor) == false) && (valor != '')){
-         if(valor > 0){
+         if(valor > 0 && valor <= 100000){
       		var marca_cliente = {};
       		axios.get('/api/encuestas/cli_marca_s/'+this.cliente_id+'/'+marca_id,this.config).
             then(response => {        	
@@ -153,7 +151,7 @@ export default {
           }
           else{
             alertify.set('notifier','position', 'top-right');
-            alertify.notify('Los datos ingresados deben ser >= 0', 'error', 3, function(){  console.log(); });   
+            alertify.notify('Los datos ingresados deben ser positivos y hasta $100.000', 'error', 3, function(){  console.log(); });   
           }
         }else{
          alertify.set('notifier','position', 'top-right');

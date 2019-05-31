@@ -67,4 +67,28 @@ class EncuestaExistenciaAdminController extends Controller
 
         return response()->json('ok');
     }
+     public function exportEncuestaNoExistencia($encuesta_id) {
+       $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
+        $idsss = [];
+        foreach ($marcas as $marca) {           
+            $idsss [] = $marca[0]->cliente_id;
+         }
+         $clientes = (Cliente::all()->whereNotIn('id', $idsss));
+        if(count($clientes) == 0){
+            return response()->json('fail');
+        }
+        
+         (new FastExcel($clientes))->export(storage_path('file.xls'), function ($cliente) {
+                $return['Codigo'] = $cliente->codigo;
+                $return['Razon Social']= $cliente->razon_social;
+                $return['Rut'] = $cliente->rut;
+                $return['Dv'] = $cliente->dv;
+                $return['Direccion'] = $cliente->codigo;
+                $return['Comuna'] = $cliente->comuna->nombre;
+                $return['Vendedor'] = $cliente->user->codigo;
+            return $return;
+        });
+        return response()->json('ok');
+    }
 }

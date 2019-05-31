@@ -78,6 +78,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
+            'rol_id' => $user->rol_id,
         ]);
 	}
 
@@ -113,10 +114,7 @@ class AuthController extends Controller
                 $user->rol()->associate($rol);
             }
         }
-        
-
         $user->save();
-
         return response()->json('ok'); 
     }
 

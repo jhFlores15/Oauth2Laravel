@@ -157,7 +157,13 @@ export default {
 
         localStorage.access_token = response.data.access_token;
         localStorage.token_type = response.data.token_type; 
-        location.reload();     
+        if(response.data.rol_id == 2){
+          location.href = '/encuestas';
+        }
+        else{
+          location.href = '/clientes'; 
+        }
+        // location.reload();     
       }).catch(error =>{
         this.loading = false;
           if((error.response.status == 401) && (error.response.data.message == 'Los Datos ingresados no son correctos' )){

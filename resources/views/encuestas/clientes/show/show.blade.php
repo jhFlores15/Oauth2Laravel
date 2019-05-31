@@ -87,6 +87,9 @@
 		 </div>
 		 <br>
 		<nav>
+			<div id="loaderExcel">
+				
+			</div>
 		  <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist" style="width: 80%;  margin:auto;">
 		    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Clientes Encuestados</a>
 		    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Clientes No Encuestados</a>
@@ -592,6 +595,7 @@
 		});
 		table.button().add( 0, {
 			action: function ( e, dt, button, config ) {
+				$('#loaderExcel').html('<div class="loader text-center">')
 				$.ajax({
 					method:"GET",
 					url:'/api/encuesta/cliente/export/{{ $encuesta->id }}',
@@ -600,6 +604,7 @@
 						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 					},
 					success:function(resp){
+						$('#loaderExcel').html('')
 						if(resp == 'ok'){
 							window.open('/excel/down');	
 						}
@@ -608,7 +613,8 @@
    							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
 						}
 					},
-					error(error){						
+					error(error){	
+						$('#loaderExcel').html('')					
 					}
 				});
 			},

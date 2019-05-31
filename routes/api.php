@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('usuarios/{user}','Api\UserController@user')->middleware('isAdmin');
     Route::delete('usuarios/{user}','Api\UserController@destroy')->middleware('isAdmin');
     Route::get('encuestas/existencia/Admin/N/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_no_encuestados')->middleware('isAdmin');
+     Route::get('encuestas/existencia/Admin/N/{encuesta_id}/export','Api\EncuestaExistenciaAdminController@exportEncuestaNoExistencia')->middleware('isAdmin');
     Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados')->middleware('isAdmin');
     Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia')->middleware('isAdmin');
 

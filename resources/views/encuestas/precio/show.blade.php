@@ -83,6 +83,9 @@
 		 </div>
 		 <br>
 		<nav>
+			<div id="loaderExcel">
+				
+			</div>
 		  <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist" style="width: 80%;  margin:auto;">
 		    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Clientes Encuestados</a>
 		    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Clientes No Encuestados</a>
@@ -302,11 +305,6 @@
 
 				// {data: 'btn'},
 			],
-			dom: 'Bfrtip',
-			lengthMenu: [
-	            [ 10, -1 ],
-	            [ '10 rows', 'Show all' ]
-	        ],
 	       dom: 'Bfrtip',
 			lengthMenu: [
 	            [ 10, -1 ],
@@ -344,6 +342,7 @@
 		});	
 		table.button().add( 0, {
 				action: function ( e, dt, button, config ) {
+					$('#loaderExcel').html('<div class="loader text-center">')
 					$.ajax({
 						method:"GET",
 						url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
@@ -352,6 +351,7 @@
 							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 						},
 						success:function(resp){
+							$('#loaderExcel').html('')
 							if(resp == 'ok'){
 								window.open('/excel/down');	
 							}
@@ -360,30 +360,15 @@
 	   							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
 							}
 						},
-						error(error){						
+						error(error){
+						$('#loaderExcel').html('')						
 						}
 					});
 				},
 				text: 'Excel'
 			} );	
 
-		// jQuery.fn.DataTable.Api.register( 'buttons.exportData()', function ( options ) {
-  //           if ( this.context.length ) {
-  //               var jsonResult = $.ajax({
-  //                   url: '/api/clientes?length=-1',
-  //                   headers : {
- 	// 				'Content-Type': 'application/json',
- 	// 				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
- 	// 				},
-  //                   data: {search: $('#search').val()},
-  //                   success: function (result) {
-  //                       //Do nothing
-  //                   },
-  //                   async: false
-  //               });
-  //               return {body: jsonResult.responseJSON.data.map (el => Object.keys (el) .map (key => el [key])), header: $("#clientes thead tr th").map(function() { return this.innerHTML; }).get()};
-  //           }
-  //       } );
+		
         
 		var table = $('#noEncuestados').DataTable(
 			{
@@ -410,12 +395,7 @@
 	            [ 10, -1 ],
 	            [ '10 rows', 'Show all' ]
 	        ],
-	         buttons: [
-	         	{
-	            	extend: 'excel',
-	            	title: 'Clientes',
-	            	collectionLayout: 'fixed two-column',
-	            },	          
+	        buttons: [	                 
 	            'pageLength',
 	        ],
 			"language":{
@@ -445,6 +425,33 @@
 			},
 			"pagingType": "full_numbers",
 			});	
+		table.button().add( 0, {
+				action: function ( e, dt, button, config ) {
+					$('#loaderExcel').html('<div class="loader text-center">')
+					$.ajax({
+						method:"GET",
+						url:'/api/encuestas/existencia/Admin/N/{{ $encuesta->id }}/export',
+						headers : {
+							'Content-Type': 'application/json',
+							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+						},
+						success:function(resp){
+							$('#loaderExcel').html('')
+							if(resp == 'ok'){
+								window.open('/excel/down');	
+							}
+							else if(resp == 'fail'){
+								alertify.set('notifier','position', 'top-right');
+	   							alertify.notify('No hay datos que exportar', 'error', 3, function(){  console.log(); });
+							}
+						},
+						error(error){
+							$('#loaderExcel').html('')						
+						}
+					});
+				},
+				text: 'Excel'
+			} );	
 		
 	});		
  </script>

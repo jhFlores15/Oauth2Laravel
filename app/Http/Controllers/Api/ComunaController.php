@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
-use App\Http\Resources\Comuna as ComunaResource;
-use App\Comuna;
+use Encuestas_Carozzi\Http\Resources\Comuna as ComunaResource;
+use Encuestas_Carozzi\Comuna;
 
 class ComunaController extends Controller
 {
@@ -33,10 +33,10 @@ class ComunaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $comuna = new \App\Comuna();
+        $comuna = new \Encuestas_Carozzi\Comuna();
         $comuna->nombre = $request->get('nombre');
 
-        $region = \App\Region::findOrFail($request->get('region_id'));
+        $region = \Encuestas_Carozzi\Region::findOrFail($request->get('region_id'));
         $comuna->region()->associate($region);
 
         $comuna->save();
@@ -60,13 +60,13 @@ class ComunaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $comuna=\App\Comuna::findOrFail($id);
+       $comuna=\Encuestas_Carozzi\Comuna::findOrFail($id);
        $comuna->nombre = $request->get('nombre');
 
 
         if($comuna->region_id !== $request->get('region_id')){
             $comuna->region()->dissociate();
-            $region = \App\Region::findOrFail($request->get('region_id'));
+            $region = \Encuestas_Carozzi\Region::findOrFail($request->get('region_id'));
             $comuna->region()->associate($region);
         }
         $comuna->save();
@@ -76,7 +76,7 @@ class ComunaController extends Controller
 
     public function destroy($id)
     {
-        $comuna = \App\Comuna::findOrFail($id);
+        $comuna = \Encuestas_Carozzi\Comuna::findOrFail($id);
         $comuna->delete();
         return response()->json('ok');
     }

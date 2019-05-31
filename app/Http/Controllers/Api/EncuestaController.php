@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
-use App\Http\Resources\Encuesta as EncuestaResource;
-use App\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
-use App\Encuesta;
+use Encuestas_Carozzi\Http\Resources\Encuesta as EncuestaResource;
+use Encuestas_Carozzi\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
+use Encuestas_Carozzi\Encuesta;
 use Illuminate\Support\Facades\DB;
 
 
@@ -52,10 +52,10 @@ class EncuestaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
         $categorias = $request->get('categorias');       
-        $encuesta = new \App\Encuesta();
+        $encuesta = new \Encuestas_Carozzi\Encuesta();
         $encuesta->descripcion = $request->get('descripcion');
         $encuesta->inicio = $request->get('fecha_inicio');
-        $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
+        $tipo_encuesta = \Encuestas_Carozzi\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
         $encuesta->tipo_encuesta()->associate($tipo_encuesta);
     
         DB::beginTransaction();
@@ -63,11 +63,11 @@ class EncuestaController extends Controller
         try {
             $encuesta->save();
            foreach ($categorias as $categoria ) {
-                $categoriaN = new \App\Categoria();
+                $categoriaN = new \Encuestas_Carozzi\Categoria();
                 $categoriaN->nombre =  $categoria['nombre'];
                 $categoriaN->save(); 
                 foreach ($categoria['productos'] as $marcaT) {
-                    $marca = new \App\Marca();
+                    $marca = new \Encuestas_Carozzi\Marca();
                     $marca->categoria_id = $categoriaN->id;
                     $marca->encuesta_id = $encuesta->id;
                     $marca->nombre = $marcaT['nombre'];
@@ -89,7 +89,7 @@ class EncuestaController extends Controller
  
     public function show($id)
     {
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
         return response()->json($encuesta);        
     }
 
@@ -103,7 +103,7 @@ class EncuestaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $encuesta = \App\Encuesta::findOrFail($id);                
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);                
         $encuesta->descripcion = $request->get('descripcion');
         $encuesta->inicio = $request->get('fecha_inicio');               
         $encuesta->save();
@@ -114,12 +114,12 @@ class EncuestaController extends Controller
   
     public function destroy($id) //Existencia -Precio
     {
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
         DB::beginTransaction();         
         try {
             $marcas = $encuesta->marcas;
             foreach ($marcas as $marca) {
-               $categoria = \App\Categoria::find($marca->categoria_id);
+               $categoria = \Encuestas_Carozzi\Categoria::find($marca->categoria_id);
                if($categoria){
                     $categoria->marcas()->delete();
                     $categoria->delete();

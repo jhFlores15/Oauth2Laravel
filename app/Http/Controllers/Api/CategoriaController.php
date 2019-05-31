@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -15,11 +15,11 @@ class CategoriaController extends Controller
         $encuesta_id = $request->get('encuesta_id');
         DB::beginTransaction();         
         try {        
-            $categoria = new \App\Categoria();
+            $categoria = new \Encuestas_Carozzi\Categoria();
             $categoria->nombre = $request->get('nombre');
             $categoria->save();
             foreach ($productos as $marcaT) {
-                $marca = new \App\Marca();
+                $marca = new \Encuestas_Carozzi\Marca();
                 $marca->categoria_id = $categoria->id;
                 $marca->encuesta_id = $encuesta_id;
                 $marca->nombre = $marcaT['nombre'];
@@ -46,7 +46,7 @@ class CategoriaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $categoria = \App\Categoria::findOrFail($id);
+        $categoria = \Encuestas_Carozzi\Categoria::findOrFail($id);
         $categoria->nombre = $request->get('nombre');
         $categoria->save();
        
@@ -54,7 +54,7 @@ class CategoriaController extends Controller
     }
     public function destroy($id)
     { 
-        $categoria = \App\Categoria::findOrFail($id);  
+        $categoria = \Encuestas_Carozzi\Categoria::findOrFail($id);  
          DB::beginTransaction();         
         try {   
             $categoria->marcas()->delete();

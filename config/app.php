@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Encuestas_Carozzi'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Encuestas_Carozzi\Providers\AppServiceProvider::class,
+        Encuestas_Carozzi\Providers\AuthServiceProvider::class,
+        // Encuestas_Carozzi\Providers\BroadcastServiceProvider::class,
+        Encuestas_Carozzi\Providers\EventServiceProvider::class,
+        Encuestas_Carozzi\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,

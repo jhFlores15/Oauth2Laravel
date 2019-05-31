@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,9 +15,9 @@ class ECVExport extends JsonResource
     public function toArray($request)
     {
         //return parent::toArray($request);
-        $cliente = \App\Cliente::findOrFail($this->cliente_id);
-        $comuna = \App\Comuna::find($cliente->comuna_id);
-        $vendedor = \App\User::find($cliente->user_id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($this->cliente_id);
+        $comuna = \Encuestas_Carozzi\Comuna::find($cliente->comuna_id);
+        $vendedor = \Encuestas_Carozzi\User::find($cliente->user_id);
        
          return[  
             'codigo' => $cliente->codigo,        

@@ -2,7 +2,7 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Rol;
+use Encuestas_Carozzi\Rol;
 use Faker\Generator as Faker;
 
 $factory->define(Rol::class, function (Faker $faker) {

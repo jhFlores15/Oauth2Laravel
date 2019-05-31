@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Encuestas_Carozzi\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -14,7 +14,7 @@ class EncuestaPrecioController extends Controller
     public function edit($encuesta_id,$cliente_id){ //Vendedor
         //verificar que esten todos respondidos, sino rellenar con no-- lo mismo al ver en Admin
 
-         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+         $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
          $marcasT = $encuesta->marcas;
          $marcasC = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id);
 
@@ -30,7 +30,7 @@ class EncuestaPrecioController extends Controller
 
     }
     public function show($encuesta_id){
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
           ////////Rellenar dartos faltantes
 
         $valores = $encuesta->marca_cliente->groupBy('cliente_id');
@@ -87,7 +87,7 @@ class EncuestaPrecioController extends Controller
          $encuestados = $encuesta->marca_cliente->groupBy('cliente_id');
          $encuesta->{"registros"}= $encuestados->count();
 
-         $total = \App\Cliente::all()->count();
+         $total = \Encuestas_Carozzi\Cliente::all()->count();
         $encuesta->{"total"}= $total;
 
       

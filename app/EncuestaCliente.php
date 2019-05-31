@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Encuestas_Carozzi;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -11,7 +11,7 @@ class EncuestaCliente extends Pivot
 
     public function cliente(){
 
-        return $this->belongsto('App\Cliente');
+        return $this->belongsto('Encuestas_Carozzi\Cliente');
 
     }
 

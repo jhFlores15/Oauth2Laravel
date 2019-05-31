@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Encuestas_Carozzi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class Tipo_Producto extends Model
     protected $fillable = ['nombre'];
 
     public function marcas(){
-    	return $this->hasMany('App\Marca');
+    	return $this->hasMany('Encuestas_Carozzi\Marca');
     }
 }

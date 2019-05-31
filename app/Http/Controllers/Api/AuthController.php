@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Rol;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\User;
+use Encuestas_Carozzi\Rol;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Validator;
@@ -41,11 +41,11 @@ class AuthController extends Controller
         $user->dv = $request->get('dv');
         ////////////////validar entrada rol, admin o vendedor///////////////////
         if($request->get('tipo_usuario') == 'Administrador'){
-            $rol = \App\Rol::all()->where('nombre','==','Administrador')->first();
+            $rol = \Encuestas_Carozzi\Rol::all()->where('nombre','==','Administrador')->first();
 
         }
         else{
-            $rol = \App\Rol::all()->where('nombre','!=','Administrador')->first();
+            $rol = \Encuestas_Carozzi\Rol::all()->where('nombre','!=','Administrador')->first();
         }
         $user->rol()->associate($rol);
 	    $user->save();
@@ -97,7 +97,7 @@ class AuthController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $user = \App\User::findOrFail($id);
+        $user = \Encuestas_Carozzi\User::findOrFail($id);
         $user->razon_social = $request->get('razon_social');
         $user->email = $request->get('email');
         $user->password =bcrypt($request->get('password'));
@@ -110,7 +110,7 @@ class AuthController extends Controller
         if($request->get('rol_id')){
             if($user->rol_id !== $request->get('rol_id')){
                 $user->rol()->dissociate();
-                $rol = \App\Rol::findOrFail($request->get('rol_id'));
+                $rol = \Encuestas_Carozzi\Rol::findOrFail($request->get('rol_id'));
                 $user->rol()->associate($rol);
             }
         }

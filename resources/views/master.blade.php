@@ -29,18 +29,15 @@
 
 
 
-	<title>{{ config('app.name', 'Encuesta Carozzi') }}</title>
+	<title>Encuestas Carozzi</title>
     <style>
       body {
           height: 200%;
           background-color: white;
       }
       .imgRedondaNavbar {
-          width:40px!important;
+          width:150px!important;
           height:40px!important;
-          border-radius:20px!important;
-          border:1px solid #C0C0C0;
-          object-fit: cover;
       }
       .myDropDown
       {
@@ -51,7 +48,7 @@
       }
       .navcolor
       {
-        background-color: #721422;
+        background-color: #721422 !important;
       }
       .custom-file-input:lang(en) ~ .custom-file-label::after {
       content: 'Examinar' !important;

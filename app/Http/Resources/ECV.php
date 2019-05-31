@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ class ECV extends JsonResource
     public function toArray($request)
     {
         //return parent::toArray($request);
-        $cliente = \App\Cliente::findOrFail($this->cliente_id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($this->cliente_id);
         $encuestado = 'Encuestar';
         $fecha_nacimiento ="";
         if($this->fecha_nacimiento || $this->telefono || $this->email ){
@@ -35,8 +35,8 @@ class ECV extends JsonResource
             'dv' => $cliente->dv,
             'encuesta' => $encuestado,
             'direccion' => $cliente->direccion,
-            'comuna' => \App\Comuna::find($cliente->comuna_id),
-            'vendedor' => \App\User::find($cliente->user_id),
+            'comuna' => \Encuestas_Carozzi\Comuna::find($cliente->comuna_id),
+            'vendedor' => \Encuestas_Carozzi\User::find($cliente->user_id),
             'created_at' => ($cliente->created_at)->format('d-m-Y'),
             'updated_at' => ($cliente->updated_at)->format('d-m-Y'),
             'fecha_nacimiento' =>  $fecha_nacimiento,

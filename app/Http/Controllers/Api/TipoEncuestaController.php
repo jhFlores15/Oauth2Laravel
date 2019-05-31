@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 
 class TipoEncuestaController extends Controller
 {
     public function index()
     {
-        $tipo_encuestas = \App\Tipo_Encuesta::all();
+        $tipo_encuestas = \Encuestas_Carozzi\Tipo_Encuesta::all();
         return $tipo_encuestas;
     }
 

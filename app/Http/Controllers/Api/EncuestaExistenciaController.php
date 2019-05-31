@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ClienteVend as ClienteVendResource;
-use App\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
-use App\Encuesta;
-use App\Cliente;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Resources\ClienteVend as ClienteVendResource;
+use Encuestas_Carozzi\Http\Resources\EncuestaExistencia as EncuestaExistenciaResource;
+use Encuestas_Carozzi\Encuesta;
+use Encuestas_Carozzi\Cliente;
 use Validator;
 
 class EncuestaExistenciaController extends Controller
 {
     public function index_encuestados($encuesta_id) 
     {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
         
         $ids = [];
         foreach ($marcas as $marca) {
-            $cliente =  \App\Cliente::find($marca[0]->cliente_id);
+            $cliente =  \Encuestas_Carozzi\Cliente::find($marca[0]->cliente_id);
             if($cliente->user_id == auth()->user()->id){
                 $id = new \stdClass();
                 $id->id = $marca[0]->cliente_id;
@@ -28,7 +28,7 @@ class EncuestaExistenciaController extends Controller
             }            
          }         
          $clientes = ClienteVendResource::collection(collect($ids)); //Encuestados del vendedor
-          $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+          $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
           $clientes->map(function($cliente) use($encuesta){
             $cliente->encuesta_id = $encuesta;
         });
@@ -41,14 +41,14 @@ class EncuestaExistenciaController extends Controller
     }
     public function index_no_encuestados($encuesta_id) //Vendedor listado de clientes para vendedor
     {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
         $idsss = [];
         foreach ($marcas as $marca) {           
             $idsss [] = $marca[0]->cliente_id;
          }
          $clientes = ClienteVendResource::collection(collect(Cliente::all()->where('user_id','=', auth()->user()->id)->whereNotIn('id', $idsss))); //No Encuestados
-          $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+          $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
          $clientes->map(function($cliente) use($encuesta){
             $cliente->encuesta_id = $encuesta;
         });
@@ -75,15 +75,15 @@ class EncuestaExistenciaController extends Controller
         $valor = $request->get('valor');
         $cliente_id = $request->get('cliente_id');
 
-        $cliente = \App\Cliente::findOrFail($cliente_id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_id);
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }
-         $existe = \App\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
+         $existe = \Encuestas_Carozzi\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
         if($existe > 0){ 
             abort(401);
         }
-        $marca = \App\Marca::findOrFail($marca_id);
+        $marca = \Encuestas_Carozzi\Marca::findOrFail($marca_id);
         $marca->clientes()->attach($cliente_id,['valor' => $valor ]);  
 
         return response()->json('ok'); 
@@ -100,8 +100,8 @@ class EncuestaExistenciaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }        
         $valor = $request->get('valor');
-        $cliente_marca = \App\ClienteMarca::findOrFail($id);
-        $cliente = \App\Cliente::findOrFail($cliente_marca->cliente_id);
+        $cliente_marca = \Encuestas_Carozzi\ClienteMarca::findOrFail($id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_marca->cliente_id);
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }

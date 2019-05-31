@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Rol as RolResource;
+use Encuestas_Carozzi\Http\Resources\Rol as RolResource;
 
 class User extends JsonResource
 {

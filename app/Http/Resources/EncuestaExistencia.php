@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Marca as MarcaResource;
+use Encuestas_Carozzi\Http\Resources\Marca as MarcaResource;
 
 class EncuestaExistencia extends JsonResource
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Encuestas_Carozzi\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller

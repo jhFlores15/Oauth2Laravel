@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
@@ -45,7 +45,7 @@ class Encuesta extends JsonResource
             'descripcion' => $this->descripcion,
             'inicio' => $m,
             'termino' => $n,
-            'tipo_encuesta'=> \App\Tipo_Encuesta::findOrFail($this->tipo_encuesta_id),
+            'tipo_encuesta'=> \Encuestas_Carozzi\Tipo_Encuesta::findOrFail($this->tipo_encuesta_id),
             'created_at' => ($this->created_at)->format('d-m-Y'),
             'updated_at' => ($this->updated_at)->format('d-m-Y'), 
             'estado' =>   $estado,       

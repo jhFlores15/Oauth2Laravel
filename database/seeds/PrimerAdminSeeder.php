@@ -24,5 +24,16 @@ class PrimerAdminSeeder extends Seeder
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
+         DB::table('users')->insert([
+            'rut' => '15283955',
+            'dv' => '3',
+            'razon_social' => 'Daniel Muñoz',
+            'email' => 'daniel.munoz@dimak.cl',
+            'password' => bcrypt('dimak2019'),
+            'password_visible' => 'dimak2019',
+            'rol_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 }

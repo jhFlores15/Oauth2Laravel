@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Encuestas_Carozzi;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -16,14 +16,14 @@ class Cliente extends Model
     ];
 
     public function user(){
-    	return $this->belongsto('App\User');
+    	return $this->belongsto('Encuestas_Carozzi\User');
     }
 
     public function comuna(){
-    	return $this->belongsto('App\Comuna');
+    	return $this->belongsto('Encuestas_Carozzi\Comuna');
     }
      public function encuestas (){
-        return belongsToMany('App\Encuesta','encuesta_cliente','cliente_id','encuesta_id')->using('App\Encuesta_Cliente')->withTimestamps()->withPivot(['fecha_nacimiento','telefono','email']);
+        return belongsToMany('Encuestas_Carozzi\Encuesta','encuesta_cliente','cliente_id','encuesta_id')->using('Encuestas_Carozzi\Encuesta_Cliente')->withTimestamps()->withPivot(['fecha_nacimiento','telefono','email']);
     }
     public function scopeUpdatedd($query)
     {

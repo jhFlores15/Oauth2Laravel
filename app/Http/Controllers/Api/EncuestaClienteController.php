@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\Encuesta as EncuestaResource;
-use App\Http\Resources\ECV as ECVResource;
-use App\Http\Resources\ECVExport as ECVExportResource;
+use Encuestas_Carozzi\Http\Resources\Encuesta as EncuestaResource;
+use Encuestas_Carozzi\Http\Resources\ECV as ECVResource;
+use Encuestas_Carozzi\Http\Resources\ECVExport as ECVExportResource;
 
-use App\Encuesta;
+use Encuestas_Carozzi\Encuesta;
 use Illuminate\Support\Facades\DB;
 
 class EncuestaClienteController extends Controller
@@ -30,10 +30,10 @@ class EncuestaClienteController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
        
-        $encuesta = new \App\Encuesta();
+        $encuesta = new \Encuestas_Carozzi\Encuesta();
         $encuesta->descripcion = $request->get('descripcion');
         $encuesta->inicio = $request->get('fecha_inicio');
-        $tipo_encuesta = \App\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
+        $tipo_encuesta = \Encuestas_Carozzi\Tipo_Encuesta::findOrFail($request->get('tipo_encuesta'));
         $encuesta->tipo_encuesta()->associate($tipo_encuesta);
         $encuesta->save();
         
@@ -41,7 +41,7 @@ class EncuestaClienteController extends Controller
     }
     public function show($encuesta_id) //Ver Encuesta - reporte
     {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         return response()->json($encuesta);       
     }
  
@@ -55,7 +55,7 @@ class EncuestaClienteController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
         if($encuesta){
             $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
             if($empezo == '-'){            
@@ -71,8 +71,8 @@ class EncuestaClienteController extends Controller
     }
         public function destroy($id)
     {
-        $encuesta = \App\Encuesta::findOrFail($id);
-        $count = \App\EncuestaCliente::encuesta($id)->date()->count();
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
+        $count = \Encuestas_Carozzi\EncuestaCliente::encuesta($id)->date()->count();
         if($encuesta){
             $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
             if($count <= 0){
@@ -91,7 +91,7 @@ class EncuestaClienteController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $encuesta->clientes()->detach(); //Probar 
         if($request->hasFile('csv')){
             $csv = $request->file('csv');
@@ -100,7 +100,7 @@ class EncuestaClienteController extends Controller
              
             try {
                 $encuesta_clientes = (new FastExcel)->import($csv, function ($line) use ($encuesta){
-                    $cliente = \App\Cliente::all()->where('codigo','=',$line['codigo'])->first();
+                    $cliente = \Encuestas_Carozzi\Cliente::all()->where('codigo','=',$line['codigo'])->first();
                         $fecha = null;$telefono=null;$email =null;
                     
                         if($line['fecha_nacimiento']){
@@ -134,10 +134,10 @@ class EncuestaClienteController extends Controller
 
     public function clientes($encuesta_id){ //CLIENTES QUE HAN SIDO ENCUESTADO POR EL MOMENTO
         //SE BUSCARAN PREGUNTADO SI EL CREATED_AT ES DISTINTO AL UPDATED
-        $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
-        $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
-        $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->email()->get();
-        $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
+        $encuesta_clientes1 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->date()->get();
+        $encuesta_clientes2 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
+        $encuesta_clientes3 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->email()->get();
+        $encuesta_clientes4 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
 
         $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
         $clientess = ECVResource::collection(collect($encuesta_clientes));
@@ -154,7 +154,7 @@ class EncuestaClienteController extends Controller
     }
      public function clientesNo($encuesta_id){
 
-        $encuesta_clientes = \App\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->emailN()->fecha_nacimientoN()->get();
+        $encuesta_clientes = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->telefonoN()->emailN()->fecha_nacimientoN()->get();
 
         $clientess = ECVExportResource::collection(collect($encuesta_clientes));
 
@@ -169,7 +169,7 @@ class EncuestaClienteController extends Controller
 
     }
     public function iniciar($id){
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
         if($encuesta->termino == null){
             $encuesta->inicio = Carbon::today();
         }
@@ -180,26 +180,26 @@ class EncuestaClienteController extends Controller
         return response()->json('ok');
     }
     public function terminar($id){
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
         $encuesta->termino = Carbon::today();
         $encuesta->save();
         return response()->json('ok');
     }
 
      public function exportEncuestaCliente($encuesta_id) {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
 
-        $encuesta_clientes1 = \App\EncuestaCliente::encuesta($encuesta_id)->date()->get();
-        $encuesta_clientes2 = \App\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
-        $encuesta_clientes3 = \App\EncuestaCliente::encuesta($encuesta_id)->email()->get();
-        $encuesta_clientes4 = \App\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
+        $encuesta_clientes1 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->date()->get();
+        $encuesta_clientes2 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->telefono()->get();
+        $encuesta_clientes3 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->email()->get();
+        $encuesta_clientes4 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
 
         $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
 
         if($encuesta_clientes->count() > 0){
 
             (new FastExcel($encuesta_clientes))->export(storage_path('file.xls'), function ($cliente)  {
-                    $clienteC = \App\Cliente::find($cliente['cliente_id']);
+                    $clienteC = \Encuestas_Carozzi\Cliente::find($cliente['cliente_id']);
                     $return['Codigo'] = $clienteC->codigo;
                     $return['Razon Social']= $clienteC->razon_social;
                     $return['Rut'] = $clienteC->rut;

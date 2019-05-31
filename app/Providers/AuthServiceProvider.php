@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Encuestas_Carozzi\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        // 'Encuestas_Carozzi\Model' => 'Encuestas_Carozzi\Policies\ModelPolicy',
     ];
 
     /**

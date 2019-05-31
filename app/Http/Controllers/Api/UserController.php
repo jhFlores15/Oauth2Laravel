@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Http\Resources\User as UserResource;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\User;
+use Encuestas_Carozzi\Http\Resources\User as UserResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -46,7 +46,7 @@ class UserController extends Controller
                     $file = $request->file('file');
                     $i = 0;
                     $users = (new FastExcel)->import($file, function ($line) use ($i){
-                        $vendedor = \App\User::all()->where('rol_id',2)->where('codigo',trim($line['codigo']))->first();
+                        $vendedor = \Encuestas_Carozzi\User::all()->where('rol_id',2)->where('codigo',trim($line['codigo']))->first();
                         if($vendedor){ //actualizar
                             $vendedor->rut = trim(str_replace ( ".", "", $line['rut']));
                             $vendedor->dv = trim($line['dv']);
@@ -58,7 +58,7 @@ class UserController extends Controller
                         }
                         else{ //crear
                             if($line['codigo'] != ''){
-                                $vendedor = new \App\User();
+                                $vendedor = new \Encuestas_Carozzi\User();
                                 $vendedor->codigo = trim($line['codigo']);
                                 $vendedor->rut = trim(str_replace ( ".", "", $line['rut']));
                                 $vendedor->dv = trim($line['dv']);
@@ -82,12 +82,12 @@ class UserController extends Controller
     }
      public function user($id)
     {
-        $user = \App\User::findOrFail($id);
+        $user = \Encuestas_Carozzi\User::findOrFail($id);
         return response()->json($user); 
     } 
     public function destroy($id)
     {
-        $user = \App\User::findOrFail($id);
+        $user = \Encuestas_Carozzi\User::findOrFail($id);
         $user->delete();
         return 'ok';
     } 

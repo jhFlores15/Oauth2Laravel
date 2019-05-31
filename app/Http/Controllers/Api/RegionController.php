@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
-use App\Http\Resources\Region as RegionResource;
-use App\Region;
+use Encuestas_Carozzi\Http\Resources\Region as RegionResource;
+use Encuestas_Carozzi\Region;
 
 class RegionController extends Controller
 {
@@ -19,7 +19,7 @@ class RegionController extends Controller
     {
         $regiones = RegionResource::collection(Region::all());
 
-       // $regiones = \App\Region::all();
+       // $regiones = \Encuestas_Carozzi\Region::all();
          return datatables()
             ->resource($regiones)
             ->addColumn('btn','regiones.acciones')
@@ -43,7 +43,7 @@ class RegionController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $region = new \App\Region();
+        $region = new \Encuestas_Carozzi\Region();
         $region->nombre = $request->get('nombre');
         $region->numero = $request->get('numero');
         $region->save();
@@ -59,7 +59,7 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        $region = \App\Region::findOrFail($id);
+        $region = \Encuestas_Carozzi\Region::findOrFail($id);
         return response()->json($region);
     }
 
@@ -80,7 +80,7 @@ class RegionController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-       $region=\App\Region::findOrFail($id)->update($request->all());
+       $region=\Encuestas_Carozzi\Region::findOrFail($id)->update($request->all());
 
        return response()->json('ok');
     }
@@ -93,7 +93,7 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        $region = \App\Region::findOrFail($id);
+        $region = \Encuestas_Carozzi\Region::findOrFail($id);
         $region->delete();
         return 'ok';
     }

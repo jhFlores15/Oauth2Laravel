@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Encuestas_Carozzi\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class EncuestaController extends Controller
         return view('encuestas.index_vendedor.index');
     }
     public function edit($id){        
-        $encuesta = \App\Encuesta::findOrFail($id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($id);
 
         $marcas = $encuesta->marcas;
         foreach ($marcas as $marca) {

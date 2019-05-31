@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Encuestas_Carozzi;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -45,11 +45,11 @@ class User extends Authenticatable
     // }
 
     public function rol(){
-        return $this->belongsto('App\Rol');
+        return $this->belongsto('Encuestas_Carozzi\Rol');
     }
 
      public function clientes(){
-        return $this->hasMany('App\Cliente');
+        return $this->hasMany('Encuestas_Carozzi\Cliente');
     }
 
     public function scopeRole($query) // vendedor

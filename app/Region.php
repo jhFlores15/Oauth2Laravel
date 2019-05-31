@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Encuestas_Carozzi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class Region extends Model
     protected $fillable = ['nombre','numero'];
 
     public function comunas(){
-    	return $this->hasMany('App\Comuna');
+    	return $this->hasMany('Encuestas_Carozzi\Comuna');
     }
 }

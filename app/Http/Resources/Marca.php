@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,8 +17,8 @@ class Marca extends JsonResource
          return[
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'tipo_producto' => \App\Tipo_Producto::find($this->tipo_producto_id),
-            'categoria' => \App\Categoria::find($this->categoria_id),  
+            'tipo_producto' => \Encuestas_Carozzi\Tipo_Producto::find($this->tipo_producto_id),
+            'categoria' => \Encuestas_Carozzi\Categoria::find($this->categoria_id),  
         ];
     }
 }

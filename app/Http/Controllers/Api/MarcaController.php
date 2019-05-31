@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
 
 class MarcaController extends Controller
@@ -19,17 +19,17 @@ class MarcaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $marca = \App\Marca::findOrFail($id);
+        $marca = \Encuestas_Carozzi\Marca::findOrFail($id);
         $marca->nombre = $request->get('nombre');        
 
         if($marca->tipo_producto_id !== $request->get('tipo_producto_id')){
             $marca->tipo_producto()->dissociate();
-            $tipo_producto = \App\Tipo_Producto::findOrFail($request->get('tipo_producto_id'));
+            $tipo_producto = \Encuestas_Carozzi\Tipo_Producto::findOrFail($request->get('tipo_producto_id'));
             $marca->tipo_producto()->associate($tipo_producto);
         }
         if($marca->categoria_id !== $request->get('categoria_id')){
             $marca->categoria()->dissociate();
-            $categoria = \App\Categoria::findOrFail($request->get('categoria_id'));
+            $categoria = \Encuestas_Carozzi\Categoria::findOrFail($request->get('categoria_id'));
             $marca->categoria()->associate($categoria);       
     	}
     	$marca->save();
@@ -48,12 +48,12 @@ class MarcaController extends Controller
             return response()->json(['error'=>$validator->errors()], 422);
         }
 
-        $marca = new \App\Marca();
+        $marca = new \Encuestas_Carozzi\Marca();
         $marca->nombre = $request->get('nombre');
         $marca->encuesta_id = $request->get('encuesta_id');
-        $tipo_producto = \App\Tipo_Producto::findOrFail($request->get('tipo_producto_id'));
+        $tipo_producto = \Encuestas_Carozzi\Tipo_Producto::findOrFail($request->get('tipo_producto_id'));
         $marca->tipo_producto()->associate($tipo_producto);
-        $categoria = \App\Categoria::findOrFail($request->get('categoria_id'));
+        $categoria = \Encuestas_Carozzi\Categoria::findOrFail($request->get('categoria_id'));
         $marca->categoria()->associate($categoria);  
     	$marca->save();
        
@@ -61,8 +61,8 @@ class MarcaController extends Controller
     }
      public function destroy($id)
     {
-        $marca = \App\Marca::findOrFail($id); 
-        $categoria = \App\Categoria::findOrFail($marca->categoria_id);  
+        $marca = \Encuestas_Carozzi\Marca::findOrFail($id); 
+        $categoria = \Encuestas_Carozzi\Categoria::findOrFail($marca->categoria_id);  
         $marcas = $categoria->marcas;
         if($marcas->count() > 1)  {
         	$marca->delete();
@@ -73,7 +73,7 @@ class MarcaController extends Controller
         }  
     }
     public function show($encuesta_id){
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marcas;
         return response()->json($marcas);
     }

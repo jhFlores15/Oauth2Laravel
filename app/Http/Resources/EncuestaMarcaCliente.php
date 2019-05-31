@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,8 +15,8 @@ class EncuestaMarcaCliente extends JsonResource
     public function toArray($request)
     {
         $array = [];
-        $marca = \App\Marca::find($this[0]->marca_id);
-        $encuesta = \App\Encuesta::find($marca->encuesta_id);
+        $marca = \Encuestas_Carozzi\Marca::find($this[0]->marca_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::find($marca->encuesta_id);
         $marcas = $encuesta->marcas;
         $categorias = $marcas->groupBy('categoria_id');  
 
@@ -32,7 +32,7 @@ class EncuestaMarcaCliente extends JsonResource
                 }
             }
         }
-        $cliente = \App\Cliente::find($this[0]->cliente_id);
+        $cliente = \Encuestas_Carozzi\Cliente::find($this[0]->cliente_id);
 
         return[
             'id' => $this[0]->cliente_id,
@@ -41,9 +41,9 @@ class EncuestaMarcaCliente extends JsonResource
             'rut' => $cliente->rut,
             'dv' => $cliente->dv,
             'razon_social' => $cliente->razon_social,
-            'comuna' => \App\Comuna::find($cliente->comuna_id),
+            'comuna' => \Encuestas_Carozzi\Comuna::find($cliente->comuna_id),
             'direccion' => $cliente->direccion,
-            'vendedor' => \App\User::find($cliente->user_id),
+            'vendedor' => \Encuestas_Carozzi\User::find($cliente->user_id),
         ];
     }
 }

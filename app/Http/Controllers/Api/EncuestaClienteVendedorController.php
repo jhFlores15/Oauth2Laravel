@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\Cliente as ClienteResource;
-use App\Http\Resources\ECV as ECVResource;
-use App\Cliente;
+use Encuestas_Carozzi\Http\Resources\Cliente as ClienteResource;
+use Encuestas_Carozzi\Http\Resources\ECV as ECVResource;
+use Encuestas_Carozzi\Cliente;
 
 class EncuestaClienteVendedorController extends Controller
 { ///////////DEL LADO DEL VENDEDOR
@@ -16,12 +16,12 @@ class EncuestaClienteVendedorController extends Controller
     public function index($encuesta_id) 
     {
         $vendedor = Auth::user();
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         if($encuesta->tipo_encuesta_id == 2){ // si es encuesta cliente
-            $encuesta_clientes = \App\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id);            
+            $encuesta_clientes = \Encuestas_Carozzi\EncuestaCliente::all()->where('encuesta_id','=',$encuesta_id);            
             $encuesta_cli = [];
             foreach ($encuesta_clientes as $e_cli) {
-                $cliente = \App\Cliente::findOrFail($e_cli->cliente_id);
+                $cliente = \Encuestas_Carozzi\Cliente::findOrFail($e_cli->cliente_id);
                 if($cliente->user_id == $vendedor->id){
                     $encuesta_cli [] = $e_cli;
                 }            
@@ -52,13 +52,13 @@ class EncuestaClienteVendedorController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
         }
-        $cliente = \App\Cliente::findOrFail($cliente_id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_id);
         if(auth()->user()->id != $cliente->user_id){ //solo actualiza el vendedor que tenga ese cliente
             abort(401);
         }
 
-        $encuesta_cl = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
-        $encuesta_cl = \App\EncuestaCliente::find($encuesta_cl[0]['id']);
+        $encuesta_cl = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
+        $encuesta_cl = \Encuestas_Carozzi\EncuestaCliente::find($encuesta_cl[0]['id']);
         if($encuesta_cl){
                 $encuesta_cl->fecha_nacimiento = $request->get('fecha_nacimiento');
                 $encuesta_cl->telefono = $request->get('telefono');
@@ -71,11 +71,11 @@ class EncuestaClienteVendedorController extends Controller
 
     public function show($encuesta_id,$cliente_id) // ver encuesta cliente en especifico
     {
-        $cliente = \App\Cliente::findOrFail($cliente_id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_id);
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }
-        $encuesta_cli = \App\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
+        $encuesta_cli = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->cliente($cliente_id)->take(1)->get();
         return response()->json($encuesta_cli);
     }
 

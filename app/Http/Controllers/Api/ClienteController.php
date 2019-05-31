@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Cliente;
-use App\Http\Resources\Cliente as ClienteResource;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\Cliente;
+use Encuestas_Carozzi\Http\Resources\Cliente as ClienteResource;
 use Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Support\Facades\DB;
@@ -25,21 +25,21 @@ class ClienteController extends Controller
                     $file = $request->file('archivo_activos');
                     (new FastExcel)->import($file, function ($line){
                          if($line['codigo'] != ''){
-                            $cliente = new \App\Cliente();
+                            $cliente = new \Encuestas_Carozzi\Cliente();
                             $cliente->codigo = trim($line['codigo']);
                             $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
                             $cliente->dv =trim($line['dv']);
                             $cliente->razon_social = $line['razon_social'];
                             $cliente->direccion = $line['direccion'];
-                            $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
+                            $comuna = \Encuestas_Carozzi\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
                             if($comuna){
                                 $cliente->comuna_id = $comuna->id;
                             }
                             else{
-                                $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
+                                $comuna = \Encuestas_Carozzi\Comuna::all()->where('nombre','No Tiene')->first();
                                 $cliente->comuna_id = $comuna->id;
                             }
-                            $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+                            $vendedor = \Encuestas_Carozzi\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
                             $cliente->user_id = $vendedor->id;
                             $cliente->save();
                         } 
@@ -56,11 +56,11 @@ class ClienteController extends Controller
 
 
     public function exportActivos(){
-        $clientes = \App\Cliente::all()->count();      
+        $clientes = \Encuestas_Carozzi\Cliente::all()->count();      
         if($clientes == 0){
             return response()->json('fail');
         }    
-           (new FastExcel((\App\Cliente::all())))->export(storage_path('file.xls'), function ($cliente) {
+           (new FastExcel((\Encuestas_Carozzi\Cliente::all())))->export(storage_path('file.xls'), function ($cliente) {
                 $return['Codigo'] = $cliente->codigo;
                 $return['Razon Social']= $cliente->razon_social;
                 $return['Rut'] = $cliente->rut;
@@ -82,12 +82,12 @@ class ClienteController extends Controller
     }
         public function destroy()
     {
-        \App\ClienteMarca::whereNotNull('id')->delete();
-        \App\Marca::whereNotNull('id')->delete();
-        \App\EncuestaCliente::whereNotNull('id')->delete();
-        \App\Categoria::whereNotNull('id')->delete();
-        \App\Cliente::whereNotNull('id')->delete();
-        \App\Encuesta::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\ClienteMarca::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\Marca::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\EncuestaCliente::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\Categoria::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\Cliente::whereNotNull('id')->delete();
+        \Encuestas_Carozzi\Encuesta::whereNotNull('id')->delete();
 
         return response()->json('ok');
     }
@@ -129,28 +129,28 @@ class ClienteController extends Controller
     //         $file = $request->file('file');
     //         $clientes = (new FastExcel)->import($file, function ($line) {
     //             if($line['codigo'] != ''){
-    //                 $cliente = \App\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
+    //                 $cliente = \Encuestas_Carozzi\Cliente::all()->where('codigo','=',trim($line['codigo']))->first();
     //                 if($cliente){ //actualizar
-    //                     $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+    //                     $vendedor = \Encuestas_Carozzi\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
     //                     $cliente->user_id = $vendedor->id;
     //                     $cliente->save();
     //                 }
     //                 else{ 
-    //                     $cliente = new \App\Cliente();
+    //                     $cliente = new \Encuestas_Carozzi\Cliente();
     //                     $cliente->codigo = trim($line['codigo']);
     //                     $cliente->rut = trim(\str_replace ( ".", "", $line['rut']));
     //                     $cliente->dv =trim($line['dv']);
     //                     $cliente->razon_social = $line['razon_social'];
     //                     $cliente->direccion = $line['direccion'];
     //                     if($line['comuna'] != ''){
-    //                         $comuna = \App\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
+    //                         $comuna = \Encuestas_Carozzi\Comuna::all()->where('nombre','=',trim($line['comuna']))->first();
     //                         $cliente->comuna_id = $comuna->id;
     //                     }  
     //                     else{
-    //                         $comuna = \App\Comuna::all()->where('nombre','No Tiene')->first();
+    //                         $comuna = \Encuestas_Carozzi\Comuna::all()->where('nombre','No Tiene')->first();
     //                         $cliente->comuna_id = $comuna->id;
     //                     }
-    //                     $vendedor = \App\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
+    //                     $vendedor = \Encuestas_Carozzi\User::all()->where('codigo','=',trim($line['cod_vendedor']))->first();
     //                     $cliente->user_id = $vendedor->id;
     //                     $cliente->save();
     //                 } 
@@ -158,10 +158,10 @@ class ClienteController extends Controller
     //             return ;
     //         });
 
-    //         $clientes_eliminar = \App\Cliente::updatedd()->orderBy('codigo')->get();
+    //         $clientes_eliminar = \Encuestas_Carozzi\Cliente::updatedd()->orderBy('codigo')->get();
 
     //         $arrays = ($clientes_eliminar->modelKeys());
-    //          \App\Cliente::destroy($arrays);
+    //          \Encuestas_Carozzi\Cliente::destroy($arrays);
 
 
     //         // DB::commit();

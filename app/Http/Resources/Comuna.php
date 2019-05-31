@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Encuestas_Carozzi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +17,7 @@ class Comuna extends JsonResource
         // return parent::toArray($request);
          return[
             'id' => $this->id,
-            'region' => \App\Region::find($this->region_id),
+            'region' => \Encuestas_Carozzi\Region::find($this->region_id),
             'nombre' => $this->nombre,           
         ];
 

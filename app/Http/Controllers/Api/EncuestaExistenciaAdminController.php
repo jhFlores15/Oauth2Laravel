@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Cliente as ClienteResource;
-use App\Http\Resources\ClienteVend as ClienteVendResource;
-use App\Http\Resources\EncuestaMarcaCliente as EncuestaMarcaClienteResource;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\Http\Resources\Cliente as ClienteResource;
+use Encuestas_Carozzi\Http\Resources\ClienteVend as ClienteVendResource;
+use Encuestas_Carozzi\Http\Resources\EncuestaMarcaCliente as EncuestaMarcaClienteResource;
 use Rap2hpoutre\FastExcel\FastExcel;
 
-use App\Cliente;
+use Encuestas_Carozzi\Cliente;
 
 class EncuestaExistenciaAdminController extends Controller
 {
     public function index_no_encuestados($encuesta_id) //Vendedor listado de clientes para vendedor
     {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
         $idsss = [];
         foreach ($marcas as $marca) {           
@@ -28,7 +28,7 @@ class EncuestaExistenciaAdminController extends Controller
     }
     public function index_encuestados($encuesta_id) 
     {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $clientes = $encuesta->marca_cliente->groupBy('cliente_id');        
              
         $clientes = EncuestaMarcaClienteResource::collection(collect($clientes));
@@ -38,7 +38,7 @@ class EncuestaExistenciaAdminController extends Controller
             ->toJson();    
     }
     public function exportEncuestaExistencia($encuesta_id) {
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $valores = $encuesta->marca_cliente->groupBy('cliente_id');
         $marcas = $encuesta->marcas;
         $categorias = $marcas->groupBy('categoria_id'); 
@@ -52,9 +52,9 @@ class EncuestaExistenciaAdminController extends Controller
                  foreach ($valores as $value) {                        
                     $cliente_id = $value->cliente_id;
                   
-                    $return[\App\Marca::find($value->marca_id)->nombre] = $value->valor;                    
+                    $return[\Encuestas_Carozzi\Marca::find($value->marca_id)->nombre] = $value->valor;                    
                 }
-                $cliente = \App\Cliente::find($cliente_id);
+                $cliente = \Encuestas_Carozzi\Cliente::find($cliente_id);
                 $return['Codigo'] = $cliente->codigo;
                 $return['Razon Social']= $cliente->razon_social;
                 $return['Rut'] = $cliente->rut;
@@ -68,7 +68,7 @@ class EncuestaExistenciaAdminController extends Controller
         return response()->json('ok');
     }
      public function exportEncuestaNoExistencia($encuesta_id) {
-       $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+       $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         $marcas = $encuesta->marca_cliente->groupBy('cliente_id');
         $idsss = [];
         foreach ($marcas as $marca) {           

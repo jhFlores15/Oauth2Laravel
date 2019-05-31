@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Encuestas_Carozzi\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Encuesta;
-use App\Cliente;
+use Encuestas_Carozzi\Http\Controllers\Controller;
+use Encuestas_Carozzi\Encuesta;
+use Encuestas_Carozzi\Cliente;
 use Validator;
 
 class EncuestaPrecioController extends Controller
@@ -24,15 +24,15 @@ class EncuestaPrecioController extends Controller
         $marca_id = $request->get('marca_id');
         $valor = $request->get('valor');
         $cliente_id = $request->get('cliente_id');
-         $cliente = \App\Cliente::findOrFail($cliente_id);
+         $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_id);
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }
-        $existe = \App\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
+        $existe = \Encuestas_Carozzi\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
         if($existe > 0){ 
             abort(401);
         }
-        $marca = \App\Marca::findOrFail($marca_id);
+        $marca = \Encuestas_Carozzi\Marca::findOrFail($marca_id);
         $marca->clientes()->attach($cliente_id,['valor' => $valor ]);  
 
         return response()->json('ok'); 
@@ -49,8 +49,8 @@ class EncuestaPrecioController extends Controller
         
         $valor = $request->get('valor');
 
-        $cliente_marca = \App\ClienteMarca::findOrFail($id);
-        $cliente = \App\Cliente::findOrFail($cliente_marca->cliente_id);
+        $cliente_marca = \Encuestas_Carozzi\ClienteMarca::findOrFail($id);
+        $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_marca->cliente_id);
         if(auth()->user()->id != $cliente->user_id){ 
             abort(401);
         }

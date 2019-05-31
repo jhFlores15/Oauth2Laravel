@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Encuestas_Carozzi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\Encuesta as EncuestaResource;
+use Encuestas_Carozzi\Http\Resources\Encuesta as EncuestaResource;
 use Carbon\Carbon;
 use DateTime;
 
 class EncuestaExistenciaController extends Controller
 {
     public function index($encuesta_id){
-        $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
         return view('encuestas.existencia.vendedor.index' , ['encuesta' => $encuesta]);
     }
     public function create ($encuesta_id,$cliente_id){ //Vendedor
@@ -19,7 +19,7 @@ class EncuestaExistenciaController extends Controller
     public function edit($encuesta_id,$cliente_id){ //Vendedor
         //verificar que esten todos respondidos, sino rellenar con no-- lo mismo al ver en Admin
 
-         $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+         $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
          $marcasT = $encuesta->marcas;
          $marcasC = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id);
 
@@ -35,7 +35,7 @@ class EncuestaExistenciaController extends Controller
 
     }
     public function show($encuesta_id){
-       $encuesta = \App\Encuesta::findOrFail($encuesta_id);
+       $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
           ////////Rellenar dartos faltantes
 
         $valores = $encuesta->marca_cliente->groupBy('cliente_id');
@@ -92,7 +92,7 @@ class EncuestaExistenciaController extends Controller
          $encuestados = $encuesta->marca_cliente->groupBy('cliente_id');
          $encuesta->{"registros"}= $encuestados->count();
 
-         $total = \App\Cliente::all()->count();
+         $total = \Encuestas_Carozzi\Cliente::all()->count();
         $encuesta->{"total"}= $total;
 
         $editable = true;

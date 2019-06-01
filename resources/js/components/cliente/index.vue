@@ -184,7 +184,7 @@ export default {
               this.loaderDescargar = false;
                 if(resp.data == 'ok'){
                     console.log('meme');
-                    window.open('/excel/down'); 
+                    window.open('/excel/down','_blank'); 
                 }
                 else if(resp.data == 'fail'){
                     alertify.set('notifier','position', 'top-right');

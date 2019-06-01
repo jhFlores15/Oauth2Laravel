@@ -30,6 +30,8 @@
  		window.onload = function() {
 	 		if(localStorage.getItem('access_token') == '')
 	 		{
+	 			console.log('pepe1');
+	 			console.log(localStorage.getItem('access_token'));
 	 			window.location.href = '/',true; firefox
 	 			//window.location.assign("/");
 	 		}

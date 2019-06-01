@@ -29,16 +29,16 @@
  	$(document).ready(function(){
  		window.onload = function() {
  			console.log('pepe3');
-	 		// if(localStorage.getItem('access_token') == '')
-	 		// {
-	 		// 	console.log('pepe1');
-	 		// 	console.log(localStorage.getItem('access_token'));
-	 		// 	window.location.href = '/',true; firefox
-	 		// 	//window.location.assign("/");
-	 		// }
-	 		// else{
-	 		// 	isAdmin();
-		 	// }
+	 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
+	 		{
+	 			console.log('pepe1');
+	 			window.location.href = '/';
+	 			
+	 			//window.location.assign("/");
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
 		};
 	 	function isAdmin(){
 	 		$.ajax({
@@ -54,7 +54,7 @@
 						console.log(resp);
 						console.log(resp.rol_id);
 						if(resp.rol_id != 1){
-							window.location.assign("/");
+							window.location.href = '/';
 						}
 							
 					},
@@ -63,6 +63,9 @@
 		 		});
 	 	}
 
+	 	$.fn.dataTable.ext.errMode = 'none';
+	 
+	
 		var table = $('#comunas').DataTable(
 			{
 			'paging': true,

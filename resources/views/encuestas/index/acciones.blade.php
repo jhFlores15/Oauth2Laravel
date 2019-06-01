@@ -15,7 +15,7 @@
 	</button>
 @endif
 
-<?php $boolEditable =  \App\Encuesta::Editable_Eliminable($id); ?>
+<?php $boolEditable =  \Encuestas_Carozzi\Encuesta::Editable_Eliminable($id); ?>
 @if ($boolEditable === true && $tipo_encuesta->id != 2)	
     <button type="button" onclick="modalEliminar({{ $id}})" class="btn btn-danger btn-sm ">
 		Eliminar

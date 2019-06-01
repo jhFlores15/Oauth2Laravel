@@ -28,9 +28,10 @@
 
  	$(document).ready(function(){
  		window.onload = function() {
-	 		if(!localStorage.getItem('access_token'))
+	 		if(localStorage.getItem('access_token') == '')
 	 		{
-	 			window.location.href = '/',true;
+	 			window.location.href = '/',true; firefox
+	 			//window.location.assign("/");
 	 		}
 	 		else{
 	 			isAdmin();
@@ -45,6 +46,8 @@
 						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 					},
 					success:function(resp){
+						console.log('pepe');
+						console.log(resp.data);
 						console.log(resp);
 						console.log(resp.rol_id);
 						if(resp.rol_id != 1){

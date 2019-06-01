@@ -183,18 +183,14 @@ const appp = new Vue({
     		axios.get('/api/tipos_encuesta/',this.config).
 		        then(response => {
 		          this.tipos_encuesta= response.data;
-		          console.log(this.tipos_encuesta);
 		        }).catch(error => {
-		          console.log(error)
 		        })
     	},
         getTiposProductos(){
             axios.get('/api/tipos_productos/',this.config).
                 then(response => {
                   this.tipos_productos= response.data;
-                  console.log(this.tipos_productos);
                 }).catch(error => {
-                  console.log(error)
                 })
         },
     	postFileCliente(encuesta){
@@ -211,14 +207,12 @@ const appp = new Vue({
                 this.loaderCliente = false;
 		       location.href='/encuesta/clientes/'+encuesta.id;	       
 		    }).catch(error =>{
-                console.log('error');
                 this.loaderCliente = false;
 		    	if(error.response.status == 422){
                     this.erroresEncuesta = error.response.data.error;
                 }  
                 else if(error.response.status == 500)
                 {
-                    console.log(error.response)
                     alertify.set('notifier','position', 'top-right');
                     alertify.notify(error.response.data.message, 'error', 10, function(){  console.log(); });
                 }             
@@ -252,9 +246,7 @@ const appp = new Vue({
     	},
         eliminarEncuesta(id){
              axios.delete('/api/encuestas/clientes/'+id,this.config).then(response=>{
-                console.log(response);
             }).catch(error=>{
-                console.log(error);
                 if(error.response.status==500){
                     alert("no se ha podido realizar esta accion");
                 }

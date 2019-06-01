@@ -48,7 +48,7 @@
 						console.log(resp);
 						console.log(resp.rol_id);
 						if(resp.rol_id != 1){
-							window.location.href = '/',true;
+							window.location = '/';
 						}
 							
 					},

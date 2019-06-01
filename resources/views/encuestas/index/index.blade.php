@@ -29,16 +29,16 @@
  	$(document).ready(function(){
  		window.onload = function() {
  			console.log('pepe3');
-	 		if(localStorage.getItem('access_token') == '')
-	 		{
-	 			console.log('pepe1');
-	 			console.log(localStorage.getItem('access_token'));
-	 			window.location.href = '/',true; firefox
-	 			//window.location.assign("/");
-	 		}
-	 		else{
-	 			isAdmin();
-		 	}
+	 		// if(localStorage.getItem('access_token') == '')
+	 		// {
+	 		// 	console.log('pepe1');
+	 		// 	console.log(localStorage.getItem('access_token'));
+	 		// 	window.location.href = '/',true; firefox
+	 		// 	//window.location.assign("/");
+	 		// }
+	 		// else{
+	 		// 	isAdmin();
+		 	// }
 		};
 	 	function isAdmin(){
 	 		$.ajax({

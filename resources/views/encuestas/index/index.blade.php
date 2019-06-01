@@ -25,9 +25,7 @@
 	</div>
 </div>
  <script >
-
- 	$(document).ready(function(){
- 		window.onload = function() {
+ 	window.onload = function() {
  			console.log('pepe3');
 	 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
 	 		{
@@ -62,6 +60,9 @@
 					}
 		 		});
 	 	}
+
+ 	$(document).ready(function(){
+ 		
 
 	 	$.fn.dataTable.ext.errMode = 'none';
 	 

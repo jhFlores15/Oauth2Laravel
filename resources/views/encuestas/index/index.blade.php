@@ -28,6 +28,7 @@
 
  	$(document).ready(function(){
  		window.onload = function() {
+ 			console.log('pepe3');
 	 		if(localStorage.getItem('access_token') == '')
 	 		{
 	 			console.log('pepe1');

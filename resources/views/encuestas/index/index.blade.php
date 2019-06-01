@@ -48,7 +48,8 @@
 						console.log(resp);
 						console.log(resp.rol_id);
 						if(resp.rol_id != 1){
-							document.location.href = '/',true;
+							window.location.href = '/';
+							return false;
 						}
 							
 					},

@@ -390,7 +390,7 @@
 						success:function(resp){
 							$('#loaderExcel').html('')
 							if(resp == 'ok'){
-								window.open('/excel/down');	
+								window.open('/excel/down','_blank');
 							}
 							else if(resp == 'fail'){
 								alertify.set('notifier','position', 'top-right');
@@ -477,7 +477,7 @@
 						success:function(resp){
 							$('#loaderExcel').html('')
 							if(resp == 'ok'){
-								window.open('/excel/down');	
+								window.open('/excel/down','_blank');
 							}
 							else if(resp == 'fail'){
 								alertify.set('notifier','position', 'top-right');

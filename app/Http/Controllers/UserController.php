@@ -18,4 +18,7 @@ class UserController extends Controller
 		return view('administradores.administradores');
 		
 	}
+	public function welcome(){
+		return view('home');
+	}
 }

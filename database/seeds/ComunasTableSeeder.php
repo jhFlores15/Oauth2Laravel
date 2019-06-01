@@ -12,14 +12,14 @@ class ComunasTableSeeder extends Seeder
      */
     public function run()
     {
-        $region = \App\Region::all()->where('numero',0)->first();
+        $region = \Encuestas_Carozzi\Region::all()->where('numero',0)->first();
         DB::table('comunas')->insert([
             'nombre' => 'No Tiene',
             'region_id' => $region->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-    	$region = \App\Region::all()->where('numero',9)->first();
+    	$region = \Encuestas_Carozzi\Region::all()->where('numero',9)->first();
         DB::table('comunas')->insert([
         	'nombre' => 'ANGOL',
         	'region_id' => $region->id,
@@ -479,7 +479,7 @@ class ComunasTableSeeder extends Seeder
         ]);
 
 
-        $region = \App\Region::all()->where('numero',10)->first();
+        $region = \Encuestas_Carozzi\Region::all()->where('numero',10)->first();
 
         DB::table('comunas')->insert([
         	'nombre' => 'ANCUD',
@@ -951,7 +951,7 @@ class ComunasTableSeeder extends Seeder
         ]);
 
 
-        $region = \App\Region::all()->where('numero',11)->first();
+        $region = \Encuestas_Carozzi\Region::all()->where('numero',11)->first();
 
         DB::table('comunas')->insert([
             'nombre' => 'MANIHUALES',
@@ -1123,7 +1123,7 @@ class ComunasTableSeeder extends Seeder
         ]);
 
 
-        $region = \App\Region::all()->where('numero',14)->first();
+        $region = \Encuestas_Carozzi\Region::all()->where('numero',14)->first();
 
         DB::table('comunas')->insert([
             'nombre' => 'CORRAL',

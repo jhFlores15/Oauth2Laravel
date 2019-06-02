@@ -1,7 +1,7 @@
 <template>
     <div class="">
        <nav class="navbar navcolor navbar-expand-lg navbar-dark  nav-fill w-100">
-          <img class="imgRedondaNavbar" src="https://www.carozzicorp.com/wp-content/themes/carozzi/img/logo_red.png" alt="">
+          <!-- <img class="imgRedondaNavbar" src="https://www.carozzicorp.com/wp-content/themes/carozzi/img/logo_red.png" alt=""> -->
            <a class="navbar-brand" href="#"> &nbsp; &nbsp;Encuestas Carozzi</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
             <span class="navbar-toggler-icon"></span>
@@ -64,9 +64,9 @@
           <a class="nav-link" href="#"  @click.stop='logout()'>Cerrar Sesion <span class="sr-only">(current)</span>
           </a>
         </li>
-        <li style="padding-right: 200px;" class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
-          <button type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
-           <form class="dropdown-menu p-4">        
+        <li  class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
+          <button style="padding-right: 200px;" type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
+           <form class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right p-4">        
               <div class="form-group">
                  <label for="dropdown-login">Email</label>
                  <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">

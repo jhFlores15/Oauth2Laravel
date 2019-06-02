@@ -23,37 +23,35 @@
 	</div>
 </div>
  <script >
- 	
- 	$(document).ready(function(){
-
- 		window.onload = function() {
-	 		if(!localStorage.getItem('access_token'))
-	 		{
-	 			location.href = '/';
-	 		}
-	 		else{
-	 			isAdmin();
-		 	}
-		};
-	 	function isAdmin(){
-	 		$.ajax({
+ 	window.onload = function() {
+ 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
+ 		{
+ 			window.location.href = '/';
+ 		}
+ 		else{
+ 			isAdmin();
+	 	}
+	};
+ 	function isAdmin(){
+ 		$.ajax({
 				method:"GET",
 				url:'/api/user/',
 				headers : {
 					'Content-Type': 'application/json',
 					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 				},
-				success:function(resp){
-					console.log(resp);
-					console.log(resp.rol_id);
+				success:function(resp){						
 					if(resp.rol_id != 2){
-						location.href = '/';
-					}			
+						window.location.href = '/';
+					}
+						
 				},
 				error(error){							
 				}
 	 		});
-	 	}
+ 	}
+ 	
+ 	$(document).ready(function(){
 
 		var table = $('#clientes').DataTable(
 			{

@@ -208,7 +208,7 @@ export default {
       
     }
     else{
-      location.href = '/';
+      window.location.href = '/';
     }
      
   },
@@ -218,7 +218,7 @@ export default {
         then(response => {
           var user = response.data;
           if(user.rol_id != 1){
-            location.href = '/';
+            window.location.href = '/';
           } 
           this.getTiposEncuesta();
 	      this.getEncuesta(); 

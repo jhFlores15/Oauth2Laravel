@@ -183,14 +183,13 @@
   }
 </script>
 <script>
-	window.onload = function(){
-	if(!localStorage.getItem('access_token'))
+	window.onload = function() {
+ 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
  		{
- 			location.href = '/';
+ 			window.location.href = '/';
  		}
  		else{
  			isAdmin();
-
 	 	}
 	};
  	function isAdmin(){
@@ -201,18 +200,11 @@
 					'Content-Type': 'application/json',
 					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 				},
-				success:function(resp){
-					console.log(resp);
-					console.log(resp.rol_id);
+				success:function(resp){						
 					if(resp.rol_id != 1){
-						location.href = '/';
+						window.location.href = '/';
 					}
-					else{
-						if('{{ $encuesta->estado }}' == 'En Proceso'){
-							alertify.set('notifier','position', 'top-right');
-					   		alertify.notify('Recuerde Finalizar Encuesta, para que no este disponible a los vendedores', 'error', 10, function(){  console.log(); });
-						}	
-					}			
+						
 				},
 				error(error){							
 				}
@@ -290,10 +282,6 @@
 
  	$(document).ready(function(){
 
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = 'http://localhost:3000/';
- 		}
  		var data = "";
 		// var table = $('#clientes').DataTable(
 		// 	{

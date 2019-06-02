@@ -117,7 +117,7 @@ export default {
         this.getUserApi();
     }
      else{
-      location.href = '/';
+      window.location.href = '/';
     }     
   },
   methods:{
@@ -146,7 +146,7 @@ export default {
         then(response => {
           var user = response.data;
           if(user.rol_id != 1 ){
-            location.href = '/';
+            window.location.href = '/';
           } 
         }).catch(error => {
          

@@ -26,13 +26,9 @@
 </div>
  <script >
  	window.onload = function() {
- 			console.log('pepe3');
 	 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
 	 		{
-	 			console.log('pepe1');
 	 			window.location.href = '/';
-	 			
-	 			//window.location.assign("/");
 	 		}
 	 		else{
 	 			isAdmin();
@@ -46,11 +42,7 @@
 						'Content-Type': 'application/json',
 						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 					},
-					success:function(resp){
-						console.log('pepe');
-						console.log(resp.data);
-						console.log(resp);
-						console.log(resp.rol_id);
+					success:function(resp){						
 						if(resp.rol_id != 1){
 							window.location.href = '/';
 						}
@@ -64,7 +56,7 @@
  	$(document).ready(function(){
  		
 
-	 	$.fn.dataTable.ext.errMode = 'none';
+	 	// $.fn.dataTable.ext.errMode = 'none';
 	 
 	
 		var table = $('#comunas').DataTable(

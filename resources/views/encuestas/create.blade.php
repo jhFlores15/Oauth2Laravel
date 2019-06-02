@@ -169,14 +169,13 @@
   }
 </script>
 <script>
-window.onload = function(){
-	if(!localStorage.getItem('access_token'))
+window.onload = function() {
+ 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
  		{
- 			location.href = '/';
+ 			window.location.href = '/';
  		}
  		else{
  			isAdmin();
-
 	 	}
 	};
  	function isAdmin(){
@@ -187,24 +186,15 @@ window.onload = function(){
 					'Content-Type': 'application/json',
 					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
 				},
-				success:function(resp){
-					console.log(resp);
-					console.log(resp.rol_id);
+				success:function(resp){						
 					if(resp.rol_id != 1){
-						location.href = '/';
+						window.location.href = '/';
 					}
-					else{
-						alertify.set('notifier','position', 'top-right');
-						alertify.notify('Recuerde que antes de crear una encuesta se debe subir la data de clientes actualizada al sistema', 'error', 20, function(){  console.log(); });
-					}			
+						
 				},
 				error(error){							
 				}
 	 		});
  	}
-
-
- 	
-	
 </script>
 

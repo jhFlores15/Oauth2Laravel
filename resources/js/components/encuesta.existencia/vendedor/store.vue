@@ -71,7 +71,7 @@ export default {
       this.getUserApi();
     }
     else{
-      location.href = '/';
+      window.location.href = '/';
     }
   },
   methods:{
@@ -81,7 +81,7 @@ export default {
         then(response => {
           var user = response.data;
           if(user.rol_id != 2 || user.id != this.cliente.user_id){
-            location.href = '/';
+            window.location.href = '/';
           } 
           this.getEncuesta();   
           this.getEncuestaE(); 

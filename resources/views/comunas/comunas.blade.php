@@ -41,37 +41,32 @@
 </div>
  <script >
  	window.onload = function() {
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = '/';
- 		}
- 		else{
- 			isAdmin();
+	 		if((localStorage.getItem('access_token') == '') || !localStorage.getItem('access_token'))
+	 		{
+	 			window.location.href = '/';
+	 		}
+	 		else{
+	 			isAdmin();
+		 	}
+		};
+	 	function isAdmin(){
+	 		$.ajax({
+					method:"GET",
+					url:'/api/user/',
+					headers : {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					},
+					success:function(resp){						
+						if(resp.rol_id != 1){
+							window.location.href = '/';
+						}
+							
+					},
+					error(error){							
+					}
+		 		});
 	 	}
-	};
- 	function isAdmin(){
- 		$.ajax({
-				method:"GET",
-				url:'/api/user/',
-				headers : {
-					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
-				},
-				success:function(resp){
-					console.log(resp);
-					console.log(resp.rol_id);
-					if(resp.rol_id != 1){
-						location.href = '/';
-					}	
-					else{
-						combobox();
-					}		
-				},
-				error(error){							
-				}
-	 		});
- 	}
- 	
 
  	function guardarComuna(){
 		var comuna = document.getElementById('comunaNew').value;
@@ -130,12 +125,6 @@
 	}
  
  	$(document).ready(function(){
-
- 		if(!localStorage.getItem('access_token'))
- 		{
- 			location.href = 'http://localhost:3000/';
- 		}
-
 		var table = $('#comunas').DataTable(
 			{
 			'paging': true,

@@ -9,26 +9,26 @@
             <div class="collapse navbar-collapse" id="navbarMaster">
               <div  v-if="user.rol_id === 1">
                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                  <li class="nav-item-active">
+                  <li class="nav-item-active" v-bind:class="[urlPathName == '/vendedores' ? 'active' : '']">
                     <a class="nav-link" href="/vendedores">Vendedores <span class="sr-only">(current)</span>
                     </a>
                   </li>
-                  <li class="nav-item-active">
+                  <li class="nav-item-active" v-bind:class="[urlPathName == '/clientes' ? 'active' : '']">
                     <a class="nav-link" href="/clientes">Clientes <span class="sr-only">(current)</span>
                     </a>
                   </li> 
-                  <li class="nav-item-active">
+                  <li class="nav-item-active" v-bind:class="[urlPathName == '/administradores' ? 'active' : '']">
                     <a class="nav-link" href="/administradores">Administradores <span class="sr-only">(current)</span>
                     </a>
                   </li> 
                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                       Encuestas
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                       <a class="dropdown-item" href="/encuestas/create">Crear Encuesta <span class="sr-only">(current)</span>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
+                       <a class="dropdown-item" href="/encuestas/create" v-bind:class="[urlPathName == '/encuestas/create' ? 'active' : '']">Crear Encuesta <span class="sr-only">(current)</span>
                         </a>
-                        <a class="dropdown-item" href="/encuestas">Listado de Encuestas <span class="sr-only">(current)</span>
+                        <a class="dropdown-item" href="/encuestas" v-bind:class="[urlPathName == '/encuestas' ? 'active' : '']">Listado de Encuestas <span class="sr-only">(current)</span>
                         </a>
                     </div>
                   </li>
@@ -37,9 +37,9 @@
                       Mantenedores
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                       <a class="dropdown-item" href="/regiones">Regiones <span class="sr-only">(current)</span>
+                       <a class="dropdown-item" href="/regiones" v-bind:class="[urlPathName == '/regiones' ? 'active' : '']">Regiones <span class="sr-only">(current)</span>
                         </a>
-                        <a class="dropdown-item" href="/comunas">Comunas <span class="sr-only">(current)</span>
+                        <a class="dropdown-item" href="/comunas" v-bind:class="[urlPathName == '/comunas' ? 'active' : '']">Comunas <span class="sr-only">(current)</span>
                         </a>                       
                     </div>
                   </li>
@@ -114,6 +114,8 @@ export default {
           config:{},
           errorLogin:'',
           loading:false,
+          active:'active',
+          urlPathName:'',
       }
   },
   
@@ -128,7 +130,8 @@ export default {
         },
       }; 
       this.config = config;   
-      this.getUserApi();    
+      this.getUserApi();
+      this.urlPathName = window.location.pathname;    
     }
      
   },

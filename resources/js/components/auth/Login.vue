@@ -69,7 +69,7 @@
                    <form class="dropdown-menu login-position dropdown-menu-right dropdown-menu-lg-right p-4">        
                       <div class="form-group">
                          <label for="dropdown-login">Email</label>
-                         <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="example@dimak.cl" v-model="email">
+                         <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="example@gmail.com" v-model="email">
                       </div>
                       <div class="alert alert-danger" v-if="errorLogin.email"role="alert">
                             {{ errorLogin.email[0] }}

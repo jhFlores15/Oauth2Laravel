@@ -55,45 +55,45 @@
                 </ul>
               </div >
                
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
-           <a class="nav-link" href="#">Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
-           </a>
-         <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
-          </a>
-          <a class="nav-link" href="#"  @click.stop='logout()'>Cerrar Sesion <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li  class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
-          <button style="padding-right: 200px;" type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
-           <form class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right p-4">        
-              <div class="form-group">
-                 <label for="dropdown-login">Email</label>
-                 <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">
-              </div>
-              <div class="alert alert-danger" v-if="errorLogin.email"role="alert">
-                    {{ errorLogin.email[0] }}
-                  </div>
-              <div class="form-group">
-                 <label for="dropdown-login">Password</label>
-                 <input type="password"  class="form-control" @keyup.enter='postLogin()' placeholder="Password" v-model="password">
-                 <br>
-                
-                 <div class="alert alert-danger" v-if="errorLogin.password"role="alert">
-                    {{ errorLogin.password[0] }}
-                  </div>                
-              </div>
-               <div class="col text-center " v-if="(loading == true)">                
-                <div class="loader"  style="margin: auto;"></div>
-              </div>
-              <div class="col text-center" v-else>
-                <button type="button" @click.stop='postLogin()'  class="btn btn-primary "> Aceptar </button>
-              </div>
-                          
-            </form>                 
-          </li>
-      </ul>
-      </div>          
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
+                   <a class="nav-link" href="#">Bienvenid@ {{ user.razon_social }}<span class="sr-only">(current)</span>
+                   </a>
+                 <li class="nav-item-active" v-if="user.razon_social.length !== 0" >
+                  </a>
+                  <a class="nav-link" href="#"  @click.stop='logout()'>Cerrar Sesion <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                <li  class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
+                  <button style="padding-right: 200px;" type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
+                   <form class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right p-4">        
+                      <div class="form-group">
+                         <label for="dropdown-login">Email</label>
+                         <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">
+                      </div>
+                      <div class="alert alert-danger" v-if="errorLogin.email"role="alert">
+                            {{ errorLogin.email[0] }}
+                          </div>
+                      <div class="form-group">
+                         <label for="dropdown-login">Password</label>
+                         <input type="password"  class="form-control" @keyup.enter='postLogin()' placeholder="Password" v-model="password">
+                         <br>
+                        
+                         <div class="alert alert-danger" v-if="errorLogin.password"role="alert">
+                            {{ errorLogin.password[0] }}
+                          </div>                
+                      </div>
+                       <div class="col text-center " v-if="(loading == true)">                
+                        <div class="loader"  style="margin: auto;"></div>
+                      </div>
+                      <div class="col text-center" v-else>
+                        <button type="button" @click.stop='postLogin()'  class="btn btn-primary "> Aceptar </button>
+                      </div>
+                                  
+                    </form>                 
+                  </li>
+              </ul>
+              </div>          
         </nav>
       
     </div>

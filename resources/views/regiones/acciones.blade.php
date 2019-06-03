@@ -19,7 +19,7 @@
       <div class="modal-body text-center">
       	<div class="container-fluid text-center">
       		<div class="row text-center">
-      		<h5>¿Desea eliminar esta Region?</h5>
+      		<h5>¿Esta Seguro de Eliminar esta Region?</h5>
 	      	</div>
 	      	<div class="row text-center">
 	      		<form>	   

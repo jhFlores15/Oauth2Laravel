@@ -16,6 +16,7 @@ mix.js(['resources/js/app.js','resources/js/encuesta.create.js'], 'public/js')
    .browserSync({
 		proxy:'oauth2laravel.me',
 		host: 'oauth2laravel.me',
+		open: 'ui-external',
 		open: 'external',
 		
 	});

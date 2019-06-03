@@ -76,40 +76,11 @@
   
   </style>
 </head>
-<body>
+<body style="height: 100% !important;">
     @yield('Estilos')
     <div id="app">
       <div class="">
-         <!--- <div class="col-md-3">
-           
-        </div> -->
-       {{--  <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100">
-          <a class="navbar-brand" href="#">Encuesta Carozzi</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-            <div class="collapse navbar-collapse" id="navbarMaster">
-              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('user.administradores') }}">{{ __('Administradores') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li>
-                <li class="nav-item-active">
-                  <a class="nav-link" href="{{ route('user.vendedores') }}">{{ __('Vendedores') }} <span class="sr-only">(current)</span>
-                  </a>
-                </li> 
-                
-               
-              
-                          
-              </ul> --}}
-           {{--    <ul class="nav navbar-nav ml-auto">  
-                <div id="app"> --}}
-                  <login-component></login-component>    
-{{--                 </div>
-              </ul> --}}
-            {{-- </div>          
-        </nav> --}}
+          <login-component></login-component>    
       </div>     
      <div> @yield('contenido')</div>      
   </div>
@@ -133,24 +104,5 @@
          <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>   
 
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
-
-
-
-
-
-  
-    
-    
-
-
-        
-
-<!--<footer>
-    <div class="row navcolor" style="margin: 0; padding: 10px 0 10px 0; ">
-      <div class="col-md-3" style="color: white;"> Copyrigt * {{ date('Y')}}</div>
-      <div class="col-md-3" > <a style="color: white;" href="/policy/cookies">Politica de cookies</a></div>
-      <div class="col-md-3" > <a style="color: white;" href="/policy/termsconditions">Terminos y Condiciones</a></div>
-    </div>
-</footer>  -->
 </body>
 </html>

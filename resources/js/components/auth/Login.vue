@@ -1,7 +1,6 @@
 <template>
     <div class="">
        <nav class="navbar navcolor navbar-expand-lg navbar-dark  nav-fill w-100">
-          <!-- <img class="imgRedondaNavbar" src="https://www.carozzicorp.com/wp-content/themes/carozzi/img/logo_red.png" alt=""> -->
            <a class="navbar-brand" href="#"> &nbsp; &nbsp;Encuestas Carozzi</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="toggle navigation" data-target="#navbarMaster" aria-controls="navbarMaster">
             <span class="navbar-toggler-icon"></span>
@@ -47,9 +46,10 @@
                 </ul>
               </div>
               <div v-else-if="user.rol_id === 2" >
+
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                   <li class="nav-item-active">
-                    <a class="nav-link" href="/encuestas/vendedor">Listado de Encuestas <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="/encuestas/vendedor" v-bind:class="[urlPathName == '/encuestas/vendedor' ? 'active' : '']">Encuestas <span class="sr-only">(current)</span>
                     </a>
                   </li>        
                 </ul>
@@ -65,11 +65,11 @@
                   </a>
                 </li>
                 <li  class="nav-item-active dropdown"  v-if="user.razon_social.length === 0">
-                  <button style="padding-right: 200px;" type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
-                   <form class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right p-4">        
+                  <button style="padding-right: 150px;" type="button" class="btn navcolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><label style="color: white;">Login</label></button>
+                   <form class="dropdown-menu login-position dropdown-menu-right dropdown-menu-lg-right p-4">        
                       <div class="form-group">
                          <label for="dropdown-login">Email</label>
-                         <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="email@example.com" v-model="email">
+                         <input type="email"  class="form-control" @keyup.enter='postLogin()' placeholder="example@dimak.cl" v-model="email">
                       </div>
                       <div class="alert alert-danger" v-if="errorLogin.email"role="alert">
                             {{ errorLogin.email[0] }}
@@ -197,3 +197,12 @@ export default {
   }
 }
 </script>
+<style>
+.login-position {
+    position: absolute !important;
+}
+.dropdown-menu-right {
+    right: 0;
+    left: 0 !important;
+}
+</style>

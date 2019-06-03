@@ -19,7 +19,7 @@
       <div class="modal-body text-center">
       	<div class="container-fluid text-center">
       		<div class="row text-center">
-      		<h5>¿Desea eliminar a este Administrador?</h5>
+      		<h5>¿Esta Seguro de Eliminar a este Administrador?</h5>
 	      	</div>
 	      	<div class="row text-center">
 	      		<form>

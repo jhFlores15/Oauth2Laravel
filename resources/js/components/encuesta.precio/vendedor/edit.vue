@@ -104,7 +104,8 @@ export default {
           }
           else{
             alertify.set('notifier','position', 'top-right');
-            alertify.notify('Los datos ingresados deben ser >= 0', 'error', 3, function(){  console.log(); });   
+            alertify.notify('Los datos ingresados deben ser positivos y hasta $100.000', 'error', 3, function(){  console.log(); }); 
+              
           }
       }
       else{

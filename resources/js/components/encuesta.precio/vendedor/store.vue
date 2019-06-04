@@ -13,7 +13,7 @@
 					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>  
                  
                <b-form @submit.prevent >
-                 <input type="number"  @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:change.stop="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                 <input type="number"  @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
                 	</b-form>    
 					 </b-form>
          		</div>
@@ -47,6 +47,7 @@ export default {
           marca_cliente:'',
           marcas_se:[],
           loader:false,
+          boolT:false,
       }
   },
   
@@ -103,6 +104,7 @@ export default {
     },
   	terminar(){
       this.loader = true;
+      this.boolT = true;
   		axios.get('/api/encuestas/cli_marca/'+this.cliente_id+'/'+this.encuesta_id,this.config).
         then(response => { 
           this.loader = false;
@@ -110,12 +112,10 @@ export default {
           this.verifi(marcs,  this.marcas_se);
         }).catch(error => {
           this.loader = false;
-          console.log(error)
+          console.log(error);
         })        
   	},
   	postMarca(valor,marca_id){
-       console.log('meme');
-      console.log(isNaN(valor));
       if((isNaN(valor) == false) && (valor != '')){
          if(valor > 0 && valor <= 100000){
       		var marca_cliente = {};
@@ -126,6 +126,7 @@ export default {
       	        	axios.put('/api/encuestas/precio/'+marca_cliente.id,{
       		            'valor' : valor,
       		        },this.config).then(response =>{
+                  
       		        	
       		        }).catch(error =>{
       		            alertify.set('notifier','position', 'top-right');
@@ -138,6 +139,10 @@ export default {
     		            'encuesta_id' : this.encuesta_id,
     		            'valor' : valor,
     		        },this.config).then(response =>{
+                  if(this.boolT == true){
+                        this.terminar();
+                         this.boolT = false;
+                      }
     		        
     		        }).catch(error =>{	           
     		            alertify.set('notifier','position', 'top-right');
@@ -157,6 +162,8 @@ export default {
          alertify.set('notifier','position', 'top-right');
          alertify.notify('Los datos ingresados deben ser numeros', 'error', 3, function(){  console.log(); });   
        }
+      
+
   	},
     getCliente(){
         axios.get('/api/clientes/'+this.cliente_id,this.config).

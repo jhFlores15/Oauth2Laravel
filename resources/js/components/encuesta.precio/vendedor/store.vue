@@ -8,15 +8,13 @@
          	<h6 class="text-center">¿A que precio el producto esta siendo vendido en el local?</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
-         		<div class="card card-body" style="margin:auto;" >
-         			<b-form inline v-for="marc in marca" :key="marc.id">
-					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>  
-                 
+       
+         			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
+					    <label class="mr-sm-1" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp</label>  
                <b-form @submit.prevent >
-                 <input type="number"  @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                 <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
                 	</b-form>    
 					 </b-form>
-         		</div>
          	</div>
           <div  class="text-center" v-if="loader == true">
             <div class="loader"></div>

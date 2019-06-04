@@ -7,8 +7,7 @@
          	<h6 class="text-center">Responder a la pregunta, ¿Esta este Producto en el local?</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
-         		<div class="card card-body" style="margin:auto;" >
-         			<b-form inline v-for="marc in marca" :key="marc.id">
+         			<b-form inline v-for="marc in marca" :key="marc.id" style="margin:auto;" >
 					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp&nbsp&nbsp</label>
 					    <b-form-radio-group v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)"
 					    	v-on:input="postMarca(mc.valor,mc.id)"
@@ -17,7 +16,6 @@
 					        name="radio-inline"
 					    ></b-form-radio-group>					    
 					 </b-form>
-         		</div>
          	</div>
          	<button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Terminar</button>
      	</div>

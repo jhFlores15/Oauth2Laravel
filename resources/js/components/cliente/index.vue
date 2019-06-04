@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card bg-light mb-3" style="width: auto;">
-                      <div class="card-header">Clientes Activos</div>
+                      <div class="card-header">Clientes en el sistema:  ( {{ cant_registros }} )</div>
                       <div class="card-body">
                          <form>
                               <div class="form-group row">
@@ -101,6 +101,7 @@ export default {
           loaderActivos:false,
           loaderDelete:false,
           loaderDescargar:false,
+          cant_registros:0,
       }
   },
    mounted() {   
@@ -121,6 +122,14 @@ export default {
     }     
   },
   methods:{
+    cant_clientes(){
+       axios.get('/api/clientes',this.config).
+        then(response => {
+          this.cant_registros = response.data;         
+        }).catch(error => {
+         
+        })
+    },
     showModalDelete(button){
       this.$root.$emit('bv::show::modal', 'modalDelete', button);
     },
@@ -147,7 +156,8 @@ export default {
           var user = response.data;
           if(user.rol_id != 1 ){
             window.location.href = '/';
-          } 
+          }
+          this.cant_clientes(); 
         }).catch(error => {
          
         })

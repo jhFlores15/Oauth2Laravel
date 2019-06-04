@@ -93,16 +93,11 @@ class ClienteController extends Controller
     }
    
    
-    // public function index()
-    // {
-    //     $clientes = ClienteResource::collection(Cliente::all());
-
-    //      return datatables()
-    //         ->resource($clientes)
-    //         ->addColumn('btn','clientes.acciones')
-    //         ->rawColumns(['btn'])
-    //         ->toJson();    
-    // }
+    public function index()
+    {
+        $clientes = \Cliente::all()->count();
+        return response()->json($clientes);
+    }
   
  
 

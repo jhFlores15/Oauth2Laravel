@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     ////////////ADMIN
     //Route::resource('clientes','Api\ClienteController')->only(['index','store','update','destroy'])->middleware('isAdmin');
      Route::delete('clientes','Api\ClienteController@destroy')->middleware('isAdmin'); 
+     Route::get('clientes','Api\ClienteController@index')->middleware('isAdmin');
 
     Route::post('clientes/activos','Api\ClienteController@activos')->middleware('isAdmin');
     Route::get('clientes/activos/export','Api\ClienteController@exportActivos')->middleware('isAdmin');

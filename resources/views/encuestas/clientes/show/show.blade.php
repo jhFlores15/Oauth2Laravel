@@ -167,6 +167,9 @@
 				    <thead>
 				      <tr>
 				        <th>codigo</th>
+				        <th>fecha_nacimiento</th>							      
+				        <th>email</th>							      
+				        <th>telefono</th>
 				      </tr>
 				    </thead>			    
 				  </table>

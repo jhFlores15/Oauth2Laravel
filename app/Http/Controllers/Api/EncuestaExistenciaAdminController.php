@@ -59,7 +59,7 @@ class EncuestaExistenciaAdminController extends Controller
                 $return['Razon Social']= $cliente->razon_social;
                 $return['Rut'] = $cliente->rut;
                 $return['Dv'] = $cliente->dv;
-                $return['Direccion'] = $cliente->codigo;
+                $return['Direccion'] = $cliente->direccion;
                 $return['Comuna'] = $cliente->comuna->nombre;
                 $return['Vendedor'] = $cliente->user->codigo;
            return $return;
@@ -84,7 +84,7 @@ class EncuestaExistenciaAdminController extends Controller
                 $return['Razon Social']= $cliente->razon_social;
                 $return['Rut'] = $cliente->rut;
                 $return['Dv'] = $cliente->dv;
-                $return['Direccion'] = $cliente->codigo;
+                $return['Direccion'] = $cliente->direccion;
                 $return['Comuna'] = $cliente->comuna->nombre;
                 $return['Vendedor'] = $cliente->user->codigo;
             return $return;

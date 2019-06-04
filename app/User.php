@@ -51,6 +51,9 @@ class User extends Authenticatable
      public function clientes(){
         return $this->hasMany('Encuestas_Carozzi\Cliente');
     }
+     public function notas_credito(){
+        return $this->hasMany('Encuestas_Carozzi\Nota_Credito');
+    }
 
     public function scopeRole($query) // vendedor
     {

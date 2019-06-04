@@ -81,6 +81,7 @@ window.onload = function() {
 
 		var table = $('#noEncuestados').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
@@ -123,6 +124,7 @@ window.onload = function() {
 
 		var table = $('#encuestados').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

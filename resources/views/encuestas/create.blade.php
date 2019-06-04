@@ -190,6 +190,10 @@ window.onload = function() {
 					if(resp.rol_id != 1){
 						window.location.href = '/';
 					}
+					else{
+						alertify.set('notifier','position', 'top-right');
+						alertify.notify('Recuerde que antes de crear una encuesta se debe eliminar la data y luego subir la data de clientes actualizada,(revisar que los vendedores esten actualizados en el sistema)', 'error', 20, function(){  console.log(); });
+					}	
 						
 				},
 				error(error){							

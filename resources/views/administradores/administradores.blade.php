@@ -236,6 +236,7 @@
 
 		var table = $('#administradores').DataTable(
 			{
+			'processing':true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

@@ -309,6 +309,7 @@ window.onload = function() {
  		var data = "";
 		var table = $('#clientes').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
@@ -399,6 +400,7 @@ window.onload = function() {
         
 		var table = $('#noEncuestados').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

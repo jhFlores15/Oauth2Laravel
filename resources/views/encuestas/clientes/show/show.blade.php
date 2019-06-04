@@ -524,6 +524,7 @@
  	$(document).ready(function(){
 		var table = $('#clientes').DataTable(
 			{
+			'processing':true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
@@ -627,6 +628,7 @@
         } );	
 		var table = $('#clientess').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

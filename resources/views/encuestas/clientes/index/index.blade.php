@@ -55,6 +55,7 @@
 
 		var table = $('#clientes').DataTable(
 			{
+			'processing':true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

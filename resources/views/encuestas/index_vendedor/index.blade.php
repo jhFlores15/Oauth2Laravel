@@ -53,6 +53,7 @@
 
 		var table = $('#comunas').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

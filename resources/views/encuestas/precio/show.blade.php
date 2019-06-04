@@ -394,6 +394,7 @@
         
 		var table = $('#noEncuestados').DataTable(
 			{
+			"processing":true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {

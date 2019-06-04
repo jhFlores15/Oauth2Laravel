@@ -13,8 +13,8 @@
 			<thead> 
 				<tr>
 					<th>Razon Social</th>
-					<th>Direccion</th>
 					<th>&nbsp;</th>
+					<th>Direccion</th>					
 					<th>Comuna</th>
 					
 				</tr>
@@ -66,8 +66,8 @@
 		    },		
 			"columns":[
 				{data: 'razon_social'},
-				{data: 'direccion'},
 				{data: 'btn'},
+				{data: 'direccion'},				
 				{data: 'comuna.nombre'},
 				
 			],

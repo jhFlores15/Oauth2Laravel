@@ -11,11 +11,10 @@
 		<table id="comunas" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 
 				<tr>
-					<th>Descripcion</th>
-					<th>Tipo de Encuesta</th>
+					<th>Descripcion</th>					
 					<th>&nbsp;</th>
-					<th>Inicio</th>
-					
+					<th>Tipo de Encuesta</th>
+					<th>Inicio</th>					
 				</tr>
 			</thead>							
 		</table>
@@ -65,8 +64,8 @@
 		    },		
 			"columns":[				
 				{data: 'descripcion'},
-				{data: 'tipo_encuesta.nombre'},
 				{data: 'btn'},
+				{data: 'tipo_encuesta.nombre'},
 				{data: 'inicio'},
 				
 			],

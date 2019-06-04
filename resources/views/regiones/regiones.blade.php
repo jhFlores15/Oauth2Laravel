@@ -140,6 +140,7 @@
  	$(document).ready(function(){
 		var table = $('#regiones').DataTable(
 			{
+			'processing':true,
 			'paging': true,
 			"serverSide": true,
 			 ajax: {
@@ -156,14 +157,14 @@
 			],
 			dom: 'Bfrtip',
 			lengthMenu: [
-	            [ 10, 25, 50, -1 ],
-	            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+	            [ -1 ],
+	            ['Show all' ]
 	        ],
 	        buttons: [
 	            'copy',
 	            {
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
+	            	title:'Regiones',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -171,7 +172,7 @@
 	            },
 	            {
 	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
+	            	title:'Regiones',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -179,7 +180,7 @@
 	            },
 	            {
 	            	extend: 'print',
-	            	title:'Clientes Encuestados',
+	            	title:'Regiones',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },autoFilter: true,

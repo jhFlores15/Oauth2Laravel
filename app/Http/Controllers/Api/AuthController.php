@@ -89,7 +89,7 @@ class AuthController extends Controller
             'password' => 'required',
             'codigo' => 'numeric|unique:users,codigo,'.$id,
             'rut' => 'required|numeric|unique:users,rut,'.$id,
-            'dv' => 'required|numeric',
+            'dv' => 'required',
             'rol_id' =>'exists:roles,id',
         ]);
 

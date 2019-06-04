@@ -88,7 +88,7 @@
 	            'copy',
 	            {
 	            	extend: 'excel',
-	            	title:'Clientes Encuestados',
+	            	title:'Encuestas',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -96,7 +96,7 @@
 	            },
 	            {
 	            	extend: 'pdf',
-	            	title:'Clientes Encuestados',
+	            	title:'Encuestas',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },
@@ -104,7 +104,7 @@
 	            },
 	            {
 	            	extend: 'print',
-	            	title:'Clientes Encuestados',
+	            	title:'Encuestas',
 	            	exportOptions: {
 	                    columns: ':visible'
 	                },autoFilter: true,

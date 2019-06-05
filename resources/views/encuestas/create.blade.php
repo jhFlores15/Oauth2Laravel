@@ -59,7 +59,7 @@
 				  			
 					 	</div>
 					</div>
-				  	 <div v-if="(select_tipo_encuesta == 1) || (select_tipo_encuesta == 3)" class="row justify-content-center" >
+				  	 <div v-if="(select_tipo_encuesta == 1) || (select_tipo_encuesta == 3) || (select_tipo_encuesta == 4)" class="row justify-content-center" >
 				  	 	<div class="col-md-12">				  	 	
 					  	 	<div class="card card-body" style="margin:auto;">
 					  	 		<form>

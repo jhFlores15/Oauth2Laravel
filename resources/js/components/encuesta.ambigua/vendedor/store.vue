@@ -5,19 +5,14 @@
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
          	<br>
 
-         	<h6 class="text-center">¿A que precio el producto esta siendo vendido en el local?</h6>
+         	<h6 class="text-center">Responder Segun Corresponda</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
        
          			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
 					    <label class="mr-sm-1" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp</label>  
                <b-form @submit.prevent >
-                  <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">$</div>
-                  </div>
-                 <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
-                   </div>
+                 <input type="text" class="form-control" v-model="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
                 	</b-form>    
 
 					 </b-form>
@@ -73,23 +68,17 @@ export default {
     }
      
   },
-  methods:{
-      onlyNumber ($event) {
-         let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-         if ((keyCode < 48 || keyCode > 57)) {
-            $event.preventDefault();
-         }
-      },
+  methods:{     
       getUserApi(){     
         this.getCliente();   
       },  
-    verifi(c,marcs){
-      console.log(Object.keys(c).length);
-      console.log(marcs.length);
-      if(Object.keys(c).length == marcs.length){
-            location.href = '/encuestas/E/P/'+this.encuesta_id;
-      }
-    },
+      verifi(c,marcs){
+        console.log(Object.keys(c).length);
+        console.log(marcs.length);
+        if(Object.keys(c).length == marcs.length){
+              location.href = '/encuestas/E/P/'+this.encuesta_id;
+        }    
+     },
   	terminar(){
       this.loader = true;
       this.boolT = true;
@@ -103,9 +92,8 @@ export default {
           console.log(error);
         })        
   	},
-  	postMarca(valor,marca_id){
-      if((isNaN(valor) == false) && (valor != '')){
-         if(valor > 0 && valor <= 100000){
+  	postMarca(valor,marca_id){     
+      if(valor != ''){
       		var marca_cliente = {};
       		axios.get('/api/encuestas/cli_marca_s/'+this.cliente_id+'/'+marca_id,this.config).
             then(response => {        	
@@ -141,14 +129,9 @@ export default {
             }).catch(error => {
               console.log(error)
           })
-          }
-          else{
-            alertify.set('notifier','position', 'top-right');
-            alertify.notify('Los datos ingresados deben ser positivos y hasta $100.000', 'error', 3, function(){  console.log(); });   
-          }
-        }else{
+          }else{
          alertify.set('notifier','position', 'top-right');
-         alertify.notify('Los datos ingresados deben ser numeros', 'error', 3, function(){  console.log(); });   
+         alertify.notify('Campo obligatorio', 'error', 3, function(){  console.log(); });   
        }
       
 

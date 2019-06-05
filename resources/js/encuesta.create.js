@@ -88,7 +88,7 @@ const appp = new Vue({
                         if(this.select_tipo_encuesta == 1){
                             location.href='/encuestas/E/'+response.data.id;/////ir a ver encuesta           
                         }
-                        else if(this.select_tipo_encuesta == 3){
+                        else if((this.select_tipo_encuesta == 3) || (this.select_tipo_encuesta == 4)){
                             location.href='/encuestas/P/'+response.data.id;/////ir a ver encuesta    
                         }
                     }).catch(error =>{

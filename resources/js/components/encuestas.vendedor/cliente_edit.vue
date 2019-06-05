@@ -96,22 +96,22 @@ export default {
     },
     getUserApi(){  
       this.getCliente();   
-      axios.get('/api/user/',this.config).
-        then(response => {
-          var user = response.data;
-          if(user.rol_id != 2 || user.id != this.cliente.user_id){
-            window.location.href = '/';
-          } 
-          this.getEncuesta();   
-          this.getEncuestaCliente();     
-        }).catch(error => {
-         
-        })
     },  
     getCliente(){
         axios.get('/api/clientes/'+this.cliente_id,this.config).
             then(response => {
               this.cliente= response.data;
+               axios.get('/api/user/',this.config).
+                then(response => {
+                  var user = response.data;
+                  if(user.rol_id != 2 || user.id != this.cliente.user_id){
+                    window.location.href = '/';
+                  } 
+                  this.getEncuesta();   
+                  this.getEncuestaCliente();     
+                }).catch(error => {
+                 
+                })
             }).catch(error => {
               console.log(error)
             })

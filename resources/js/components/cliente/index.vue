@@ -179,6 +179,7 @@ export default {
                 if(resp.data == 'ok'){
                   alertify.set('notifier','position', 'top-right');
                   alertify.notify('Clientes Registrados Exitosamente', 'success', 3, function(){  console.log(); });
+                  window.location.href = '/';
                 }    
             }).catch(error =>{
                 this.loaderActivos = false;

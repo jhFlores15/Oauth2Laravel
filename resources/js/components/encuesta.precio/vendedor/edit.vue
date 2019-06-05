@@ -7,10 +7,16 @@
          	<h6 class="text-center">Responder a la pregunta, ¿Esta este Producto en el local?</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
-         			<b-form inline v-for="marc in marca" :key="marc.id">
+         			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
+
 					    <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }}  &nbsp&nbsp&nbsp</label>
-               <input type="number" max="100000"   @keypress="onlyNumber"  class="form-control"v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" v-on:input="postMarca(mc.valor,mc.id)"
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" >$</span>
+                  </div>
+               <input type="number" max="100000"  @keypress="onlyNumber"  class="form-control"v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" v-on:input="postMarca(mc.valor,mc.id)"
                   v-model="mc.valor"> 
+                </div>
 					 </b-form>
          	</div>
          	<button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Terminar</button>

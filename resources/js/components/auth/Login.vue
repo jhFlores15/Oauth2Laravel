@@ -51,7 +51,11 @@
                   <li class="nav-item-active">
                     <a class="nav-link" href="/encuestas/vendedor" v-bind:class="[urlPathName == '/encuestas/vendedor' ? 'active' : '']">Encuestas <span class="sr-only">(current)</span>
                     </a>
-                  </li>        
+                  </li>    
+                   <li class="nav-item-active">
+                    <a class="nav-link" href="/notas_credito/create" v-bind:class="[urlPathName == '/notas_credito' ? 'active' : '']">Notas de Credito <span class="sr-only">(current)</span>
+                    </a>
+                  </li>         
                 </ul>
               </div >
                
@@ -181,17 +185,17 @@ export default {
     },
     logout(){
       axios.post('/api/auth/logout',{        
-      },this.config).then(response =>{
-        localStorage.access_token = '';
-        localStorage.token_type = '';
-        alertify.set('notifier','position', 'top-right');
-        alertify.notify('ok', 'success', 3, function(){  console.log(); });
+        },this.config).then(response =>{
+          localStorage.access_token = '';
+          localStorage.token_type = '';
+          alertify.set('notifier','position', 'top-right');
+          alertify.notify('ok', 'success', 3, function(){  console.log(); });
 
-        location.href="/";    
-       
-      }).catch(error =>{
-                   
-      });
+          location.href="/";    
+         
+        }).catch(error =>{
+                     
+        });
     }
     
   }

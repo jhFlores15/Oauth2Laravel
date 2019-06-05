@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ComunasTableSeeder::class,
             TiposProductosTableSeeder::class,
             PrimerAdminSeeder::class,
+            AutorizadoresTableSeeder::class,
         ]);
 
     }

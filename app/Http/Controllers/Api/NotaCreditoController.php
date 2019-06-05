@@ -10,31 +10,34 @@ class NotaCreditoController extends Controller
 {
      public function store(Request $request) //Vendedor
     {
-        //  $validator = Validator::make($request->all(), [
-        //     'cliente_id'=>'numeric',          
-        //     'cliente_name'=>'string,id',
-        //     'marca_id'=>'required|exists:marcas,id',
-        //     'valor'=>'required|boolean',
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json(['error'=>$validator->errors()], 422);
-        // }
-        // $marca_id = $request->get('marca_id');
-        // $valor = $request->get('valor');
-        // $cliente_id = $request->get('cliente_id');
+         $validator = Validator::make($request->all(), [
+            'cliente_id'=>'nullable|numeric',          
+            'cliente_name'=>'nullable|string',
+            'autorizador_id'=>'required|exists:autorizadores,id',
+            'factura' => 'required|numeric',
+            'descripcion' =>'required|string',
+            'cantidad' => 'nullable|string',
+            'detalle' => 'required|string',
+            'monto' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+        $vendedor = auth()->user();
+        $autorizador = \Encuestas_Carozzi\Autorizador::find($request->get('autorizador_id'));
+        $nota = new \Encuestas_Carozzi\Nota_Credito();
+        $nota->vendedor()->associate($vendedor);
+        $nota->autorizador()->associate($autorizador);
+        $nota->cliente_id = $request->get('cliente_id');
+        $nota->cliente_name = $request->get('cliente_name');
+        $nota->factura = $request->get('factura');
+        $nota->descripcion = $request->get('descripcion');
+        $nota->cantidad = $request->get('cantidad');
+        $nota->detalle = $request->get('detalle');
+        $nota->monto = $request->get('monto');       
+        $nota->save();
 
-        // $cliente = \Encuestas_Carozzi\Cliente::findOrFail($cliente_id);
-        // if(auth()->user()->id != $cliente->user_id){ 
-        //     abort(401);
-        // }
-        //  $existe = \Encuestas_Carozzi\ClienteMarca::all()->where('cliente_id',$cliente_id)->where('marca_id',$marca_id)->count();
-        // if($existe > 0){ 
-        //     abort(401);
-        // }
-        // $marca = \Encuestas_Carozzi\Marca::findOrFail($marca_id);
-        // $marca->clientes()->attach($cliente_id,['valor' => $valor ]);  
-
-        // return response()->json('ok'); 
+        return response()->json($nota); 
 
     }
 }

@@ -12,7 +12,13 @@
          			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
 					    <label class="mr-sm-1" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp</label>  
                <b-form @submit.prevent >
-                 <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" >$</span>
+                  </div>
+                    <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)" @keyup.enter.tab="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                </div>
+                
                 	</b-form>    
 					 </b-form>
          	</div>
@@ -95,10 +101,10 @@ export default {
       if(Object.keys(c).length == marcs.length){
             location.href = '/encuestas/E/P/'+this.encuesta_id;
       }
-      else{
-        alertify.set('notifier','position', 'top-right');
-          alertify.notify('Faltan productos por encuestar', 'error', 10, function(){  console.log(); });
-        }
+      // else{
+      //   alertify.set('notifier','position', 'top-right');
+      //     alertify.notify('Faltan productos por encuestar', 'error', 10, function(){  console.log(); });
+      //   }
     },
   	terminar(){
       this.loader = true;

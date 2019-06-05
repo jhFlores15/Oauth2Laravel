@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('clientes','Api\ClienteController')->only(['show']); // ver cliente
     Route::resource('encuestas','Api\EncuestaController')->only(['show']);
     Route::resource('marcas','Api\MarcaController')->only(['show']);
+    Route::get('autorizadores','Api\AutorizadorController@index');
 
     ////////////ADMIN
     //Route::resource('clientes','Api\ClienteController')->only(['index','store','update','destroy'])->middleware('isAdmin');
@@ -72,16 +73,18 @@ Route::group(['middleware' => 'auth:api'], function() {
 
 
     /////////////VENDEDOR
-     Route::get('encuesta/vendedor','Api\EncuestaController@index_vendedor')->middleware('isVendedor');
-     Route::get('encuestas/existencia/N/{encuesta_id}','Api\EncuestaExistenciaController@index_no_encuestados')->middleware('isVendedor');
-     Route::get('encuestas/existencia/Y/{encuesta_id}','Api\EncuestaExistenciaController@index_encuestados')->middleware('isVendedor');
-      Route::get('encuestas/cli_marca/{cliente_id}/{encuesta_id}','Api\ClienteMarcaController@index')->middleware('isVendedor');
-     Route::get('encuestas/cli_marca_s/{cliente_id}/{marca_id}','Api\ClienteMarcaController@show')->middleware('isVendedor');
+    Route::get('encuesta/vendedor','Api\EncuestaController@index_vendedor')->middleware('isVendedor');
+    Route::get('encuestas/existencia/N/{encuesta_id}','Api\EncuestaExistenciaController@index_no_encuestados')->middleware('isVendedor');
+    Route::get('encuestas/existencia/Y/{encuesta_id}','Api\EncuestaExistenciaController@index_encuestados')->middleware('isVendedor');
+    Route::get('encuestas/cli_marca/{cliente_id}/{encuesta_id}','Api\ClienteMarcaController@index')->middleware('isVendedor');
+    Route::get('encuestas/cli_marca_s/{cliente_id}/{marca_id}','Api\ClienteMarcaController@show')->middleware('isVendedor');
     Route::resource('encuestas/existencia','Api\EncuestaExistenciaController')->only(['store', 'update'])->middleware('isVendedor');
-     Route::get('encuestas/clientess/{encuesta}/','Api\EncuestaClienteVendedorController@index')->middleware('isVendedor');
+    Route::get('encuestas/clientess/{encuesta}/','Api\EncuestaClienteVendedorController@index')->middleware('isVendedor');
     Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update')->middleware('isVendedor');
     Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show')->middleware('isVendedor');
     Route::resource('encuestas/precio','Api\EncuestaPrecioController')->only(['store','update'])->middleware('isVendedor');
+    Route::resource('notas_credito','Api\NotaCreditoController')->only(['store','update'])->middleware('isVendedor');
+
 
 
 });

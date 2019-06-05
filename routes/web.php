@@ -40,5 +40,6 @@ Route::get('excel/down','EncuestaExistenciaController@excelDownload'); //Admin
 Route::get('encuestas/P/{encuesta}/{cliente_id}/create','EncuestaPrecioController@create');
 Route::get('encuestas/P/{encuesta}/{cliente_id}/edit','EncuestaPrecioController@edit');
 Route::get('encuestas/P/{encuesta}/','EncuestaPrecioController@show'); //Admin
+Route::get('notas_credito/create','NotaCreditoController@create'); //Admin
 
 Route::resource('encuesta/clientes','EncuestaClienteController');

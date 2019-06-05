@@ -69,7 +69,7 @@ export default {
       this.getUserApi();
     }
     else{
-      window.location.href = '/';
+      // window.location.href = '/';
     }
   },
   methods:{

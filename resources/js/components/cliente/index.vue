@@ -141,6 +141,7 @@ export default {
                 if(resp.data == 'ok'){
                   alertify.set('notifier','position', 'top-right');
                   alertify.notify('Datos Eliminados Exitosamente', 'success', 3, function(){  console.log(); });
+                  window.location.href = '/';
                 }               
             }).catch(error => {
               this.loaderDelete = false;

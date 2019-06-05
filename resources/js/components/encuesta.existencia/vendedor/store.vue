@@ -4,7 +4,7 @@
         	<br>
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
          	<br>
-         	<h6 class="text-center">Responder a la pregunta, ¿Esta este Producto en el local?</h6>
+         	<h6 class="text-center">Responder Segun Corresponda</h6>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
          			<b-form inline v-for="marc in marca" :key="marc.id" style="margin:auto;">
@@ -69,24 +69,12 @@ export default {
       this.getUserApi();
     }
     else{
-      // window.location.href = '/';
+      window.location.href = '/';
     }
   },
   methods:{
     getUserApi(){     
-       this.getCliente();   
-      axios.get('/api/user/',this.config).
-        then(response => {
-          var user = response.data;
-          if(user.rol_id != 2 || user.id != this.cliente.user_id){
-            window.location.href = '/';
-          } 
-          this.getEncuesta();   
-          this.getEncuestaE(); 
-          this.getMarcas();      
-        }).catch(error => {
-         
-        })
+       this.getCliente(); 
     },  
     verifi(c,marcs){
       if(Object.keys(c).length == marcs.length){
@@ -151,6 +139,18 @@ export default {
         axios.get('/api/clientes/'+this.cliente_id,this.config).
             then(response => {
               this.cliente= response.data;
+              axios.get('/api/user/',this.config).
+                then(response => {
+                  var user = response.data;
+                  if(user.rol_id != 2 || user.id != this.cliente.user_id){
+                    window.location.href = '/';
+                  } 
+                  this.getEncuesta();   
+                  this.getEncuestaE(); 
+                  this.getMarcas();      
+                }).catch(error => {
+                 
+                })
             }).catch(error => {
               console.log(error)
             })

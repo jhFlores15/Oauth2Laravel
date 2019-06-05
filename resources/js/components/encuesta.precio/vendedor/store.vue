@@ -12,14 +12,14 @@
          			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
 					    <label class="mr-sm-1" for="inline-form-custom-select-pref">{{ marc.nombre }} &nbsp</label>  
                <b-form @submit.prevent >
-                <div class="input-group">
+                  <div class="input-group mb-2">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" >$</span>
+                    <div class="input-group-text">$</div>
                   </div>
-                    <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)" @keyup.enter.tab="postMarca(marc.tipo_producto.created_at,marc.id)">  
-                </div>
-                
+                 <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                   </div>
                 	</b-form>    
+
 					 </b-form>
          	</div>
           <div  class="text-center" v-if="loader == true">
@@ -82,18 +82,6 @@ export default {
       },
       getUserApi(){     
         this.getCliente();   
-        axios.get('/api/user/',this.config).
-          then(response => {
-            var user = response.data;
-            if(user.rol_id != 2 || user.id != this.cliente.user_id){
-              window.location.href = '/';
-            } 
-            this.getEncuesta();   
-            this.getEncuestaE(); 
-            this.getMarcas(); 
-          }).catch(error => {
-           
-          })
       },  
     verifi(c,marcs){
       console.log(Object.keys(c).length);
@@ -173,6 +161,18 @@ export default {
         axios.get('/api/clientes/'+this.cliente_id,this.config).
             then(response => {
               this.cliente= response.data;
+                axios.get('/api/user/',this.config).
+                  then(response => {
+                    var user = response.data;
+                    if(user.rol_id != 2 || user.id != this.cliente.user_id){
+                      window.location.href = '/';
+                    } 
+                    this.getEncuesta();   
+                    this.getEncuestaE(); 
+                    this.getMarcas(); 
+                  }).catch(error => {
+                   
+                  })
             }).catch(error => {
               console.log(error)
             })

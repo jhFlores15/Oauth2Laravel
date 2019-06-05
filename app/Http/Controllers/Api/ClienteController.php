@@ -95,7 +95,7 @@ class ClienteController extends Controller
    
     public function index()
     {
-        $clientes = \Cliente::all()->count();
+        $clientes = \Encuestas_Carozzi\Cliente::all()->count();
         return response()->json($clientes);
     }
   

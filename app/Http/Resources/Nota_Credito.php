@@ -25,7 +25,7 @@ class Nota_Credito extends JsonResource
             'detalle' => $this->detalle,
             'monto' => $this->monto,
             'autoriza' => \Encuestas_Carozzi\Autorizador::find($this->autorizadores_id),
-            'user_id' => $this->user_id,
+            'user' => \Encuestas_Carozzi\User::find($this->user_id),
         ];
     }
 }

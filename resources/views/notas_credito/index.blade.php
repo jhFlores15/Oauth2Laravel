@@ -18,6 +18,7 @@
 					<th>Cantidad</th>
 					<th>Descripcion</th>
 					<th>Autoriza</th>
+					<th>Vendedor</th>
 				</tr>
 			</thead>							
 		</table>
@@ -84,7 +85,8 @@
 				{data: 'detalle'},
 				{data: 'cantidad'},
 				{data: 'descripcion'},		
-				{data: 'autoriza.nombre'},			
+				{data: 'autoriza.nombre'},	
+				{data: 'user.codigo'},		
 			],
 			
 			dom: 'Bfrtip',
@@ -116,7 +118,6 @@
 									alertify.set('notifier','position', 'top-right');
 		   							alertify.notify('seleccione datos para exportar', 'error', 3, function(){  console.log(); });
 								}
-
 							},
 							error(error){	
 							
@@ -127,7 +128,6 @@
 	            {
 	                text: 'Eliminar Seleccionados',
 	                 action: function () {
-	                   
 	                    alertify.confirm('Eliminacion', '¿Esta Seguro de Eliminar los Datos Seleccionados?', function(){ 
 	                    	 var data = table.rows( { selected: true } ).data().toArray();
 	                    	$.ajax({
@@ -142,6 +142,7 @@
 									if(resp == 'ok'){
 										alertify.set('notifier','position', 'top-right');
 			   							alertify.notify('Eliminados', 'success', 3, function(){  console.log(); });
+			   							location.reload(true);
 									}
 									else if(resp == 'fail'){
 										alertify.set('notifier','position', 'top-right');

@@ -116,6 +116,7 @@ class NotaCreditoController extends Controller
 
         (new FastExcel($notas))->export(storage_path('file.xls'), function ($dat) {
             $autorizador = \Encuestas_Carozzi\Autorizador::find($dat->autorizadores_id);
+            $user = \Encuestas_Carozzi\User::find($dat->user_id);
             return[
                 'cod_cliente' => $dat->cliente_id,
                 'cliente' => $dat->cliente_name,
@@ -125,7 +126,7 @@ class NotaCreditoController extends Controller
                 'detalle' => $dat->detalle,
                 'monto' => $dat->monto,
                 'autoriza' => $autorizador->nombre,
-                'vendedor' => $dat->user_id,
+                'vendedor' => $user->codigo,
             ];
         });
 

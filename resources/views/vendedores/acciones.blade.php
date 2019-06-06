@@ -106,7 +106,7 @@
 				  </div>
 				  <div class="form-row">
 				    <div class="form-group col-md-12">
-				      <label for="inputEmail4">Editar</label>
+				      <label for="inputEmail4">Nombre</label>
 				      <input type="text" class="form-control" id="nameEdit" placeholder="Editar">
 				       <div id="errorRazon">
 				      </div>

@@ -33,5 +33,11 @@ class TipoEncuestasTableSeeder extends Seeder
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now(),
         ]);
+            DB::table('tipo_encuesta')->insert([
+          'nombre' => 'Ambigua',
+          'descripcion' => 'Se recopilan datos segun se requiera',
+          'created_at' => Carbon::now(),
+          'updated_at' => Carbon::now(),
+        ]);
     }
 }

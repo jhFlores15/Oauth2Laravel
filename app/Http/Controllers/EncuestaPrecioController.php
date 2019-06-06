@@ -9,7 +9,13 @@ use DateTime;
 class EncuestaPrecioController extends Controller
 {
       public function create ($encuesta_id,$cliente_id){ //Vendedor
-         return view('encuestas.precio.vendedor.create' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
+        if($encuesta->tipo_encuesta_id == 3){            
+            return view('encuestas.precio.vendedor.create' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+        }
+        elseif($encuesta->tipo_encuesta_id == 4){
+            return view('encuestas.ambigua.vendedor.create' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+        }
     }
     public function edit($encuesta_id,$cliente_id){ //Vendedor
         //verificar que esten todos respondidos, sino rellenar con no-- lo mismo al ver en Admin
@@ -26,7 +32,14 @@ class EncuestaPrecioController extends Controller
                 }
             }
          }
-         return view('encuestas.precio.vendedor.edit' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+
+        if($encuesta->tipo_encuesta_id == 3){            
+            return view('encuestas.precio.vendedor.edit' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+        }
+        elseif($encuesta->tipo_encuesta_id == 4){
+            return view('encuestas.ambigua.vendedor.edit' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
+        }
+         
 
     }
     public function show($encuesta_id){

@@ -16,7 +16,7 @@ class EncuestaPrecioController extends Controller
             'cliente_id'=>'required|exists:clientes,id',          
             'encuesta_id'=>'required|exists:encuestas,id',
             'marca_id'=>'required|exists:marcas,id',
-            'valor'=>'required|integer',
+            'valor'=>'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);
@@ -41,7 +41,7 @@ class EncuestaPrecioController extends Controller
    public function update(Request $request, $id) //Vendedor
     {
          $validator = Validator::make($request->all(), [
-            'valor'=>'required|integer',
+            'valor'=>'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 422);

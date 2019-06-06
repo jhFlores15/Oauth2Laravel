@@ -66,6 +66,8 @@ Vue.component('encuesta-existencia-vendedor-store-component', require('./compone
 Vue.component('encuesta-existencia-vendedor-edit-component', require('./components/encuesta.existencia/vendedor/edit.vue').default);
 Vue.component('encuesta-precio-vendedor-store-component', require('./components/encuesta.precio/vendedor/store.vue').default);
 Vue.component('encuesta-precio-vendedor-edit-component', require('./components/encuesta.precio/vendedor/edit.vue').default);
+Vue.component('encuesta-ambigua-vendedor-edit-component', require('./components/encuesta.ambigua/vendedor/edit.vue').default);
+Vue.component('encuesta-ambigua-vendedor-store-component', require('./components/encuesta.ambigua/vendedor/store.vue').default);
 Vue.component('cliente-index-component', require('./components/cliente/index.vue').default);
 Vue.component('notas_credito-store-component', require('./components/notas_credito/store.vue').default);
 

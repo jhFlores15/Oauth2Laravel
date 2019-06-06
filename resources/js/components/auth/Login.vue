@@ -166,10 +166,10 @@ export default {
         localStorage.access_token = response.data.access_token;
         localStorage.token_type = response.data.token_type; 
         if(response.data.rol_id == 2){
-          location.href = '/encuestas/vendedor';
+          window.location.href = '/encuestas/vendedor';
         }
         else{
-          location.href = '/clientes'; 
+          window.location.href = '/clientes'; 
         }
         // location.reload();     
       }).catch(error =>{
@@ -190,12 +190,12 @@ export default {
           localStorage.token_type = '';
           alertify.set('notifier','position', 'top-right');
           alertify.notify('ok', 'success', 3, function(){  console.log(); });
+          window.location.href="/";    
+       
+      }).catch(error =>{
+                   
+      });
 
-          location.href="/";    
-         
-        }).catch(error =>{
-                     
-        });
     }
     
   }

@@ -204,7 +204,7 @@ class EncuestaClienteController extends Controller
                     $return['Razon Social']= $clienteC->razon_social;
                     $return['Rut'] = $clienteC->rut;
                     $return['Dv'] = $clienteC->dv;
-                    $return['Direccion'] = $clienteC->codigo;
+                    $return['Direccion'] = $clienteC->direccion;
                     $return['Comuna'] = $clienteC->comuna->nombre;
                     $return['fecha_nacimiento'] = $cliente->fecha_nacimiento;
                     $return['Telefono'] = $cliente->telefono;

@@ -12,4 +12,8 @@ class Tipo_Producto extends Model
     public function marcas(){
     	return $this->hasMany('Encuestas_Carozzi\Marca');
     }
+     public function getCreatedAtAttribute($value)
+    {
+         return '';
+    }
 }

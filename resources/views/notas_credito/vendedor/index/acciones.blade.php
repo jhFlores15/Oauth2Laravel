@@ -1,0 +1,1 @@
+<a type="button" href="/notas_credito/{{ $id }}/edit" class="btn btn-primary btn-sm">Editar</a>

@@ -25,6 +25,10 @@ Route::get('encuestas/vendedor','EncuestaController@index_vendedor');
 Route::get('encuestas', 'EncuestaController@index')->name('encuesta.index');
 Route::get('encuestas/create', 'EncuestaController@create')->name('encuesta.create');
 Route::get('encuestas/{encuesta_id}/edit', 'EncuestaController@edit');
+Route::get('notas_credito/create','NotaCreditoController@create'); 
+Route::get('notas_credito/{id}/edit','NotaCreditoController@edit');
+Route::get('notas_credito/vendedor','NotaCreditoController@indexVendedor');
+Route::get('notas_credito/admin','NotaCreditoController@indexAdmin');
 
 
 //////////////////////vendedor////////////7
@@ -40,6 +44,12 @@ Route::get('excel/down','EncuestaExistenciaController@excelDownload'); //Admin
 Route::get('encuestas/P/{encuesta}/{cliente_id}/create','EncuestaPrecioController@create');
 Route::get('encuestas/P/{encuesta}/{cliente_id}/edit','EncuestaPrecioController@edit');
 Route::get('encuestas/P/{encuesta}/','EncuestaPrecioController@show'); //Admin
-Route::get('notas_credito/create','NotaCreditoController@create'); //Admin
+Route::get('autorizadores','AutorizadorController@index'); //Admin
+
 
 Route::resource('encuesta/clientes','EncuestaClienteController');
+
+
+
+// Route::post('login', 'AuthController@postLogin'); // Verificar datos
+// Route::get('logout', 'AuthController@logOut'); // Finalizar sesión

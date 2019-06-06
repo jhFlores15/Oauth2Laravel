@@ -70,6 +70,7 @@ Vue.component('encuesta-ambigua-vendedor-edit-component', require('./components/
 Vue.component('encuesta-ambigua-vendedor-store-component', require('./components/encuesta.ambigua/vendedor/store.vue').default);
 Vue.component('cliente-index-component', require('./components/cliente/index.vue').default);
 Vue.component('notas_credito-store-component', require('./components/notas_credito/store.vue').default);
+Vue.component('notas_credito-update-component', require('./components/notas_credito/update.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

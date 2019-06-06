@@ -19,7 +19,11 @@
                   <li class="nav-item-active" v-bind:class="[urlPathName == '/administradores' ? 'active' : '']">
                     <a class="nav-link" href="/administradores">Administradores <span class="sr-only">(current)</span>
                     </a>
-                  </li> 
+                  </li>
+                  <li class="nav-item-active" v-bind:class="[urlPathName == '/notas_credito/admin' ? 'active' : '']">
+                    <a class="nav-link" href="/notas_credito/admin">Notas de Credito <span class="sr-only">(current)</span>
+                    </a>
+                  </li>  
                    <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                       Encuestas
@@ -53,7 +57,11 @@
                     </a>
                   </li>    
                    <li class="nav-item-active">
-                    <a class="nav-link" href="/notas_credito/create" v-bind:class="[urlPathName == '/notas_credito' ? 'active' : '']">Notas de Credito <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="/notas_credito/create" v-bind:class="[urlPathName == '/notas_credito/create' ? 'active' : '']">Registrar Nota de Credito<span class="sr-only">(current)</span>
+                    </a>
+                  </li>   
+                   <li class="nav-item-active">
+                    <a class="nav-link" href="/notas_credito/vendedor" v-bind:class="[urlPathName == '/notas_credito/vendedor' ? 'active' : '']">Mis Notas de Credito<span class="sr-only">(current)</span>
                     </a>
                   </li>         
                 </ul>

@@ -70,7 +70,11 @@ Route::group(['middleware' => 'auth:api'], function() {
      Route::get('encuestas/existencia/Admin/N/{encuesta_id}/export','Api\EncuestaExistenciaAdminController@exportEncuestaNoExistencia')->middleware('isAdmin');
     Route::get('encuestas/existencia/Admin/Y/{encuesta_id}','Api\EncuestaExistenciaAdminController@index_encuestados')->middleware('isAdmin');
     Route::get('encuestas/existencia/Admin/export/{encuesta_id}','Api\EncuestaExistenciaAdminController@exportEncuestaExistencia')->middleware('isAdmin');
-
+    Route::get('notas_credito_i/admin','Api\NotaCreditoController@indexAdmin')->middleware('isAdmin');
+    Route::post('notas_credito_i/export','Api\NotaCreditoController@exportNotas')->middleware('isAdmin');
+    Route::post('notas_credito_i/destroy','Api\NotaCreditoController@destroy')->middleware('isAdmin');
+    Route::resource('autorizadores','Api\AutorizadorController')->only(['store','update','show','destroy'])->middleware('isAdmin');;
+    Route::get('autorizadores_i/admin','Api\AutorizadorController@indexAdmin')->middleware('isAdmin');;
 
     /////////////VENDEDOR
     Route::get('encuesta/vendedor','Api\EncuestaController@index_vendedor')->middleware('isVendedor');
@@ -83,7 +87,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@update')->middleware('isVendedor');
     Route::get('encuestas/clientes/{encuesta}/{cliente}','Api\EncuestaClienteVendedorController@show')->middleware('isVendedor');
     Route::resource('encuestas/precio','Api\EncuestaPrecioController')->only(['store','update'])->middleware('isVendedor');
-    Route::resource('notas_credito','Api\NotaCreditoController')->only(['store','update'])->middleware('isVendedor');
+    Route::resource('notas_credito','Api\NotaCreditoController')->only(['store','update','show'])->middleware('isVendedor');
+    Route::get('notas_credito_i/vendedor','Api\NotaCreditoController@indexVendedor')->middleware('isVendedor');
+
+
 
 
 

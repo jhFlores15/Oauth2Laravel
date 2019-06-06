@@ -77,7 +77,6 @@
                     </div>
                 </div>
             </div>
-           
      	</div>
        <b-modal ref="modalDelete" id="modalDelete" @ok="deleteAll">
           <p><img src="https://img.icons8.com/color/48/000000/warning-shield.png"><b>Eliminacion</b></p>
@@ -141,7 +140,7 @@ export default {
                 if(resp.data == 'ok'){
                   alertify.set('notifier','position', 'top-right');
                   alertify.notify('Datos Eliminados Exitosamente', 'success', 3, function(){  console.log(); });
-                  window.location.href = '/';
+                  location.reload();
                 }               
             }).catch(error => {
               this.loaderDelete = false;
@@ -180,7 +179,7 @@ export default {
                 if(resp.data == 'ok'){
                   alertify.set('notifier','position', 'top-right');
                   alertify.notify('Clientes Registrados Exitosamente', 'success', 3, function(){  console.log(); });
-                  window.location.href = '/';
+                  location.reload();
                 }    
             }).catch(error =>{
                 this.loaderActivos = false;

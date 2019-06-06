@@ -118,7 +118,7 @@
 								<th>Vendedor</th>	
 								@foreach ($categorias as $categoria)
 									@foreach ($categoria as $prod)
-								    	<th>{{ $prod->nombre }}</th>
+								    	<th>{{ $prod->nombre }} $</th>
 								    @endforeach
 								@endforeach	
 							</tr>

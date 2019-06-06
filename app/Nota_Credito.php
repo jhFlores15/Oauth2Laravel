@@ -3,6 +3,7 @@
 namespace Encuestas_Carozzi;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Nota_Credito extends Model
 {

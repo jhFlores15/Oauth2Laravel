@@ -49,8 +49,13 @@
 				       <option v-for="autorizador in autorizadores" :value="autorizador.id">{{ autorizador.nombre }}</option>
 				     </select>
 			    </div>		   
-			  </div>			  
-			  <button class="btn btn-primary"  type="button" @click.stop="postNota()">Guardar</button>
+			  </div>
+			    <div class="col text-center " v-if="(loading == true)">                
+                    <div class="loader"  style="margin: auto;"></div>
+                 </div>
+                 <div class="col text-center" v-else>			  
+			  		<button class="btn btn-primary"  type="button" @click.stop="postNota()">Guardar</button>
+				</div>
 			</form>
      	</div>
 	</div>	
@@ -71,6 +76,7 @@ export default {
           	detalle:'',
           	monto:'',
           	autorizador_id:'',
+          	loading:false,
 		}
 	},  
     mounted(){
@@ -98,8 +104,10 @@ export default {
 	         }
 	      },
     	postNota(){
+    		 this.loading = true;
     		if((this.cliente_id != '' || this.cliente_name != '') &&  (this.factura != '') && (this.descripcion !='') && (this.detalle != '') && (this.monto != '') && (this.autorizador_id!= '')){
     			axios.post('/api/notas_credito',{
+
     		            'cliente_id' : this.cliente_id,
     		            'cliente_name' : this.cliente_name,
     		            'factura':this.factura,
@@ -109,19 +117,22 @@ export default {
     		            'monto':this.monto,
     		            'autorizador_id' : this.autorizador_id,
     		        },this.config).then(response =>{
+    		        	 this.loading = false;
     		        	if(response.data == 'ok'){
     		        		alertify.set('notifier','position', 'top-right');
     		           		alertify.notify('Guardado', 'success', 3, function(){  console.log(); });   
     		           		window.location.href = '/notas_credito/vendedor';   //listado      
     		        	}
                 
-    		        }).catch(error =>{	           
+    		        }).catch(error =>{	
+    		        this.loading = false;           
     		            alertify.set('notifier','position', 'top-right');
     		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
     		        });
 
     		}
     		else{
+    			 this.loading = false;  
     			 alertify.set('notifier','position', 'top-right');
              	alertify.notify('Faltan Datos por ingresar', 'error', 3, function(){  console.log(); });  
     		}

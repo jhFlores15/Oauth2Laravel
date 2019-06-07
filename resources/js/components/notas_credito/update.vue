@@ -48,8 +48,13 @@
 				       <option v-for="autorizador in autorizadores" :value="autorizador.id">{{ autorizador.nombre }}</option>
 				     </select>
 			    </div>		   
-			  </div>			  
-			  <button class="btn btn-primary"  type="button" @click.stop="putNota()">Guardar y Terminar</button>
+			  </div>
+			  <div class="col text-center " v-if="(loading == true)">                
+                    <div class="loader"  style="margin: auto;"></div>
+                 </div>
+                 <div class="col text-center" v-else>				  
+			  		<button class="btn btn-primary"  type="button" @click.stop="putNota()">Guardar y Terminar</button>
+			  </div>
 			</form>
      	</div>
 	</div>	
@@ -63,6 +68,7 @@ export default {
          	 token_type: '', 
           	config:{},  
           	autorizadores:{},
+          	loading:false,
           	nota:{
           		cliente_id:'',
           		cliente_name:'',
@@ -102,7 +108,18 @@ export default {
 	         }
 	      },
     	putNota(){
-    		if((this.cliente_id != '' || this.cliente_name != '') &&  (this.factura != '') && (this.descripcion !='') && (this.detalle != '') && (this.monto != '') && (this.autorizador_id!= '')){
+    		 this.loading = true;
+    		if(
+    			(
+	    			((this.nota.cliente_id != '') &&  (this.nota.cliente_id != null ) ) || 
+	    			((this.nota.cliente_name != '') && (this.nota.cliente_name != null))
+	    		) && 
+    			 ((this.nota.factura != '') && (this.nota.factura != null)) &&
+    			  ((this.nota.descripcion !='') && (this.nota.descripcion != null)) &&
+    			   ((this.nota.detalle != '') && (this.nota.detalle != null)) &&
+    			    ((this.nota.monto != '') && (this.nota.monto != null)) && 
+    			    ((this.nota.autorizadores_id!= '') && (this.nota.autorizadores_id!= null))
+    		){
     			axios.put('/api/notas_credito/'+this.id,{
     		            'cliente_id' : this.nota.cliente_id,
     		            'cliente_name' : this.nota.cliente_name,
@@ -113,19 +130,22 @@ export default {
     		            'monto':this.nota.monto,
     		            'autorizador_id' : this.nota.autorizadores_id,
     		        },this.config).then(response =>{
+    		        	 this.loading = false;
     		        	if(response.data == 'ok'){
     		        		alertify.set('notifier','position', 'top-right');
     		           		alertify.notify('Guardado', 'success', 3, function(){  console.log(); });   
     		           		window.location.href = '/notas_credito/vendedor';  //listado       
     		        	}
                 
-    		        }).catch(error =>{	           
+    		        }).catch(error =>{	
+    		        	this.loading = false;           
     		            alertify.set('notifier','position', 'top-right');
     		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
     		        });
 
     		}
     		else{
+    			this.loading = false;
     			 alertify.set('notifier','position', 'top-right');
              	alertify.notify('Faltan Datos por ingresar', 'error', 3, function(){  console.log(); });  
     		}

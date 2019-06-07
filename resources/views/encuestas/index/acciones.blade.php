@@ -123,7 +123,7 @@
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
 					alertify.notify('Encuesta Eliminada Exitosamente', 'success', 3, function(){  console.log(); }); 
-					location.reload();
+					location.reload(true);
 				}
 			},
 			error(error){
@@ -149,8 +149,8 @@
 				console.log(resp);
 				if(resp == 'ok'){
 					alertify.set('notifier','position', 'top-right');
-					lertify.notify('Encuesta Eliminada', 'success', 3, function(){  console.log(); }); 
-					location.reload();
+					alertify.notify('Encuesta Eliminada', 'success', 3, function(){  console.log(); }); 
+					location.reload(true);
 				}
 			},
 			error(error){

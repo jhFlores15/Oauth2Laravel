@@ -7,6 +7,7 @@ use Encuestas_Carozzi\Http\Controllers\Controller;
 use Validator;
 use Encuestas_Carozzi\Http\Resources\Nota_Credito as Nota_CreditoResource;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Carbon\Carbon;
 
 class NotaCreditoController extends Controller
 {
@@ -127,6 +128,7 @@ class NotaCreditoController extends Controller
                 'monto' => $dat->monto,
                 'autoriza' => $autorizador->nombre,
                 'vendedor' => $user->codigo,
+                'fecha' =>  Carbon::parse($dat->created_at)->format('d-m-Y'),
             ];
         });
 

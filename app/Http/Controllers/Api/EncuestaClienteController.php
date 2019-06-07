@@ -200,6 +200,7 @@ class EncuestaClienteController extends Controller
 
             (new FastExcel($encuesta_clientes))->export(storage_path('file.xls'), function ($cliente)  {
                     $clienteC = \Encuestas_Carozzi\Cliente::find($cliente['cliente_id']);
+                    $user = \Encuestas_Carozzi\User::findOrFail($clienteC->user_id);
                     $return['Codigo'] = $clienteC->codigo;
                     $return['Razon Social']= $clienteC->razon_social;
                     $return['Rut'] = $clienteC->rut;
@@ -209,6 +210,7 @@ class EncuestaClienteController extends Controller
                     $return['fecha_nacimiento'] = $cliente->fecha_nacimiento;
                     $return['Telefono'] = $cliente->telefono;
                     $return['Email'] = $cliente->email;
+                     $return['vendedor'] = $user->codigo;
                return $return;
             });
             return response()->json('ok');

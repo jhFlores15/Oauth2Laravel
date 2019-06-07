@@ -59,8 +59,9 @@
 					},
 					success:function(resp){						
 						if(resp.rol_id != 1){
-							window.location.href = '/';
+							window.location.href = '/';							
 						}
+						combobox();
 							
 					},
 					error(error){							

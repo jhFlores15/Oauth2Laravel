@@ -40,6 +40,8 @@
                       Mantenedores
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                       <a class="dropdown-item" href="/autorizadores" v-bind:class="[urlPathName == '/autorizadores' ? 'active' : '']">Autorizadores <span class="sr-only">(current)</span>
+                        </a>
                        <a class="dropdown-item" href="/regiones" v-bind:class="[urlPathName == '/regiones' ? 'active' : '']">Regiones <span class="sr-only">(current)</span>
                         </a>
                         <a class="dropdown-item" href="/comunas" v-bind:class="[urlPathName == '/comunas' ? 'active' : '']">Comunas <span class="sr-only">(current)</span>

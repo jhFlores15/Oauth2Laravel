@@ -218,7 +218,7 @@
 			data: JSON.stringify(data),
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarUsuario()" class="btn btn-primary">Guardar</button>');
@@ -252,7 +252,7 @@
 			url:'/api/usuarios/'+id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				if(modal == 'eliminar'){
@@ -277,7 +277,7 @@
 			url:'/api/usuarios/'+ id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>');

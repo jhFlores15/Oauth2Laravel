@@ -197,7 +197,7 @@ window.onload = function() {
 				url:'/api/user/',
 				headers : {
 					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 				},
 				success:function(resp){						
 					if(resp.rol_id != 1){
@@ -221,7 +221,7 @@ window.onload = function() {
 			url:'/api/encuestas/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 			$('#okDelete').html('<button type="button" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');	
@@ -251,7 +251,7 @@ window.onload = function() {
 			url:'/api/encuesta/clientes/iniciar/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
@@ -278,7 +278,7 @@ window.onload = function() {
 			url:'/api/encuesta/clientes/terminar/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#buttonTerminar').html('<button type="button" class="btn btn-outline-danger" onclick="terminar()" href="#">Finalizar Encuesta</button>');
@@ -367,7 +367,7 @@ window.onload = function() {
 						url:'/api/encuestas/existencia/Admin/export/{{ $encuesta->id }}',
 						headers : {
 							'Content-Type': 'application/json',
-							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+							'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 						},
 						success:function(resp){
 							$('#loaderExcel').html('')
@@ -455,7 +455,7 @@ window.onload = function() {
 						url:'/api/encuestas/existencia/Admin/N/{{ $encuesta->id }}/export',
 						headers : {
 							'Content-Type': 'application/json',
-							'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+							'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 						},
 						success:function(resp){
 							$('#loaderExcel').html('')

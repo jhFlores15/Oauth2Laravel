@@ -288,7 +288,7 @@
 				url:'/api/user/',
 				headers : {
 					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 				},
 				success:function(resp){						
 					if(resp.rol_id != 1){
@@ -313,7 +313,7 @@
 			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="ajaxEliminar()" class="btn btn-primary">Si</button>');
@@ -352,7 +352,7 @@
 			url:'/api/encuestas/clientes/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				document.getElementById('descripcionEdit').value = resp.descripcion;
@@ -381,7 +381,7 @@
 			data: JSON.stringify(data),
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#EditarE').html('<button type="button"  onclick="editarEncuesta()" class="btn btn-primary">Guardar</button>');
@@ -436,7 +436,7 @@
 			contentType: false,
 			headers : {
 				// 'Content-Type': 'multipart/form-data',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okEditarLoader').html(' <button type="button" onclick="postDatos()" class="btn btn-primary">Guardar</button>');
@@ -476,7 +476,7 @@
 			url:'/api/encuesta/clientes/iniciar/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#buttonIniciar').html('<button type="button" onclick="iniciar()" class="btn btn-outline-success">Iniciar Encuesta</button>');
@@ -500,7 +500,7 @@
 			url:'/api/encuesta/clientes/terminar/{{ $encuesta->id }}',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				console.log(resp);
@@ -585,7 +585,7 @@
 					url:'/api/encuesta/cliente/export/{{ $encuesta->id }}',
 					headers : {
 						'Content-Type': 'application/json',
-						'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+						'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 					},
 					success:function(resp){
 						$('#loaderExcel').html('')

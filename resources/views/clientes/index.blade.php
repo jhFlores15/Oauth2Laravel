@@ -156,7 +156,7 @@ window.onload = function() {
 				url:'/api/user/',
 				headers : {
 					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 				},
 				success:function(resp){						
 					if(resp.rol_id != 1){
@@ -187,7 +187,7 @@ window.onload = function() {
 			contentType: false,
 			headers : {
 				// 'Content-Type': 'multipart/form-data',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#postDatosLoader').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
@@ -236,7 +236,7 @@ window.onload = function() {
 			url:'/api/vendedores/',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				var vendedores = resp.data;
@@ -256,7 +256,7 @@ window.onload = function() {
 			url:'/api/comunas/',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				var comunas = resp.data;
@@ -312,7 +312,7 @@ window.onload = function() {
 			data: JSON.stringify(data),
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				console.log(resp);

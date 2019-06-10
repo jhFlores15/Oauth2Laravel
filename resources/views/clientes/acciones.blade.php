@@ -178,7 +178,7 @@
 			url:'/api/vendedores/',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				var vendedores = resp.data;
@@ -204,7 +204,7 @@
 			url:'/api/comunas/',
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				var comunas = resp.data;
@@ -262,7 +262,7 @@
 			data: JSON.stringify(data),
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okEditarLoader').html('<button type="button" id="okEditar" onclick="editarCliente()" class="btn btn-primary">Guardar</button>');
@@ -295,7 +295,7 @@
 			url:'/api/clientes/'+id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				if(modal == 'eliminar'){
@@ -318,7 +318,7 @@
 			url:'/api/clientes/'+ id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okDeleteLoader').html('<button type="button" id="okDelete" onclick="eliminarCliente()" class="btn btn-primary">Si</button>');

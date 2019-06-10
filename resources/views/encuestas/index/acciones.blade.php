@@ -88,7 +88,7 @@
 			url:'/api/encuestas/clientes/'+id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){
 				document.getElementById('descripcionDelete').value = resp.descripcion;
@@ -115,7 +115,7 @@
 			url:'/api/encuestas/'+id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('.delete13').html('<button type="button" id="okDelete" onclick="eliminarEncuestaEP()" class="btn btn-primary">Si</button>');
@@ -142,7 +142,7 @@
 			url:'/api/encuestas/clientes/'+id,
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('.delete2').html('<button type="button" id="okDelete" onclick="eliminarEncuesta()" class="btn btn-primary">Si</button>');

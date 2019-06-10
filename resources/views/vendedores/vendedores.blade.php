@@ -167,7 +167,7 @@
 				url:'/api/user/',
 				headers : {
 					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+					'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 				},
 				success:function(resp){						
 					if(resp.rol_id != 1){
@@ -198,7 +198,7 @@
 			contentType: false,
 			headers : {
 				// 'Content-Type': 'multipart/form-data',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#postDatosSub').html('<button type="button" onclick="postDatos()" class="btn btn-outline-success mb-2">Subir Datos</button>');
@@ -270,7 +270,7 @@
 			data: JSON.stringify(data),
 			headers : {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token_type')+ ' ' + localStorage.getItem('access_token'),
+				'Authorization': 'Bearer '+ localStorage.getItem('access_token'),
 			},
 			success:function(resp){	
 				$('#okUsuario1').html('<button type="button" onclick="okUsuario1()" class="btn btn-primary">Guardar</button>');	

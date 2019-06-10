@@ -14,6 +14,14 @@ class EncuestaExistenciaController extends Controller
         return view('encuestas.existencia.vendedor.index' , ['encuesta' => $encuesta]);
     }
     public function create ($encuesta_id,$cliente_id){ //Vendedor
+        $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
+         $marcasC = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id);
+
+           if($marcasC->count() > 0){
+            return redirect()->route('encuestas/vendedor');
+
+           }
+      
          return view('encuestas.existencia.vendedor.create' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
     }
     public function edit($encuesta_id,$cliente_id){ //Vendedor

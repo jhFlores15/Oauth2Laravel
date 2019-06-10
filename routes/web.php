@@ -21,7 +21,7 @@ Route::get('vendedores', 'UserController@vendedores')->name('user.vendedores');
 Route::get('regiones', 'RegionController@index')->name('region.index');
 Route::get('comunas', 'ComunaController@index')->name('comuna.index');
 Route::get('clientes', 'ClienteController@index')->name('cliente.index');
-Route::get('encuestas/vendedor','EncuestaController@index_vendedor');
+Route::get('encuestas/vendedor','EncuestaController@index_vendedor')->name('encuestas/vendedor');
 Route::get('encuestas', 'EncuestaController@index')->name('encuesta.index');
 Route::get('encuestas/create', 'EncuestaController@create')->name('encuesta.create');
 Route::get('encuestas/{encuesta_id}/edit', 'EncuestaController@edit');

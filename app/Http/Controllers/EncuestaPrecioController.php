@@ -10,6 +10,11 @@ class EncuestaPrecioController extends Controller
 {
       public function create ($encuesta_id,$cliente_id){ //Vendedor
         $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
+         $marcasC = $encuesta->marca_cliente->where('cliente_id','=',$cliente_id);
+           if($marcasC->count() > 0){
+            return redirect()->route('encuestas/vendedor');
+
+           }
         if($encuesta->tipo_encuesta_id == 3){            
             return view('encuestas.precio.vendedor.create' , ['encuesta_id' => $encuesta_id ,'cliente_id' => $cliente_id]);
         }

@@ -140,7 +140,7 @@ class EncuestaClienteController extends Controller
         $encuesta_clientes4 = \Encuestas_Carozzi\EncuestaCliente::encuesta($encuesta_id)->fecha_nacimiento()->get();
 
         $encuesta_clientes = $encuesta_clientes1->merge($encuesta_clientes2)->merge($encuesta_clientes3)->merge($encuesta_clientes4);
-        $clientess = ECVResource::collection(collect($encuesta_clientes));
+        $clientess = ECVResource::collection(collect($encuesta_clientes)->take(10));
 
         // return response()->json($clientess);
 

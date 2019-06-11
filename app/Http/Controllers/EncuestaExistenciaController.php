@@ -56,22 +56,6 @@ class EncuestaExistenciaController extends Controller
                 break;
             }           
         }
-
-         foreach ($valores as $value) {   
-             foreach ($value as $val) {   
-                             
-                $cliente_id = $val->cliente_id;
-                $marcasC = $encuesta->marca_cliente->where('cliente_id',$cliente_id);
-                 if(count($marcas) != count($marcasC)){
-                    foreach ($marcas as $marca) {
-                        $m = $encuesta->marca_cliente->where('cliente_id',$cliente_id)->where('marca_id','=', $marca->id);
-                        if(count($m) == 0){
-                            $marca->clientes()->attach($cliente_id,['valor' => 2 ]);  
-                        }
-                    }
-                 } 
-            }                
-        } 
         $encuesta->tipo_encuesta;
          $empezo = (new DateTime($encuesta->inicio))->diff(new DateTime())->format('%R');
         $termino="";$m="";$n="";

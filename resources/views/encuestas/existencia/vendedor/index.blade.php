@@ -6,7 +6,7 @@
 
 	<div class="justify-content-center text-center">
 		@if($encuesta->tipo_encuesta_id == 1)
-			<h2 class="text-center">Encuesta Existencia</h2>
+			<h2 class="text-center">Encuesta Presencia</h2>
 		@endif
 		@if($encuesta->tipo_encuesta_id == 3)
 			<h2 class="text-center">Encuesta Precio</h2>

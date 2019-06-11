@@ -13,7 +13,7 @@ class TipoEncuestasTableSeeder extends Seeder
     public function run()
     {
         DB::table('tipo_encuesta')->insert([
-        	'nombre' => 'Existencia',
+        	'nombre' => 'Presencia',
         	'descripcion' => 'Se investiga la existencia de productos',
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
@@ -34,7 +34,7 @@ class TipoEncuestasTableSeeder extends Seeder
           'updated_at' => Carbon::now(),
         ]);
             DB::table('tipo_encuesta')->insert([
-          'nombre' => 'Ambigua',
+          'nombre' => 'Estandar',
           'descripcion' => 'Se recopilan datos segun se requiera',
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now(),

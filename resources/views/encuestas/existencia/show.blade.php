@@ -4,7 +4,7 @@
 <div class="container-fluid" >
 	<br>
 	<div class="justify-content-center text-center">
-		<h2 class="text-center">Encuesta Existencia</h2> <br><br>
+		<h2 class="text-center">Encuesta Presencia</h2> <br><br>
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
 		  	@if($encuesta->estado == "En Proceso")
 			  	<li class="nav-item">
@@ -300,6 +300,7 @@ window.onload = function() {
 
  	$(document).ready(function(){
  		var data = "";
+ 		$.fn.dataTable.ext.errMode = 'none';
 		var table = $('#clientes').DataTable(
 			{
 			"processing":true,

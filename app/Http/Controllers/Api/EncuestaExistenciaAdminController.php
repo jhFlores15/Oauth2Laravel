@@ -21,7 +21,7 @@ class EncuestaExistenciaAdminController extends Controller
         foreach ($marcas as $marca) {           
             $idsss [] = $marca[0]->cliente_id;
          }
-         $clientes = ClienteResource::collection(collect(Cliente::all()->whereNotIn('id', $idsss)));     
+         $clientes = ClienteResource::collection(collect(Cliente::all()->whereNotIn('id', $idsss)->take(10)));     
          return datatables()
             ->resource($clientes)
             ->toJson();    
@@ -29,8 +29,7 @@ class EncuestaExistenciaAdminController extends Controller
     public function index_encuestados($encuesta_id) 
     {
         $encuesta = \Encuestas_Carozzi\Encuesta::findOrFail($encuesta_id);
-        $clientes = $encuesta->marca_cliente->groupBy('cliente_id');        
-             
+        $clientes = $encuesta->marca_cliente->groupBy('cliente_id')->take(10);
         $clientes = EncuestaMarcaClienteResource::collection(collect($clientes));
 
         return datatables()
@@ -46,14 +45,27 @@ class EncuestaExistenciaAdminController extends Controller
             return response()->json('fail');
         }
         
-        (new FastExcel($valores))->export(storage_path('file.xls'), function ($valores) use($categorias,$encuesta, $marcas) {
+        (new FastExcel($valores))->export(storage_path('file.xls'), function ($valores) use($encuesta,$marcas) {
 
-                $cliente_id;             
-                 foreach ($valores as $value) {                        
-                    $cliente_id = $value->cliente_id;
-                  
-                    $return[\Encuestas_Carozzi\Marca::find($value->marca_id)->nombre] = $value->valor;                    
-                }
+                $cliente_id; 
+                   foreach ($marcas as $marca) {
+                    $bool = false;
+                         foreach ($valores as $value) {                        
+                            $cliente_id = $value->cliente_id;
+                            if($value->marca_id == $marca->id){
+                                 $return[$marca->nombre] = $value->valor;    
+                                $bool = true;
+                            }                                           
+                        }
+                        if($bool == false){
+                            if($encuesta->tipo_encuesta_id == 1){
+                                $return[$marca->nombre] = 2; 
+                            }
+                            else if($encuesta->tipo_encuesta_id == 3){
+                                $return[$marca->nombre] = -1; 
+                            }
+                        }
+                   }
                 $cliente = \Encuestas_Carozzi\Cliente::find($cliente_id);
                 $return['Codigo'] = $cliente->codigo;
                 $return['Razon Social']= $cliente->razon_social;

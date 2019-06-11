@@ -10,7 +10,7 @@
 		@if($encuesta->tipo_encuesta_id == 3)
 	  		<h2 class="text-center">Encuesta Precio</h2> <br><br>
 	  	@elseif($encuesta->tipo_encuesta_id == 4)	
-	  		<h2 class="text-center">Encuesta Ambigua</h2> <br><br>
+	  		<h2 class="text-center">Encuesta Estandar</h2> <br><br>
 	  	@endif	
 		
 		<ul class="nav justify-content-end" style="width: 60%;  margin:auto;">			  
@@ -309,6 +309,7 @@
  	$(document).ready(function(){
 
  		var data = "";
+ 		$.fn.dataTable.ext.errMode = 'none';
 		var table = $('#clientes').DataTable(
 			{
 			'paging': true,

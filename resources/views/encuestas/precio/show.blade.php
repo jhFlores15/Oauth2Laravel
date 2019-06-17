@@ -63,6 +63,7 @@
 			      	<label for="">{{ $encuesta->inicio}}</label>
 			      </div>
 			    </div>
+			    <?php $promedio = ($encuesta->registros * 100)/  $encuesta->total ?>
 			    @if($encuesta->estado == "Finalizado")
 				    <div class="form-group col">
 				    	<label for="inputPassword4">Fecha de Termino</label>
@@ -73,7 +74,11 @@
 				  	<div class="form-group col">
 				     	<label style="visibility: hidden;" for="inputPassword4"></label>
 				     	<div class="card card-body text-center" >
-				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} que debian ser Encuestados</b></h6></label>	
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} que debian ser Encuestados</b></h6></label>
+				      		<div class="progress">
+							  <div class="progress-bar bg-info" role="progressbar" style="width: {{ round($promedio,1) }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><label class="text-center" style="color: black;">&nbsp;{{ round($promedio,1) }}%</label>
+							  </div>
+							</div>		
 				      	</div>						
 				     </div>
 			    @endif
@@ -81,8 +86,13 @@
 					<div class="form-group col">
 				     	<label style="visibility: hidden;" for="inputPassword4"></label>
 				     	<div class="card card-body text-center" >
-				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>	
-				      	</div>						
+				      		<label  style=" margin:auto;" class="text-center"><h6><b>{{ $encuesta->registros }} Encuestado(s) de un Total de {{ $encuesta->total }} a Encuestar</b></h6></label>
+							<div class="progress">
+							  <div class="progress-bar bg-info" role="progressbar" style="width: {{ round($promedio,1) }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><label class="text-center" style="color: black;">&nbsp;{{ round($promedio,1) }}%</label>
+							  </div>
+							</div>		
+				      	</div>	
+
 				     </div>
 			    @endif	 
 			  </div>

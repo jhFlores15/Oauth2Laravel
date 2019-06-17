@@ -6,8 +6,11 @@
 	<div class="justify-content-center text-center">
 		<h2 class="text-center">Encuestas</h2>
 		<br>	
+		<h5 class="text-center">Solo <b>'Encuesta Presencia'</b> Tiene Guardado Automatico, y solo en <b>'Encuesta Cliente'</b> se pueden obviar respuestas</h5>
+		<br>
 		<div class="row text-center" style="padding-left: 100px;">
 			<a type="button" href="/encuestas/create" class="btn btn-primary ">Crear Encuesta</a>
+			<br>
 		</div>			
 		<table id="comunas" class="table table-striped dt-responsive table-bordered row-border hover order-column" style="width: 100%">
 			<thead> 

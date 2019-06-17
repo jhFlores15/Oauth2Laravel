@@ -40,7 +40,8 @@
 				          <span class="input-group-text" >$</span>
 				        </div>
 				        <input type="number" class="form-control"  v-model="monto" @keypress="onlyNumber" required>
-				      </div>			      	
+				      </div>
+				       <label><small class="text-muted">${{ monto | numeral(0.0) }}</small></label>			      	
 			    </div>
 			     <div class="col-md-3 mb-3">
 			      	<label for="validationDefault08">AUTORIZA</label>			      	
@@ -106,7 +107,14 @@ export default {
     	postNota(){
     		 this.loading = true;
     		if((this.cliente_id != '' || this.cliente_name != '') &&  (this.factura != '') && (this.descripcion !='') && (this.detalle != '') && (this.monto != '') && (this.autorizador_id!= '')){
-    			axios.post('/api/notas_credito',{
+    			if(this.monto <= 0){
+    				this.loading = false;
+    				 alertify.set('notifier','position', 'top-right');
+    				 alertify.notify('Ingrese un Monto Valido', 'error', 3, function(){  console.log(); });     
+
+    			}
+    			else{
+    				axios.post('/api/notas_credito',{
 
     		            'cliente_id' : this.cliente_id,
     		            'cliente_name' : this.cliente_name,
@@ -117,7 +125,7 @@ export default {
     		            'monto':this.monto,
     		            'autorizador_id' : this.autorizador_id,
     		        },this.config).then(response =>{
-    		        	 this.loading = false;
+    		        	 
     		        	if(response.data == 'ok'){
     		        		alertify.set('notifier','position', 'top-right');
     		           		alertify.notify('Guardado', 'success', 3, function(){  console.log(); });   
@@ -129,6 +137,9 @@ export default {
     		            alertify.set('notifier','position', 'top-right');
     		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
     		        });
+
+    			}
+    			
 
     		}
     		else{

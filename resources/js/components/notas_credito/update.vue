@@ -39,7 +39,8 @@
 				          <span class="input-group-text" >$</span>
 				        </div>
 				        <input type="number" class="form-control"  v-model="nota.monto" @keypress="onlyNumber" required>
-				      </div>			      	
+				      </div>	
+				      <label><small class="text-muted">${{ nota.monto | numeral(0.0) }}</small></label>			      	
 			    </div>
 			     <div class="col-md-3 mb-3">
 			      	<label for="validationDefault08">AUTORIZA</label>			      	
@@ -120,28 +121,36 @@ export default {
     			    ((this.nota.monto != '') && (this.nota.monto != null)) && 
     			    ((this.nota.autorizadores_id!= '') && (this.nota.autorizadores_id!= null))
     		){
-    			axios.put('/api/notas_credito/'+this.id,{
-    		            'cliente_id' : this.nota.cliente_id,
-    		            'cliente_name' : this.nota.cliente_name,
-    		            'factura':this.nota.factura,
-    		            'descripcion':this.nota.descripcion,
-    		            'cantidad':this.nota.cantidad,
-    		            'detalle':this.nota.detalle,
-    		            'monto':this.nota.monto,
-    		            'autorizador_id' : this.nota.autorizadores_id,
-    		        },this.config).then(response =>{
-    		        	 this.loading = false;
-    		        	if(response.data == 'ok'){
-    		        		alertify.set('notifier','position', 'top-right');
-    		           		alertify.notify('Guardado', 'success', 3, function(){  console.log(); });   
-    		           		window.location.href = '/notas_credito/vendedor';  //listado       
-    		        	}
-                
-    		        }).catch(error =>{	
-    		        	this.loading = false;           
-    		            alertify.set('notifier','position', 'top-right');
-    		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
-    		        });
+    			if(this.nota.monto <= 0){
+    				this.loading = false;
+    				 alertify.set('notifier','position', 'top-right');
+    				 alertify.notify('Ingrese un Monto Valido', 'error', 3, function(){  console.log(); });     
+
+    			}
+    			else{
+	    			axios.put('/api/notas_credito/'+this.id,{
+	    		            'cliente_id' : this.nota.cliente_id,
+	    		            'cliente_name' : this.nota.cliente_name,
+	    		            'factura':this.nota.factura,
+	    		            'descripcion':this.nota.descripcion,
+	    		            'cantidad':this.nota.cantidad,
+	    		            'detalle':this.nota.detalle,
+	    		            'monto':this.nota.monto,
+	    		            'autorizador_id' : this.nota.autorizadores_id,
+	    		        },this.config).then(response =>{
+	    		        	 this.loading = false;
+	    		        	if(response.data == 'ok'){
+	    		        		alertify.set('notifier','position', 'top-right');
+	    		           		alertify.notify('Guardado', 'success', 3, function(){  console.log(); });   
+	    		           		window.location.href = '/notas_credito/vendedor';  //listado       
+	    		        	}
+	                
+	    		        }).catch(error =>{	
+	    		        	this.loading = false;           
+	    		            alertify.set('notifier','position', 'top-right');
+	    		            alertify.notify('Error', 'error', 3, function(){  console.log(); });                
+	    		        });
+	    		    }
 
     		}
     		else{

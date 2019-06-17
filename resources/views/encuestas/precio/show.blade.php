@@ -330,7 +330,7 @@
 				{data:'vendedor.codigo'},				
 			
 			@for ($i = 0; $i < $encuesta->marcasCount; $i++)
-				 {data: 'valores.{{ $i }}.valor'},
+				 {data: 'valores.{{ $i }}.valor' ,  render: $.fn.dataTable.render.number( ',', '.', 0, '$' )},
 			@endfor	
 
 				// {data: 'btn'},

@@ -3,9 +3,9 @@
 		<div  id="" class="justify-content-center text-center" >
         	<br>
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
-         	<br>
-
-         	<h6 class="text-center">Responder Segun Corresponda</h6>
+         	  <br>
+           <h6 class="text-center">*No hay guardado automatico, solo el boton guarda (Responder Obligatoriamente todo)</h6>
+           <br
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
        

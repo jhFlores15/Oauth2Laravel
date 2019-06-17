@@ -3,7 +3,9 @@
       <div  id="" class="justify-content-center text-center" >
         <br>
         <h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
-         <br> <br>
+         <br>
+          <h6 class="text-center">*No hay guardado automatico, solo el boton guarda</h6>
+           <br>
         <form>
           <div class="form-group">
             <label >Fecha de Nacimiento</label>
@@ -30,7 +32,7 @@
             <div class="loader"></div>
           </div>
           <div v-else >     
-           <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Terminar</button>
+           <button type="button" @click.stop="putGuardar()" class="btn btn-primary">Guardar</button>
          </div>
         </form>
   

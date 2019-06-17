@@ -12,8 +12,6 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 window.axios = require('axios');
-
-
 window.$ = require('jquery');
 var dt = require('datatables.net-responsive-bs4');
 window.$.DataTable = dt;
@@ -48,6 +46,9 @@ require( 'datatables.net-buttons/js/buttons.print.js' )();
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
+import vueNumeralFilterInstaller from 'vue-numeral-filter';
+ 
+Vue.use(vueNumeralFilterInstaller);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

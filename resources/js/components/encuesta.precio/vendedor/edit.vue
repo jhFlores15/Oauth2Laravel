@@ -3,18 +3,22 @@
 		<div  id="" class="justify-content-center text-center" >
         	<br>
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
-         	<br>
-         	<h6 class="text-center">¿A que precio el producto esta siendo vendido en el local?</h6>
+         	  <br>
+           <h6 class="text-center">*No hay guardado automatico, solo el boton guarda </h6>
+           <br>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
          			<b-form inline v-for="marc in marca" :key="marc.id"  style="margin:auto;">
               <label class="mr-sm-2" for="inline-form-custom-select-pref">{{ marc.nombre }}  &nbsp&nbsp&nbsp</label>
-              <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">$</div>
-                  </div>
-                  <input type="number" max="100000"   @keypress="onlyNumber"  class="form-control"v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" v-on:input="postMarca(mc.valor,mc.id)"
-                          v-model="mc.valor"> 
+              <div  v-for="mc in cli_marcas" :key="mc.id" v-if="(mc.marca_id == marc.id)" >
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                       <input type="number" max="100000"   @keypress="onlyNumber"  class="form-control" v-on:input="postMarca(mc.valor,mc.id)"
+                            v-model="mc.valor">                      
+                </div>                 
+                 <label><small class="text-muted">${{ mc.valor | numeral(0.0) }}</small></label>
               </div>
 					 </b-form>
          	</div>
@@ -69,11 +73,12 @@ export default {
      
   },
   methods:{
-     onlyNumber ($event) {
+     onlyNumber ($event) {       
        let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-       if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
-          $event.preventDefault();
-       }
+           if ((keyCode < 48 || keyCode > 57)) {
+              $event.preventDefault();
+           }
+
     },
      getUserApi(){     
        this.getCliente();   
@@ -82,8 +87,8 @@ export default {
         location.href = '/encuestas/E/P/'+this.encuesta_id;
   	},
   	postMarca(valor,id){
-      if((isNaN(valor) == false) && (valor != '')){
-        if(valor > 0 && valor <= 100000){
+      if((isNaN(valor) == false) && (valor !== '')){
+        if(valor >= 0 && valor <= 100000){
       		axios.put('/api/encuestas/precio/'+id,{
                 'valor' : valor,
             },this.config).then(response =>{
@@ -101,7 +106,7 @@ export default {
       }
       else{
          alertify.set('notifier','position', 'top-right');
-         alertify.notify('Los datos ingresados deben ser numeros', 'error', 3, function(){  console.log(); });   
+         alertify.notify('Todos los campos deben tener valores', 'error', 3, function(){  console.log(); });   
       }
   	},
     getCliente(){

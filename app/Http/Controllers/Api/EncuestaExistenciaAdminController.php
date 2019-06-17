@@ -8,7 +8,7 @@ use Encuestas_Carozzi\Http\Resources\Cliente as ClienteResource;
 use Encuestas_Carozzi\Http\Resources\ClienteVend as ClienteVendResource;
 use Encuestas_Carozzi\Http\Resources\EncuestaMarcaCliente as EncuestaMarcaClienteResource;
 use Rap2hpoutre\FastExcel\FastExcel;
-
+use Carbon\Carbon;
 use Encuestas_Carozzi\Cliente;
 
 class EncuestaExistenciaAdminController extends Controller
@@ -52,8 +52,9 @@ class EncuestaExistenciaAdminController extends Controller
                     $bool = false;
                          foreach ($valores as $value) {                        
                             $cliente_id = $value->cliente_id;
+                            $return['fecha'] =  Carbon::parse($value->created_at)->format('d-m-Y');
                             if($value->marca_id == $marca->id){
-                                 $return[$marca->nombre] = $value->valor;    
+                                 $return[$marca->nombre] = $value->valor;
                                 $bool = true;
                             }                                           
                         }
@@ -73,8 +74,8 @@ class EncuestaExistenciaAdminController extends Controller
                 $return['Dv'] = $cliente->dv;
                 $return['Direccion'] = $cliente->direccion;
                 $return['Comuna'] = $cliente->comuna->nombre;
-                $return['Vendedor'] = $cliente->user->codigo;
-           return $return;
+                $return['Vendedor'] = $cliente->user->codigo;          
+             return $return;
         });
 
         return response()->json('ok');

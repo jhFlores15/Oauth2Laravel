@@ -81,7 +81,7 @@
 				{data: 'factura'},
 				{data: 'cliente_id'},
 				{data: 'cliente_name'},
-				{data: 'monto'},
+				{data: 'monto' ,render: $.fn.dataTable.render.number( ',', '.', 0, '$' )},
 				{data: 'detalle'},
 				{data: 'cantidad'},
 				{data: 'descripcion'},		

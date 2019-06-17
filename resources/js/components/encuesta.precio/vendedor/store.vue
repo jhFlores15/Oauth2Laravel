@@ -4,8 +4,8 @@
         	<br>
         	<h4 class="text-center">Encuestando a {{ cliente.razon_social }}</h4>
          	<br>
-
-         	<h6 class="text-center">¿A que precio el producto esta siendo vendido en el local?</h6>
+           <h6 class="text-center">*No hay guardado automatico, solo el boton guarda (Responder Obligatoriamente todo)</h6>
+           <br>
          	<div class="card card-body" style="margin:auto;" v-for="(marca , i) in marcas" :key="marca[0].categoria.id">
          		<h5 class="text-center">Categoria : {{ marca[0].categoria.nombre}}</h5>
        
@@ -16,8 +16,9 @@
                   <div class="input-group-prepend">
                     <div class="input-group-text">$</div>
                   </div>
-                 <input type="number" max="100000" @keypress="onlyNumber" class="form-control" v-model.number="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
+                 <input type="number" @keypress="onlyNumber" max="100000"class="form-control"v-model="marc.tipo_producto.created_at"  v-on:blur="postMarca(marc.tipo_producto.created_at,marc.id)">  
                    </div>
+                     <label><small class="text-muted">${{ marc.tipo_producto.created_at | numeral(0.0) }}</small></label>
                 	</b-form>    
 
 					 </b-form>
@@ -26,7 +27,7 @@
             <div class="loader"></div>
           </div>
           <div v-else>
-         	  <button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Terminar</button>
+         	  <button type="button" class="text-center btn btn-primary" v-on:click.stop="terminar()">Guardar</button>
           </div>
      	</div>
 	</div>
@@ -75,10 +76,10 @@ export default {
   },
   methods:{
       onlyNumber ($event) {
-         let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-         if ((keyCode < 48 || keyCode > 57)) {
-            $event.preventDefault();
-         }
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+           if ((keyCode < 48 || keyCode > 57)) {
+              $event.preventDefault();
+           }
       },
       getUserApi(){     
         this.getCliente();   
@@ -110,8 +111,8 @@ export default {
         })        
   	},
   	postMarca(valor,marca_id){
-      if((isNaN(valor) == false) && (valor != '')){
-         if(valor > 0 && valor <= 100000){
+      if((isNaN(valor) == false) && (valor !== '')){
+         if(valor >= 0 && valor <= 100000){
       		var marca_cliente = {};
       		axios.get('/api/encuestas/cli_marca_s/'+this.cliente_id+'/'+marca_id,this.config).
             then(response => {        	
@@ -154,7 +155,7 @@ export default {
           }
         }else{
          alertify.set('notifier','position', 'top-right');
-         alertify.notify('Los datos ingresados deben ser numeros', 'error', 3, function(){  console.log(); });   
+         alertify.notify('Todos los campos deben tener valores', 'error', 3, function(){  console.log(); });   
        }
       
 

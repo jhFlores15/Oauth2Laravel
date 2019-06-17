@@ -8,3 +8,4 @@
 	 ></encuesta-precio-vendedor-edit-component>	
 </div>
 
+@endsection

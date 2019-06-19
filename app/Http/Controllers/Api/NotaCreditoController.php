@@ -119,16 +119,16 @@ class NotaCreditoController extends Controller
             $autorizador = \Encuestas_Carozzi\Autorizador::find($dat->autorizadores_id);
             $user = \Encuestas_Carozzi\User::find($dat->user_id);
             return[
-                'cod_cliente' => $dat->cliente_id,
-                'cliente' => $dat->cliente_name,
-                'factura' => $dat->factura,
-                'descripcion' => $dat->descripcion,
-                'cantidad' => $dat->cantidad,
-                'detalle' => $dat->detalle,
-                'monto' => $dat->monto,
-                'autoriza' => $autorizador->nombre,
-                'vendedor' => $user->codigo,
-                'fecha' =>  Carbon::parse($dat->created_at)->format('d-m-Y'),
+                'VEND' => $user->codigo,
+                'FECHA' =>  Carbon::parse($dat->created_at)->format('d-m-Y'),
+                'CÓD CLIENTE' => $dat->cliente_id,
+                'NOMBRE CLIENTE' => $dat->cliente_name,
+                'N° FACTURA' => $dat->factura,
+                'DESCRIPCIÓN' => $dat->descripcion,
+                'CANTIDAD CJ/DY/UN' => $dat->cantidad,
+                'DETALLE O MOTIVO' => $dat->detalle,
+                'MONTO BRUTO' => $dat->monto,
+                'AUTORIZA' => $autorizador->nombre,
             ];
         });
 
